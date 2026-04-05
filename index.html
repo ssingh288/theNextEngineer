@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Next Engineer — Online Coding Bootcamp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ──────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #080810;
+      --bg-2:        #0e0e1a;
+      --bg-card:     #111120;
+      --bg-card-2:   #181830;
+      --blue:        #0047ff;
+      --blue-bright: #3b82f6;
+      --blue-glow:   rgba(0, 71, 255, 0.35);
+      --cyan:        #00d4ff;
+      --purple:      #7c3aed;
+      --green:       #00db57;
+      --white:       #ffffff;
+      --white-80:    rgba(255,255,255,0.80);
+      --white-50:    rgba(255,255,255,0.50);
+      --white-20:    rgba(255,255,255,0.20);
+      --border:      rgba(255,255,255,0.08);
+      --border-blue: rgba(0, 71, 255, 0.30);
+      --font-main:   'Manrope', sans-serif;
+      --font-mono:   'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Scrollbar ─────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 2px; }
+
+    /* ─── Canvas Stars ──────────────────────────────────── */
+    #stars-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.7;
+    }
+
+    /* ─── Atmospheric Glow ──────────────────────────────── */
+    .atmos {
+      position: fixed;
+      top: -400px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 900px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg at 50% 50%, #0047ff 46deg, #06003a 226deg);
+      filter: blur(140px);
+      opacity: 0.18;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ─── Content wrapper ───────────────────────────────── */
+    .content { position: relative; z-index: 1; }
+
+    /* ─── Navigation ────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(8, 8, 16, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.3s ease;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .nav-logo-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+    }
+
+    .nav-logo-text span {
+      color: var(--blue-bright);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+
+    nav ul a {
+      color: var(--white-50);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      font-family: var(--font-mono);
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--blue) !important;
+      color: var(--white) !important;
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-weight: 700 !important;
+      font-family: var(--font-main) !important;
+      font-size: 13px !important;
+      letter-spacing: -0.01em;
+      transition: background 0.2s, box-shadow 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--blue-bright) !important;
+      box-shadow: 0 0 24px var(--blue-glow) !important;
+    }
+
+    /* ─── Section Label ─────────────────────────────────── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue-bright);
+      margin-bottom: 18px;
+    }
+
+    /* ─── Glow Divider ──────────────────────────────────── */
+    .glow-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--blue);
+      box-shadow: 0 0 80px 8px var(--blue), 0 0 200px 16px rgba(0,71,255,0.4);
+      margin: 0;
+      border: none;
+    }
+
+    /* ─── HERO ──────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 24px 80px;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 71, 255, 0.12);
+      border: 1px solid rgba(0, 71, 255, 0.30);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--blue-bright);
+      margin-bottom: 36px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.3); }
+    }
+
+    .hero-headline {
+      font-size: clamp(48px, 7vw, 96px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.0;
+      max-width: 900px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .hero-headline .blue-grad {
+      background: linear-gradient(90deg, var(--blue-bright), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--white-50);
+      max-width: 540px;
+      line-height: 1.65;
+      letter-spacing: -0.02em;
+      margin-bottom: 48px;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 30px;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      font-family: var(--font-main);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-bright);
+      box-shadow: 0 0 40px var(--blue-glow);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 30px;
+      background: transparent;
+      color: var(--white-80);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-family: var(--font-main);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--blue-bright);
+      color: var(--white);
+      background: rgba(0,71,255,0.08);
+    }
+
+    /* Floating orbit decoration */
+    .hero-orb {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 71, 255, 0.15);
+      pointer-events: none;
+    }
+    .hero-orb::before {
+      content: '';
+      position: absolute;
+      inset: 20px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 71, 255, 0.08);
+    }
+    .hero-orb-dot {
+      position: absolute;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--blue-bright);
+      box-shadow: 0 0 12px var(--blue);
+      top: 50%; left: -4px;
+      transform: translateY(-50%);
+      animation: orbitDot 6s linear infinite;
+    }
+    @keyframes orbitDot {
+      from { transform: translateY(-50%) rotate(0deg) translateX(200px) rotate(0deg); }
+      to   { transform: translateY(-50%) rotate(360deg) translateX(200px) rotate(-360deg); }
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.3;
+      animation: fadeIn 1s 1s ease both;
+    }
+    .hero-scroll-hint span {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .scroll-arrow {
+      width: 16px; height: 16px;
+      border-right: 1.5px solid white;
+      border-bottom: 1.5px solid white;
+      transform: rotate(45deg);
+      animation: scrollBounce 1.5s infinite;
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50% { transform: rotate(45deg) translateY(4px); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 0.3; }
+    }
+
+    /* ─── Section Base ──────────────────────────────────── */
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 60px;
+    }
+
+    .section-header {
+      margin-bottom: 64px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.1;
+    }
+
+    .section-subtitle {
+      font-size: 17px;
+      color: var(--white-50);
+      max-width: 520px;
+      line-height: 1.65;
+      letter-spacing: -0.02em;
+      margin-top: 16px;
+    }
+
+    /* ─── COURSES ───────────────────────────────────────── */
+    #courses { background: transparent; }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .course-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      cursor: default;
+    }
+
+    .course-card:hover {
+      border-color: var(--border-blue);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(0, 71, 255, 0.05);
+    }
+
+    .course-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      border-color: var(--border-blue);
+      box-shadow: inset 0 0 40px rgba(0, 71, 255, 0.06);
+    }
+
+    .course-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,71,255,0.5), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .course-card:hover::before { opacity: 1; }
+
+    .course-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 24px;
+      background: rgba(0, 71, 255, 0.12);
+      border: 1px solid rgba(0, 71, 255, 0.20);
+    }
+
+    .course-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue-bright);
+      background: rgba(0, 71, 255, 0.12);
+      border: 1px solid rgba(0, 71, 255, 0.20);
+      border-radius: 100px;
+      padding: 4px 12px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .course-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .course-desc {
+      font-size: 15px;
+      color: var(--white-50);
+      line-height: 1.65;
+      letter-spacing: -0.01em;
+      margin-bottom: 28px;
+    }
+
+    .course-modules {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .course-modules li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--white-80);
+      font-weight: 500;
+    }
+
+    .course-modules li::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue-bright);
+      flex-shrink: 0;
+    }
+
+    .course-featured-vis {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .vis-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .vis-bar-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--white-50);
+      width: 80px;
+      flex-shrink: 0;
+    }
+
+    .vis-bar-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .vis-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      animation: barGrow 1.5s ease both;
+    }
+
+    @keyframes barGrow {
+      from { width: 0 !important; }
+    }
+
+    .vis-bar-pct {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--blue-bright);
+      width: 36px;
+      text-align: right;
+    }
+
+    .short-courses {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    /* ─── STATS ─────────────────────────────────────────── */
+    #stats {
+      padding: 0;
+    }
+
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 60px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+
+    .stat-item {
+      padding: 48px 40px;
+      border-right: 1px solid var(--border);
+      text-align: center;
+    }
+    .stat-item:last-child { border-right: none; }
+
+    .stat-number {
+      font-size: 72px;
+      font-weight: 800;
+      letter-spacing: -0.07em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--white), var(--blue-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--white-50);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ─── WORKSHOP ──────────────────────────────────────── */
+    #workshop {
+      background: transparent;
+    }
+
+    .workshop-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-blue);
+      border-radius: 24px;
+      padding: 64px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 64px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 60px rgba(0, 71, 255, 0.06);
+    }
+
+    .workshop-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--cyan), transparent);
+    }
+
+    .workshop-title {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .workshop-title .blue-grad {
+      background: linear-gradient(90deg, var(--blue-bright), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .workshop-desc {
+      font-size: 16px;
+      color: var(--white-50);
+      line-height: 1.65;
+      max-width: 480px;
+      margin-bottom: 32px;
+    }
+
+    .workshop-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .workshop-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--white-50);
+    }
+
+    .workshop-meta-item .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    .workshop-cta-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .workshop-spots {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--white-50);
+      letter-spacing: 0.06em;
+      text-align: center;
+    }
+
+    /* ─── ENROLL ────────────────────────────────────────── */
+    #enroll {
+      background: transparent;
+    }
+
+    .enroll-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .enroll-info h2 {
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .enroll-info p {
+      font-size: 16px;
+      color: var(--white-50);
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+
+    .enroll-steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .enroll-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 71, 255, 0.12);
+      border: 1px solid rgba(0, 71, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--blue-bright);
+      flex-shrink: 0;
+    }
+
+    .step-text strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+
+    .step-text span {
+      font-size: 13px;
+      color: var(--white-50);
+    }
+
+    .enroll-form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px;
+    }
+
+    .enroll-form-card h3 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+
+    .enroll-form-card p {
+      font-size: 14px;
+      color: var(--white-50);
+      margin-bottom: 32px;
+    }
+
+    .form-field {
+      margin-bottom: 16px;
+    }
+
+    .form-field label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--white-50);
+      margin-bottom: 8px;
+    }
+
+    .form-field select,
+    .form-field input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--white);
+      font-family: var(--font-main);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .form-field select:focus,
+    .form-field input:focus {
+      border-color: var(--blue-bright);
+      background: rgba(0, 71, 255, 0.06);
+    }
+
+    .form-field select option {
+      background: #1a1a2e;
+      color: white;
+    }
+
+    /* ─── WHY US ─────────────────────────────────────────── */
+    #why {
+      background: transparent;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .why-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .why-card:hover {
+      border-color: var(--border-blue);
+      transform: translateY(-3px);
+    }
+
+    .why-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .why-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .why-desc {
+      font-size: 14px;
+      color: var(--white-50);
+      line-height: 1.65;
+    }
+
+    /* ─── CONTACT / WHATSAPP ────────────────────────────── */
+    #contact {
+      background: transparent;
+    }
+
+    .contact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 72px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      bottom: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 400px;
+      border-radius: 50%;
+      background: var(--blue);
+      filter: blur(120px);
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .contact-title {
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .contact-sub {
+      font-size: 17px;
+      color: var(--white-50);
+      max-width: 480px;
+      margin: 0 auto 40px;
+      line-height: 1.65;
+    }
+
+    .contact-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: #25D366;
+      color: white;
+      border: none;
+      border-radius: 100px;
+      font-family: var(--font-main);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+
+    .btn-whatsapp:hover {
+      background: #20c05c;
+      box-shadow: 0 0 40px rgba(37, 211, 102, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-whatsapp svg {
+      width: 20px; height: 20px;
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 40px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 100%;
+    }
+
+    .footer-logo {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--white-50);
+    }
+
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--white-20);
+      letter-spacing: 0.03em;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--white-50);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--white); }
+
+    /* ─── WhatsApp Float Button ─────────────────────────── */
+    .wa-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 200;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(37, 211, 102, 0.5);
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .wa-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 32px rgba(37, 211, 102, 0.6);
+    }
+
+    .wa-float svg {
+      width: 28px; height: 28px;
+      fill: white;
+    }
+
+    /* ─── Scroll Reveal ─────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ─── Mobile ────────────────────────────────────────── */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+    .mobile-menu-btn span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--white-80);
+      border-radius: 1px;
+      transition: 0.3s;
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      nav ul { display: none; }
+      .mobile-menu-btn { display: flex; }
+
+      nav ul.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        background: rgba(8,8,16,0.98);
+        border-bottom: 1px solid var(--border);
+        padding: 24px;
+        gap: 20px;
+      }
+
+      .section-inner { padding: 72px 24px; }
+      .courses-grid { grid-template-columns: 1fr; }
+      .course-card.featured { grid-column: auto; grid-template-columns: 1fr; gap: 32px; }
+      .short-courses { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat-item:last-child { border-bottom: none; }
+      .workshop-card { grid-template-columns: 1fr; gap: 32px; padding: 36px; }
+      .enroll-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+      .contact-card { padding: 48px 24px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+      .footer-links { justify-content: center; }
+      .stats-inner { padding: 0 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Stars canvas -->
+  <canvas id="stars-canvas"></canvas>
+
+  <!-- Atmospheric glow -->
+  <div class="atmos"></div>
+
+  <!-- WhatsApp float button -->
+  <!-- REPLACE the phone number below with your WhatsApp number (include country code, no spaces or dashes) -->
+  <a href="https://wa.me/1234567890?text=Hello%2C%20I%27m%20interested%20in%20The%20Next%20Engineer%20bootcamp!"
+     class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.45 11.45 0 01-5.85-1.605l-.42-.252-4.507 1.022 1.06-4.37-.276-.45A11.47 11.47 0 014.5 16C4.5 9.649 9.649 4.5 16 4.5S27.5 9.649 27.5 16 22.351 27.5 16 27.5zm6.267-8.574c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/>
+    </svg>
+  </a>
+
+  <!-- ─── Navigation ──────────────────────────────────── -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      <div class="nav-logo-icon">TNE</div>
+      <div class="nav-logo-text">The Next <span>Engineer</span></div>
+    </a>
+    <ul id="nav-links">
+      <li><a href="#courses">Courses</a></li>
+      <li><a href="#workshop">Workshop</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <!-- REPLACE href below with your Google Form enroll link -->
+      <li><a href="#enroll" class="nav-cta">Enroll Now</a></li>
+    </ul>
+    <button class="mobile-menu-btn" id="mobile-btn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="content">
+
+    <!-- ─── Hero ─────────────────────────────────────── -->
+    <section id="hero">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Now enrolling · Cohort 2025
+      </div>
+
+      <h1 class="hero-headline">
+        Launch Your Career as<br>
+        <span class="blue-grad">The Next Engineer</span>
+      </h1>
+
+      <p class="hero-sub">
+        Online coding bootcamp specializing in Data Analytics.
+        Learn Python, SQL, and Tableau from industry experts —
+        and land your first data role.
+      </p>
+
+      <div class="hero-ctas">
+        <!-- REPLACE href below with your Google Form enroll link -->
+        <a href="#enroll" class="btn-primary">
+          Start Learning
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="#courses" class="btn-outline">Explore Courses</a>
+      </div>
+
+      <div class="hero-orb">
+        <div class="hero-orb-dot"></div>
+      </div>
+
+      <div class="hero-scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </section>
+
+    <!-- Glow divider -->
+    <hr class="glow-divider" />
+
+    <!-- ─── Stats ─────────────────────────────────────── -->
+    <section id="stats">
+      <div class="stats-inner" style="padding: 60px;">
+        <div class="stats-row reveal">
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Online & Flexible</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Short Courses</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">∞</div>
+            <div class="stat-label">Career Possibilities</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Glow divider -->
+    <hr class="glow-divider" />
+
+    <!-- ─── Courses ───────────────────────────────────── -->
+    <section id="courses">
+      <div class="section-inner">
+        <div class="section-header reveal">
+          <div class="section-label">// what we teach</div>
+          <h2 class="section-title">
+            Programs built for<br>real-world impact
+          </h2>
+          <p class="section-subtitle">
+            Industry-aligned curriculum designed to take you from zero to job-ready in data analytics.
+          </p>
+        </div>
+
+        <div class="courses-grid">
+
+          <!-- Featured: Data Analytics -->
+          <div class="course-card featured reveal">
+            <div>
+              <div class="course-icon">📊</div>
+              <div class="course-tag">Flagship Program</div>
+              <h3 class="course-title">Data Analytics Bootcamp</h3>
+              <p class="course-desc">
+                Our comprehensive bootcamp takes you from data beginner to analytics professional.
+                Covering the full data stack — from collection to visualization — with real projects
+                and mentorship throughout.
+              </p>
+              <ul class="course-modules">
+                <li>Foundations of Data Analytics & Thinking</li>
+                <li>Python for Data Analysis (Pandas, NumPy)</li>
+                <li>SQL & Database Querying</li>
+                <li>Data Visualization with Tableau</li>
+                <li>Capstone Project with Real Dataset</li>
+                <li>Career Coaching & Portfolio Review</li>
+              </ul>
+              <br>
+              <!-- REPLACE href below with your Google Form enroll link -->
+              <a href="#enroll" class="btn-primary" style="margin-top: 8px;">
+                Enroll in Bootcamp
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+
+            <div class="course-featured-vis">
+              <div style="font-family: var(--font-mono); font-size: 11px; color: var(--white-50); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">Skills you'll gain</div>
+              <div class="vis-bar-row">
+                <div class="vis-bar-label">Python</div>
+                <div class="vis-bar-track"><div class="vis-bar-fill" style="width: 90%"></div></div>
+                <div class="vis-bar-pct">90%</div>
+              </div>
+              <div class="vis-bar-row">
+                <div class="vis-bar-label">SQL</div>
+                <div class="vis-bar-track"><div class="vis-bar-fill" style="width: 85%"></div></div>
+                <div class="vis-bar-pct">85%</div>
+              </div>
+              <div class="vis-bar-row">
+                <div class="vis-bar-label">Tableau</div>
+                <div class="vis-bar-track"><div class="vis-bar-fill" style="width: 80%"></div></div>
+                <div class="vis-bar-pct">80%</div>
+              </div>
+              <div class="vis-bar-row">
+                <div class="vis-bar-label">Analytics</div>
+                <div class="vis-bar-track"><div class="vis-bar-fill" style="width: 95%"></div></div>
+                <div class="vis-bar-pct">95%</div>
+              </div>
+              <div class="vis-bar-row">
+                <div class="vis-bar-label">Excel</div>
+                <div class="vis-bar-track"><div class="vis-bar-fill" style="width: 75%"></div></div>
+                <div class="vis-bar-pct">75%</div>
+              </div>
+
+              <div style="margin-top: 24px; padding: 20px; background: rgba(0,71,255,0.08); border: 1px solid rgba(0,71,255,0.15); border-radius: 14px;">
+                <div style="font-family: var(--font-mono); font-size: 10px; color: var(--blue-bright); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px;">Format</div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <div style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--white-80);">
+                    <span style="font-size: 16px;">🌐</span> 100% Online & Self-paced
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--white-80);">
+                    <span style="font-size: 16px;">👨‍🏫</span> Live Mentorship Sessions
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--white-80);">
+                    <span style="font-size: 16px;">🏆</span> Certificate of Completion
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Short Courses Row -->
+          <div class="short-courses">
+            <!-- Python -->
+            <div class="course-card reveal reveal-delay-1">
+              <div class="course-icon">🐍</div>
+              <div class="course-tag">Short Course</div>
+              <h3 class="course-title">Python Essentials</h3>
+              <p class="course-desc">Master Python fundamentals, data structures, and libraries like Pandas & NumPy for data work.</p>
+              <ul class="course-modules">
+                <li>Python syntax & fundamentals</li>
+                <li>Data structures & control flow</li>
+                <li>Pandas & NumPy for data</li>
+                <li>Hands-on projects</li>
+              </ul>
+            </div>
+
+            <!-- SQL -->
+            <div class="course-card reveal reveal-delay-2">
+              <div class="course-icon">🗄️</div>
+              <div class="course-tag">Short Course</div>
+              <h3 class="course-title">SQL Mastery</h3>
+              <p class="course-desc">Query databases like a pro. Write complex SQL to extract insights from real-world datasets.</p>
+              <ul class="course-modules">
+                <li>SELECT, JOINs & aggregations</li>
+                <li>Subqueries & CTEs</li>
+                <li>Window functions</li>
+                <li>Real database practice</li>
+              </ul>
+            </div>
+
+            <!-- Tableau -->
+            <div class="course-card reveal reveal-delay-3">
+              <div class="course-icon">📈</div>
+              <div class="course-tag">Short Course</div>
+              <h3 class="course-title">Tableau for Analysts</h3>
+              <p class="course-desc">Turn raw data into compelling dashboards and visual stories that drive decisions.</p>
+              <ul class="course-modules">
+                <li>Tableau Desktop basics</li>
+                <li>Charts, maps & filters</li>
+                <li>Dashboard design</li>
+                <li>Publishing & sharing</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Glow divider -->
+    <hr class="glow-divider" />
+
+    <!-- ─── Workshop ───────────────────────────────────── -->
+    <section id="workshop">
+      <div class="section-inner">
+        <div class="workshop-card reveal">
+          <div>
+            <div class="section-label">// upcoming event</div>
+            <h2 class="workshop-title">
+              Free Data Analytics<br>
+              <span class="blue-grad">Workshop</span>
+            </h2>
+            <p class="workshop-desc">
+              Join our free hands-on workshop and get a taste of what it means to be a
+              data analyst. We'll walk through a real dataset, build a dashboard,
+              and answer all your questions live.
+            </p>
+            <div class="workshop-meta">
+              <div class="workshop-meta-item">
+                <span class="dot"></span>
+                Free to attend
+              </div>
+              <div class="workshop-meta-item">
+                <span class="dot"></span>
+                Live online session
+              </div>
+              <div class="workshop-meta-item">
+                <span class="dot"></span>
+                Beginner friendly
+              </div>
+            </div>
+          </div>
+
+          <div class="workshop-cta-side">
+            <!-- REPLACE href below with your Workshop Google Form link -->
+            <a href="https://forms.gle/REPLACE_WITH_WORKSHOP_FORM" target="_blank" rel="noopener" class="btn-primary" style="white-space: nowrap; font-size: 16px; padding: 16px 36px;">
+              Register Free
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <div class="workshop-spots">Limited spots available</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Enroll ─────────────────────────────────────── -->
+    <section id="enroll">
+      <div class="section-inner">
+        <div class="enroll-grid reveal">
+          <div class="enroll-info">
+            <div class="section-label">// join the bootcamp</div>
+            <h2>Ready to become<br>a data analyst?</h2>
+            <p>
+              Spots are limited each cohort. Apply now to secure
+              your seat and take the first step toward your new career in data.
+            </p>
+            <ol class="enroll-steps">
+              <li class="enroll-step">
+                <div class="step-num">01</div>
+                <div class="step-text">
+                  <strong>Fill out the application</strong>
+                  <span>Takes 3 minutes. Tell us about your goals.</span>
+                </div>
+              </li>
+              <li class="enroll-step">
+                <div class="step-num">02</div>
+                <div class="step-text">
+                  <strong>We review & reach out</strong>
+                  <span>Our team will contact you within 24 hours.</span>
+                </div>
+              </li>
+              <li class="enroll-step">
+                <div class="step-num">03</div>
+                <div class="step-text">
+                  <strong>Confirm your seat</strong>
+                  <span>Secure your spot and get onboarding details.</span>
+                </div>
+              </li>
+              <li class="enroll-step">
+                <div class="step-num">04</div>
+                <div class="step-text">
+                  <strong>Start learning</strong>
+                  <span>Day one begins your transformation.</span>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="enroll-form-card">
+            <h3>Apply Now</h3>
+            <p>Select a program and we'll send you everything you need.</p>
+
+            <div class="form-field">
+              <label>I'm interested in</label>
+              <select id="course-select">
+                <option value="">Select a program...</option>
+                <option value="bootcamp">Data Analytics Bootcamp (Full Program)</option>
+                <option value="python">Python Essentials (Short Course)</option>
+                <option value="sql">SQL Mastery (Short Course)</option>
+                <option value="tableau">Tableau for Analysts (Short Course)</option>
+              </select>
+            </div>
+
+            <!-- REPLACE href below with your Google Form enroll link -->
+            <a href="https://forms.gle/REPLACE_WITH_ENROLL_FORM" target="_blank" rel="noopener"
+               class="btn-primary" style="width: 100%; justify-content: center; margin-top: 8px;"
+               id="apply-btn">
+              Apply via Google Form
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+
+            <div style="margin-top: 16px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--white-50);">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="7" cy="7" r="6"/><path d="M7 4v3l2 2"/>
+              </svg>
+              Response within 24 hours
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Glow divider -->
+    <hr class="glow-divider" />
+
+    <!-- ─── Why Us ─────────────────────────────────────── -->
+    <section id="why">
+      <div class="section-inner">
+        <div class="section-header reveal">
+          <div class="section-label">// why choose us</div>
+          <h2 class="section-title">Built for results,<br>not just certificates</h2>
+          <p class="section-subtitle">
+            Everything about The Next Engineer is designed to get you hired.
+          </p>
+        </div>
+
+        <div class="why-grid">
+          <div class="why-card reveal reveal-delay-1">
+            <div class="why-icon">🎯</div>
+            <h4 class="why-title">Outcome-Focused</h4>
+            <p class="why-desc">Our curriculum is built backwards from what employers actually hire for — not just theory.</p>
+          </div>
+          <div class="why-card reveal reveal-delay-2">
+            <div class="why-icon">🌐</div>
+            <h4 class="why-title">100% Online</h4>
+            <p class="why-desc">Learn at your own pace from anywhere in the world. Flexible enough to fit around your life.</p>
+          </div>
+          <div class="why-card reveal reveal-delay-3">
+            <div class="why-icon">🤝</div>
+            <h4 class="why-title">Real Mentorship</h4>
+            <p class="why-desc">Weekly live sessions with instructors who work in data every single day. Ask real questions, get real answers.</p>
+          </div>
+          <div class="why-card reveal">
+            <div class="why-icon">🏗️</div>
+            <h4 class="why-title">Project-Based</h4>
+            <p class="why-desc">Build a portfolio of real projects you can show employers — not just quizzes and multiple choice.</p>
+          </div>
+          <div class="why-card reveal reveal-delay-1">
+            <div class="why-icon">⚡</div>
+            <h4 class="why-title">Fast-Track Learning</h4>
+            <p class="why-desc">Designed to get you job-ready as fast as possible without cutting corners on depth.</p>
+          </div>
+          <div class="why-card reveal reveal-delay-2">
+            <div class="why-icon">🏆</div>
+            <h4 class="why-title">Recognized Certificate</h4>
+            <p class="why-desc">Earn a certificate that demonstrates your skills and adds credibility to your CV and LinkedIn.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Contact ───────────────────────────────────── -->
+    <section id="contact">
+      <div class="section-inner">
+        <div class="contact-card reveal">
+          <div class="section-label">// let's talk</div>
+          <h2 class="contact-title">
+            Have questions?<br>
+            We're here for you.
+          </h2>
+          <p class="contact-sub">
+            Not sure which program is right for you? Reach out on WhatsApp
+            and our team will help you figure out the best path.
+          </p>
+          <div class="contact-buttons">
+            <!-- REPLACE the phone number with your WhatsApp number (country code + number, no spaces) -->
+            <a href="https://wa.me/1234567890?text=Hello%2C%20I%27m%20interested%20in%20The%20Next%20Engineer%20bootcamp!"
+               target="_blank" rel="noopener" class="btn-whatsapp">
+              <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.45 11.45 0 01-5.85-1.605l-.42-.252-4.507 1.022 1.06-4.37-.276-.45A11.47 11.47 0 014.5 16C4.5 9.649 9.649 4.5 16 4.5S27.5 9.649 27.5 16 22.351 27.5 16 27.5zm6.267-8.574c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/>
+              </svg>
+              Chat on WhatsApp
+            </a>
+            <!-- REPLACE href below with your Google Form enroll link -->
+            <a href="https://forms.gle/REPLACE_WITH_ENROLL_FORM" target="_blank" rel="noopener" class="btn-outline">
+              Apply Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Footer ────────────────────────────────────── -->
+    <footer>
+      <div class="footer-logo">The Next Engineer</div>
+      <div class="footer-copy">© 2025 The Next Engineer. All rights reserved.</div>
+      <div class="footer-links">
+        <!-- REPLACE href below with your WhatsApp number -->
+        <a href="https://wa.me/1234567890" target="_blank" rel="noopener">WhatsApp</a>
+        <!-- Add more links as needed -->
+        <a href="#courses">Courses</a>
+        <a href="#workshop">Workshop</a>
+      </div>
+    </footer>
+
+  </div><!-- /content -->
+
+  <script>
+    // ─── Animated Stars Canvas ─────────────────────────────
+    (function() {
+      const canvas = document.getElementById('stars-canvas');
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+      const NUM_STARS = 220;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function createStars() {
+        stars = [];
+        for (let i = 0; i < NUM_STARS; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.2 + 0.2,
+            alpha: Math.random() * 0.7 + 0.1,
+            speed: Math.random() * 0.3 + 0.05,
+            twinkleSpeed: Math.random() * 0.02 + 0.005,
+            twinkleOffset: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        frame++;
+        stars.forEach(s => {
+          const twinkle = Math.sin(frame * s.twinkleSpeed + s.twinkleOffset) * 0.3 + 0.7;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(180, 200, 255, ${s.alpha * twinkle})`;
+          ctx.fill();
+
+          // Slowly drift downward, reset
+          s.y += s.speed * 0.15;
+          if (s.y > canvas.height) {
+            s.y = 0;
+            s.x = Math.random() * canvas.width;
+          }
+        });
+        requestAnimationFrame(draw);
+      }
+
+      resize();
+      createStars();
+      draw();
+      window.addEventListener('resize', () => { resize(); createStars(); });
+    })();
+
+    // ─── Scroll Reveal ─────────────────────────────────────
+    (function() {
+      const els = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      els.forEach(el => observer.observe(el));
+    })();
+
+    // ─── Nav shrink on scroll ──────────────────────────────
+    (function() {
+      const nav = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        nav.style.padding = window.scrollY > 50 ? '12px 60px' : '20px 60px';
+      }, { passive: true });
+    })();
+
+    // ─── Mobile Menu ───────────────────────────────────────
+    (function() {
+      const btn = document.getElementById('mobile-btn');
+      const links = document.getElementById('nav-links');
+      btn.addEventListener('click', () => {
+        links.classList.toggle('open');
+      });
+      // Close on link click
+      links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => links.classList.remove('open'));
+      });
+    })();
+
+    // ─── Enroll form — update link based on course selection ─
+    (function() {
+      const select = document.getElementById('course-select');
+      const btn = document.getElementById('apply-btn');
+      // REPLACE these with your actual form links per course
+      const formLinks = {
+        '': 'https://forms.gle/REPLACE_WITH_ENROLL_FORM',
+        'bootcamp': 'https://forms.gle/REPLACE_WITH_ENROLL_FORM',
+        'python': 'https://forms.gle/REPLACE_WITH_ENROLL_FORM',
+        'sql': 'https://forms.gle/REPLACE_WITH_ENROLL_FORM',
+        'tableau': 'https://forms.gle/REPLACE_WITH_ENROLL_FORM',
+      };
+      select.addEventListener('change', () => {
+        btn.href = formLinks[select.value] || formLinks[''];
+      });
+    })();
+  </script>
+
+</body>
+</html>
