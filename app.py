@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Remove Streamlit chrome and padding from the outer wrapper page
+# Strip all Streamlit chrome and make the iframe fill the full viewport
 st.markdown("""
 <style>
 #MainMenu, footer, header                    { visibility: hidden !important; }
@@ -19,25 +19,14 @@ st.markdown("""
 [data-testid="stDecoration"],
 [data-testid="stStatusWidget"]               { display: none !important; }
 .main .block-container                       { padding: 0 !important; max-width: 100% !important; }
-section[data-testid="stMain"]                { padding: 0 !important; }
-.stApp                                       { background: #080810 !important; }
+section[data-testid="stMain"]                { padding: 0 !important; overflow: hidden !important; }
+.stApp                                       { background: #080810 !important; overflow: hidden !important; }
 .element-container, .stMarkdown              { padding: 0 !important; margin: 0 !important; }
-iframe                                       { display: block; border: none; width: 100% !important; }
-</style>
-""", unsafe_allow_html=True)
-
-# Remove Streamlit chrome and padding from the outer wrapper page
-st.markdown("""
-<style>
-#MainMenu, footer, header                              { visibility: hidden !important; }
-[data-testid="stToolbar"],
-[data-testid="stDecoration"],
-[data-testid="stStatusWidget"]                         { display: none !important; }
-.main .block-container                                 { padding: 0 !important; max-width: 100% !important; }
-section[data-testid="stMain"]                          { padding: 0 !important; }
-.stApp                                                 { background: #080810 !important; }
-.element-container, .stMarkdown                        { padding: 0 !important; margin: 0 !important; }
-iframe                                                 { display: block; border: none; width: 100% !important; }
+iframe                                       { display: block; border: none;
+                                               width: 100vw !important;
+                                               height: 100vh !important;
+                                               min-height: 100vh !important; }
+html, body                                   { overflow: hidden !important; margin: 0 !important; padding: 0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -1183,19 +1172,21 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// Resize iframe to fill the parent viewport so position:fixed works correctly
-window.addEventListener("load", function() {
+// Make iframe fill the full parent viewport
+function resizeIframe() {
   if (window.frameElement) {
-    var vh = window.parent.innerHeight || 800;
-    window.frameElement.style.height = vh + 'px';
+    window.frameElement.style.height = window.parent.innerHeight + 'px';
+    window.frameElement.style.width  = '100%';
     window.frameElement.style.display = 'block';
+    window.frameElement.style.border  = 'none';
+    window.frameElement.style.position = 'fixed';
+    window.frameElement.style.top  = '0';
+    window.frameElement.style.left = '0';
+    window.frameElement.style.zIndex = '9999';
   }
-  window.addEventListener('resize', function() {
-    if (window.frameElement) {
-      window.frameElement.style.height = (window.parent.innerHeight || 800) + 'px';
-    }
-  });
-});
+}
+window.addEventListener("load",   resizeIframe);
+window.addEventListener("resize", resizeIframe);
 </script>
 </body>
 </html>"""
