@@ -744,28 +744,28 @@ hr.ws-glow {{
           <span class="ws-learn-icon">📊</span>
           <div class="ws-learn-text">
             <strong>Data Analyst</strong>
-            <span>Tools: SQL, Excel, Power BI / Tableau. What their day looks like, what problems they solve, and how long it realistically takes to land the first job — typically 4–6 months of focused learning.</span>
+            <span>You become the person everyone turns to for answers. Your charts sit in boardroom presentations. Your findings help companies save money and make smarter decisions. Great starting point — achievable without a degree in 4–6 months.</span>
           </div>
         </li>
         <li class="ws-learn-item">
           <span class="ws-learn-icon">⚙️</span>
           <div class="ws-learn-text">
             <strong>Data Engineer</strong>
-            <span>Tools: Python, Spark, Airflow, cloud (AWS/GCP). They build the pipelines that feed everyone else. Higher pay ceiling, steeper curve — plan for 8–12 months to be job-ready.</span>
+            <span>Less visible but one of the highest-paid roles in tech. You build the systems that power every other data role. If you enjoy building things and solving complex problems — this is your lane. 8–12 months to get job-ready.</span>
           </div>
         </li>
         <li class="ws-learn-item">
           <span class="ws-learn-icon">🤖</span>
           <div class="ws-learn-text">
             <strong>Data Scientist</strong>
-            <span>Tools: Python, scikit-learn, TensorFlow, statistics. They build models and find patterns. Requires the strongest math foundation — typically 10–14 months for a solid entry-level profile.</span>
+            <span>The role that makes headlines. You predict outcomes, spot hidden patterns and build AI models. It's the most exciting — and the most challenging. Requires patience, but the career ceiling is sky-high. Plan for 10–14 months.</span>
           </div>
         </li>
         <li class="ws-learn-item">
           <span class="ws-learn-icon">💼</span>
           <div class="ws-learn-text">
             <strong>Business Analyst</strong>
-            <span>Tools: Excel, SQL, Jira, dashboards. The bridge between data and business decisions. Most accessible entry point — 3–5 months if you already have domain knowledge.</span>
+            <span>The easiest door into the data world, especially if you already have work experience. You translate what the business needs into what the data team builds. High demand, good pay, and you don't need to code heavily. 3–5 months.</span>
           </div>
         </li>
       </ul>
@@ -782,7 +782,7 @@ hr.ws-glow {{
           <div class="ws-instructor-name">Sandeep Singh</div>
           <div class="ws-instructor-role">Founder · The Next Engineer</div>
           <p class="ws-instructor-bio">
-            Trained 500+ students across France, Sweden &amp; India. Worked with
+            Trained 50+ students across France, Sweden &amp; India. Worked with
             Nova.space, Ironhack, Guardant Health and Cognizant.
             Everything I teach, I've done at work.
           </p>
@@ -806,16 +806,12 @@ hr.ws-glow {{
           <div class="ws-detail-text"><strong>100% Online</strong><span>Google Meet · Link sent on email</span></div>
         </div>
         <div class="ws-detail-item">
-          <span class="ws-detail-icon">🎯</span>
-          <div class="ws-detail-text"><strong>Hands-on session</strong><span>Live coding · Q&amp;A included</span></div>
-        </div>
-        <div class="ws-detail-item">
           <span class="ws-detail-icon">🎟️</span>
           <div class="ws-detail-text"><strong>Only ₹99 entry</strong><span>Limited seats · Register early</span></div>
         </div>
         <div class="ws-detail-item">
-          <span class="ws-detail-icon">📹</span>
-          <div class="ws-detail-text"><strong>Recording provided</strong><span>Watch back anytime after the session</span></div>
+          <span class="ws-detail-icon">❓</span>
+          <div class="ws-detail-text"><strong>Live Q&amp;A included</strong><span>Ask anything — no question is silly</span></div>
         </div>
         <div class="ws-detail-item">
           <span class="ws-detail-icon">🚀</span>
