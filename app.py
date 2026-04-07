@@ -920,6 +920,8 @@ body  {{
       <div class="course-chip"><span>🤖</span><span>Machine Learning Algorithms</span></div>
       <div class="course-chip"><span>🎯</span><span>Recommendation Engines</span></div>
       <div class="course-chip"><span>🐙</span><span>GitHub</span></div>
+      <div class="course-chip" style="border-color:rgba(0,212,255,0.50);background:rgba(0,212,255,0.10);color:#fff;"><span>🛠️</span><span>Guided projects every Saturday</span><span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:#00d4ff;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.30);border-radius:100px;padding:2px 8px;">Highlight</span></div>
+      <div class="course-chip" style="border-color:rgba(0,212,255,0.50);background:rgba(0,212,255,0.10);color:#fff;"><span>🌐</span><span>Weekly Portfolio Website Updates</span><span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:#00d4ff;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.30);border-radius:100px;padding:2px 8px;">Highlight</span></div>
     </div>
   </div>
 
