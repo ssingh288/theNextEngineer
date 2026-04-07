@@ -693,7 +693,7 @@ hr.ws-glow {{
   <span class="ws-banner-text">
     🗓&nbsp; <strong>Workshop — ₹100:</strong>&nbsp;
     <span class="ws-date">Saturday, 18 April 2026 · 10:30 AM</span>
-    &nbsp;—&nbsp; Intro to Data Analytics (Live Online)
+    &nbsp;—&nbsp; Your First Step towards the Data Team (Live Online)
   </span>
   <span class="ws-banner-sep">·</span>
   <button onclick="openRegModal()" class="ws-banner-btn">Register — ₹100 →</button>
@@ -712,11 +712,12 @@ hr.ws-glow {{
         Live Online &nbsp;·&nbsp; Saturday, 18 April 2026
       </div>
       <h1 class="ws-h1">
-        Your First Step into<br><span class="cyan">Data Analytics</span>
+        Your First Step towards<br><span class="cyan">the Data Team</span>
       </h1>
       <p class="ws-sub">
-        A hands-on 2-hour workshop where you'll see exactly how data analysts work —
-        real tools, real data, zero fluff. Walk away knowing if this career is for you.
+        A 1.5-hour workshop where you'll see exactly how a Data Analyst, Data Engineer,
+        Data Scientist and Business Analyst work — real tools, skills required,
+        and honest time it takes to master each role.
       </p>
       <div class="ws-price-row">
         <div class="ws-price">₹100</div>
@@ -737,34 +738,34 @@ hr.ws-glow {{
     <!-- What you'll learn -->
     <section>
       <span class="ws-sec-label">// what you'll walk away with</span>
-      <h2 class="ws-sec-title">4 things you'll learn in 2 hours</h2>
+      <h2 class="ws-sec-title">4 roles. 1.5 hours. Zero fluff.</h2>
       <ul class="ws-learn-list">
         <li class="ws-learn-item">
           <span class="ws-learn-icon">📊</span>
           <div class="ws-learn-text">
-            <strong>What Data Analytics actually is</strong>
-            <span>No jargon. You'll see what a data analyst does on a real Monday morning at work.</span>
+            <strong>Data Analyst</strong>
+            <span>Tools: SQL, Excel, Power BI / Tableau. What their day looks like, what problems they solve, and how long it realistically takes to land the first job — typically 4–6 months of focused learning.</span>
           </div>
         </li>
         <li class="ws-learn-item">
-          <span class="ws-learn-icon">🐍</span>
+          <span class="ws-learn-icon">⚙️</span>
           <div class="ws-learn-text">
-            <strong>Your first Python + SQL query — live</strong>
-            <span>We'll pull real data and answer a real business question together, step by step.</span>
+            <strong>Data Engineer</strong>
+            <span>Tools: Python, Spark, Airflow, cloud (AWS/GCP). They build the pipelines that feed everyone else. Higher pay ceiling, steeper curve — plan for 8–12 months to be job-ready.</span>
           </div>
         </li>
         <li class="ws-learn-item">
-          <span class="ws-learn-icon">📈</span>
+          <span class="ws-learn-icon">🤖</span>
           <div class="ws-learn-text">
-            <strong>How to turn numbers into a story</strong>
-            <span>See how pros build charts that actually convince managers to take action.</span>
+            <strong>Data Scientist</strong>
+            <span>Tools: Python, scikit-learn, TensorFlow, statistics. They build models and find patterns. Requires the strongest math foundation — typically 10–14 months for a solid entry-level profile.</span>
           </div>
         </li>
         <li class="ws-learn-item">
-          <span class="ws-learn-icon">🗺️</span>
+          <span class="ws-learn-icon">💼</span>
           <div class="ws-learn-text">
-            <strong>Your personal roadmap to become an analyst</strong>
-            <span>What to learn, in what order, and how long it realistically takes — no BS.</span>
+            <strong>Business Analyst</strong>
+            <span>Tools: Excel, SQL, Jira, dashboards. The bridge between data and business decisions. Most accessible entry point — 3–5 months if you already have domain knowledge.</span>
           </div>
         </li>
       </ul>
@@ -798,7 +799,7 @@ hr.ws-glow {{
       <div class="ws-details-grid">
         <div class="ws-detail-item">
           <span class="ws-detail-icon">📅</span>
-          <div class="ws-detail-text"><strong>Saturday, 18 April 2026</strong><span>10:30 AM — 12:30 PM IST</span></div>
+          <div class="ws-detail-text"><strong>Saturday, 18 April 2026</strong><span>10:30 AM — 12:00 PM IST</span></div>
         </div>
         <div class="ws-detail-item">
           <span class="ws-detail-icon">💻</span>
