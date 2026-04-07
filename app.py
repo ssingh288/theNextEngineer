@@ -1,6 +1,8 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import random
+import base64
+import os
 
 st.set_page_config(
     page_title="The Next Engineer — Online Coding Bootcamp",
@@ -43,6 +45,11 @@ FORM_URL  = "https://docs.google.com/forms/d/e/1FAIpQLSclF7YODQUuzhHzsudwYSHinMR
 WA_NUMBER = "918019101592"
 WA_MSG    = "Hello%2C%20I%27m%20interested%20in%20The%20Next%20Engineer%20bootcamp!"
 WA_URL    = f"https://wa.me/{WA_NUMBER}?text={WA_MSG}"
+
+# Embed photo as base64 so it loads inside Streamlit's iframe
+_img_path = os.path.join(os.path.dirname(__file__), "Sandeep.PNG")
+with open(_img_path, "rb") as _f:
+    SANDEEP_SRC = "data:image/png;base64," + base64.b64encode(_f.read()).decode()
 
 # ── CSS star elements generated in Python ──────────────────────────────────────
 random.seed(42)
@@ -674,7 +681,7 @@ body  {{
    ════════════════════════════════════════════════════════ */
 .contact-card {{
     background: {BG_CARD}; border: 1px solid {BORDER};
-    border-radius: 24px; padding: 80px;
+    border-radius: 24px; padding: 48px 40px;
     text-align: center; position: relative; overflow: hidden;
 }}
 .contact-card::before {{
@@ -693,7 +700,7 @@ body  {{
 .tne-footer {{
     position: relative; z-index: 1;
     border-top: 1px solid {BORDER};
-    padding: 36px 60px;
+    padding: 24px 60px;
     display: flex; align-items: center;
     justify-content: space-between; flex-wrap: wrap; gap: 12px;
 }}
@@ -901,15 +908,15 @@ body  {{
   <div class="sec-inner">
     <div class="reveal" style="margin-bottom:56px;">
       <span class="sec-label">// know your mentors</span>
-      <h2 class="sec-title">The people who'll<br>guide your journey</h2>
-      <p class="sec-sub">Industry practitioners who work with data every day — not just teachers.</p>
+      <h2 class="sec-title" style="white-space:nowrap;">The people who'll guide your journey</h2>
+      <p class="sec-sub" style="white-space:nowrap;">Not just a teacher — an industry practitioner who works with data every day.</p>
     </div>
     <div class="mentors-grid">
 
       <!-- Sandeep -->
       <div class="mentor-card reveal">
         <div class="mentor-img-wrap">
-          <img src="Sandeep.PNG" alt="Sandeep Singh" class="mentor-img" />
+          <img src="{SANDEEP_SRC}" alt="Sandeep Singh" class="mentor-img" />
         </div>
         <div class="mentor-info">
           <h4 class="mentor-name">Sandeep Singh</h4>
@@ -997,13 +1004,13 @@ body  {{
     <div class="contact-card reveal">
       <span class="sec-label">// let's talk</span>
       <h2 class="contact-h2">Have questions?<br>We're here for you.</h2>
-      <p class="contact-sub">Not sure which program is right for you? Reach out on WhatsApp and our team will help you find the best path.</p>
+      <p class="contact-sub">Text your teacher directly on LinkedIn and ask for a call — we'll help you find the right path.</p>
       <div class="contact-btns">
-        <a href="{WA_URL}" target="_blank" rel="noopener" class="btn-wa">
-          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.45 11.45 0 01-5.85-1.605l-.42-.252-4.507 1.022 1.06-4.37-.276-.45A11.47 11.47 0 014.5 16C4.5 9.649 9.649 4.5 16 4.5S27.5 9.649 27.5 16 22.351 27.5 16 27.5zm6.267-8.574c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/>
+        <a href="https://www.linkedin.com/in/sandeepsingh1910/" target="_blank" rel="noopener" class="btn-p">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
           </svg>
-          Chat on WhatsApp
+          Text your teacher on LinkedIn
         </a>
         <a href="{FORM_URL}" target="_blank" rel="noopener" class="btn-o">Apply Now</a>
       </div>
@@ -1080,28 +1087,37 @@ window.addEventListener("load", function() {
   }
 });
 
-// Make ws-banner sticky relative to parent viewport (Streamlit iframe fix)
+// Make ws-banner and nav sticky relative to parent viewport (Streamlit iframe fix)
 (function() {
   var banner = document.querySelector('.ws-banner');
   var header = document.querySelector('.tne-header');
   if (!banner) return;
+
   banner.style.position = 'absolute';
-  if (header) header.style.position = 'absolute';
+  banner.style.left = '0';
+  banner.style.right = '0';
+  banner.style.width = '100%';
+  banner.style.zIndex = '999';
+
+  if (header) {
+    header.style.position = 'absolute';
+    header.style.left = '0';
+    header.style.right = '0';
+    header.style.width = '100%';
+    header.style.zIndex = '998';
+  }
 
   function updatePos() {
     try {
       var scrollY = window.parent.scrollY || window.parent.pageYOffset || 0;
       banner.style.top = scrollY + 'px';
-      if (header) header.style.top = (scrollY + 44) + 'px';
+      if (header) header.style.top = (scrollY + banner.offsetHeight) + 'px';
     } catch(e) {}
   }
 
-  try {
-    window.parent.addEventListener('scroll', updatePos, { passive: true });
-  } catch(e) {}
-
+  try { window.parent.addEventListener('scroll', updatePos, { passive: true }); } catch(e) {}
   updatePos();
-  setInterval(updatePos, 50);
+  setInterval(updatePos, 30);
 })();
 </script>
 </body>
