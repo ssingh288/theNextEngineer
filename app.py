@@ -1096,6 +1096,13 @@ body  {{
       <label class="reg-label" for="reg-phone">Phone Number</label>
       <input class="reg-input" type="tel" id="reg-phone" placeholder="+91 98765 43210" required />
 
+      <label class="reg-label" for="reg-status">Current Status</label>
+      <select class="reg-input" id="reg-status" required style="cursor:pointer;">
+        <option value="" disabled selected>Select your status…</option>
+        <option value="Working Professional">Working Professional</option>
+        <option value="Looking for a Job">Looking for a Job</option>
+      </select>
+
       <button type="submit" class="reg-submit" id="reg-submit">Proceed to Payment →</button>
     </form>
     <p class="reg-note">Your info is only used to send you workshop details.</p>
@@ -1149,17 +1156,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById('reg-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    var name  = document.getElementById('reg-name').value.trim();
-    var email = document.getElementById('reg-email').value.trim();
-    var phone = document.getElementById('reg-phone').value.trim();
+    var name   = document.getElementById('reg-name').value.trim();
+    var email  = document.getElementById('reg-email').value.trim();
+    var phone  = document.getElementById('reg-phone').value.trim();
+    var status = document.getElementById('reg-status').value;
 
     var btn = document.getElementById('reg-submit');
     btn.textContent = 'Saving…';
     btn.disabled = true;
 
-    var body = 'name=' + encodeURIComponent(name)
+    var body = 'name='   + encodeURIComponent(name)
              + '&email=' + encodeURIComponent(email)
-             + '&phone=' + encodeURIComponent(phone);
+             + '&phone=' + encodeURIComponent(phone)
+             + '&status='+ encodeURIComponent(status);
 
     // no-cors: response is opaque but data reaches Apps Script
     fetch(APPS_SCRIPT_URL, {
