@@ -1079,6 +1079,30 @@ window.addEventListener("load", function() {
     window.frameElement.style.height = (document.documentElement.scrollHeight + 20) + "px";
   }
 });
+
+// Make ws-banner sticky relative to parent viewport (Streamlit iframe fix)
+(function() {
+  var banner = document.querySelector('.ws-banner');
+  var header = document.querySelector('.tne-header');
+  if (!banner) return;
+  banner.style.position = 'absolute';
+  if (header) header.style.position = 'absolute';
+
+  function updatePos() {
+    try {
+      var scrollY = window.parent.scrollY || window.parent.pageYOffset || 0;
+      banner.style.top = scrollY + 'px';
+      if (header) header.style.top = (scrollY + 44) + 'px';
+    } catch(e) {}
+  }
+
+  try {
+    window.parent.addEventListener('scroll', updatePos, { passive: true });
+  } catch(e) {}
+
+  updatePos();
+  setInterval(updatePos, 50);
+})();
 </script>
 </body>
 </html>"""
