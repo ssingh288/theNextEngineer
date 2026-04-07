@@ -16,7 +16,13 @@ st.markdown("""
 #MainMenu, footer, header                    { visibility: hidden !important; }
 [data-testid="stToolbar"],
 [data-testid="stDecoration"],
-[data-testid="stStatusWidget"]               { display: none !important; }
+[data-testid="stStatusWidget"],
+[data-testid="stAppViewBlockContainer"],
+.stDeployButton,
+#stDecoration                                { display: none !important; }
+[class*="viewerBadge"],
+[class*="managedBy"],
+[class*="toolbarActions"]                    { display: none !important; }
 .main .block-container                       { padding: 0 !important; max-width: 100% !important; }
 section[data-testid="stMain"]                { padding: 0 !important; overflow: hidden !important; }
 .stApp                                       { background: #080810 !important; overflow: hidden !important; }
