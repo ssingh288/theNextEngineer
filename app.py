@@ -896,15 +896,6 @@ body  {{
   <h1 class="hero-h1" style="white-space:nowrap;">
     Learn. Implement. Grow 📈
   </h1>
-  <p class="hero-sub">
-    I'm a passionate trainer with international experience in Data Analytics &amp; Data Engineering —
-    working in France, Sweden and India with multinationals like
-    <a href="https://nova.space/" target="_blank" rel="noopener" class="hero-link">Nova.space</a>,
-    <a href="https://www.ironhack.com/us" target="_blank" rel="noopener" class="hero-link">Ironhack</a>,
-    <a href="https://nodcoding.com/" target="_blank" rel="noopener" class="hero-link">NodCoding</a>,
-    <a href="https://guardanthealth.com/" target="_blank" rel="noopener" class="hero-link">Guardant Health</a>
-    and Cognizant.
-  </p>
   <div class="hero-ctas">
     <button onclick="openEnrollModal()" class="btn-p" style="border:none;cursor:pointer;">
       Enroll Now
@@ -948,7 +939,13 @@ body  {{
     <div class="reveal" style="margin-bottom:56px;">
       <span class="sec-label">// know your mentors</span>
       <h2 class="sec-title" style="white-space:nowrap;">The people who'll guide your journey</h2>
-      <p class="sec-sub" style="white-space:nowrap;">Not just a teacher — an industry practitioner who works with data every day.</p>
+      <p class="sec-sub">I'm a passionate trainer with international experience in Data Analytics &amp; Data Engineering — working in France, Sweden and India with multinationals like
+        <a href="https://nova.space/" target="_blank" rel="noopener" class="hero-link">Nova.space</a>,
+        <a href="https://www.ironhack.com/us" target="_blank" rel="noopener" class="hero-link">Ironhack</a>,
+        <a href="https://nodcoding.com/" target="_blank" rel="noopener" class="hero-link">NodCoding</a>,
+        <a href="https://guardanthealth.com/" target="_blank" rel="noopener" class="hero-link">Guardant Health</a>
+        and Cognizant.
+      </p>
     </div>
     <div class="mentors-grid">
 
