@@ -370,7 +370,7 @@ body  {{
     display: inline-flex; align-items: center; gap: 8px;
     background: rgba(0,71,255,0.12); border: 1px solid rgba(0,100,255,0.30);
     border-radius: 100px; padding: 8px 18px;
-    font-family: 'Space Mono', monospace; font-size: 12px;
+    font-family: 'Space Mono', monospace; font-size: 15px;
     color: {BLUE_B} !important; margin-bottom: 36px;
     animation: fadeUp 0.8s ease both;
 }}
@@ -450,9 +450,9 @@ body  {{
     gap: 14px; animation: fadeUp 0.8s 0.4s ease both;
 }}
 .hero-course-label {{
-    font-family: 'Space Mono', monospace; font-size: 10px;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: rgba(255,255,255,0.22);
+    font-family: 'Space Mono', monospace; font-size: 13px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: rgba(255,255,255,0.50);
 }}
 .hero-course-chips {{
     display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
@@ -751,8 +751,8 @@ body  {{
 
 .hero-batch-note {{
     display: inline-flex; align-items: center; gap: 6px;
-    font-family: 'Space Mono', monospace; font-size: 11px;
-    color: rgba(255,255,255,0.50); letter-spacing: 0.06em;
+    font-family: 'Space Mono', monospace; font-size: 14px;
+    color: rgba(255,255,255,0.60); letter-spacing: 0.04em;
     margin-top: -20px; margin-bottom: 36px;
     animation: fadeUp 0.8s 0.15s ease both;
 }}
