@@ -825,6 +825,10 @@ body  {{
     margin-bottom: 20px; box-sizing: border-box;
 }}
 .reg-input::placeholder {{ color: {W20}; }}
+.reg-input option {{
+    background: #1a1a2e; color: {WHITE};
+}}
+.reg-input option:disabled {{ color: rgba(255,255,255,0.35); }}
 .reg-input:focus {{
     border-color: {BORDER_BLUE}; box-shadow: 0 0 0 3px rgba(0,71,255,0.12);
 }}
