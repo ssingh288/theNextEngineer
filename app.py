@@ -159,14 +159,14 @@ body  {{
     z-index: 200;
     background: linear-gradient(90deg, #0a0a20, #0d1640, #0a0a20);
     border-bottom: 1px solid {BORDER_BLUE};
-    padding: 10px 24px;
+    padding: 16px 32px;
     display: flex; align-items: center; justify-content: center;
-    gap: 16px; flex-wrap: wrap;
-    box-shadow: 0 2px 40px rgba(0,71,255,0.25);
+    gap: 20px; flex-wrap: wrap;
+    box-shadow: 0 2px 48px rgba(0,71,255,0.30);
 }}
 .ws-banner-pulse {{
-    width: 8px; height: 8px; border-radius: 50%;
-    background: {GREEN}; box-shadow: 0 0 10px {GREEN};
+    width: 10px; height: 10px; border-radius: 50%;
+    background: {GREEN}; box-shadow: 0 0 12px {GREEN};
     animation: pulse 2s infinite; flex-shrink: 0;
 }}
 @keyframes pulse {{
@@ -175,38 +175,38 @@ body  {{
 }}
 .ws-banner-text {{
     font-family: 'Manrope', sans-serif;
-    font-size: 13px; font-weight: 600;
+    font-size: 16px; font-weight: 600;
     color: {WHITE} !important;
     letter-spacing: -0.01em;
 }}
 .ws-banner-text .ws-date {{
     color: {CYAN} !important;
-    font-weight: 700;
+    font-weight: 800;
 }}
 .ws-banner-btn {{
-    display: inline-flex; align-items: center; gap: 6px;
+    display: inline-flex; align-items: center; gap: 8px;
     background: {BLUE}; color: {WHITE} !important;
-    padding: 6px 16px; border-radius: 100px;
+    padding: 10px 22px; border-radius: 100px;
     font-family: 'Manrope', sans-serif;
-    font-size: 12px; font-weight: 700;
+    font-size: 14px; font-weight: 700;
     text-decoration: none; white-space: nowrap;
     transition: background 0.2s, box-shadow 0.2s;
 }}
 .ws-banner-btn:hover {{
     background: {BLUE_B};
-    box-shadow: 0 0 20px {BLUE_GLOW};
+    box-shadow: 0 0 24px {BLUE_GLOW};
     color: {WHITE} !important;
 }}
 .ws-banner-sep {{
     color: {W20} !important;
-    font-size: 16px;
+    font-size: 18px;
 }}
 
 /* ════════════════════════════════════════════════════════
    NAV  (sits below the 44px banner)
    ════════════════════════════════════════════════════════ */
 .tne-header {{
-    position: fixed; top: 44px; left: 0; right: 0;
+    position: fixed; top: 64px; left: 0; right: 0;
     z-index: 100;
     display: flex; align-items: center; justify-content: center;
     padding: 16px 40px;
@@ -234,7 +234,7 @@ body  {{
 /* ════════════════════════════════════════════════════════
    PAGE WRAPPER  (top padding for banner + nav)
    ════════════════════════════════════════════════════════ */
-.tne-page {{ position: relative; z-index: 1; padding-top: 104px; }}
+.tne-page {{ position: relative; z-index: 1; padding-top: 124px; }}
 
 /* ════════════════════════════════════════════════════════
    WHATSAPP FLOAT
@@ -782,8 +782,8 @@ body  {{
     .contact-card     {{ padding: 48px 24px; }}
     .tne-footer       {{ padding: 28px 20px; flex-direction: column; text-align: center; }}
     .footer-links     {{ justify-content: center; }}
-    .ws-banner        {{ padding: 8px 16px; gap: 10px; }}
-    .ws-banner-text   {{ font-size: 12px; text-align: center; }}
+    .ws-banner        {{ padding: 12px 16px; gap: 10px; }}
+    .ws-banner-text   {{ font-size: 14px; text-align: center; }}
 }}
 
 /* ════════════════════════════════════════════════════════
