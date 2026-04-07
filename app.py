@@ -894,7 +894,7 @@ body  {{
     Online Only · Tue &amp; Thu 7–9 PM · Sat 10 AM–6 PM · 8 Weeks · 20 seats
   </div>
   <h1 class="hero-h1" style="white-space:nowrap;">
-    Learn. Implement. Grow 📈
+    Learn. Build. Grow 📈
   </h1>
   <div class="hero-ctas">
     <button onclick="openEnrollModal()" class="btn-p" style="border:none;cursor:pointer;">
@@ -919,6 +919,7 @@ body  {{
       <div class="course-chip"><span>📈</span><span>Data Visualization</span></div>
       <div class="course-chip"><span>🤖</span><span>Machine Learning Algorithms</span></div>
       <div class="course-chip"><span>🎯</span><span>Recommendation Engines</span></div>
+      <div class="course-chip"><span>🐙</span><span>GitHub</span></div>
     </div>
   </div>
 
@@ -1024,8 +1025,10 @@ body  {{
           <div class="info-box-item"><span>🎥</span> 100% Live Online Classes</div>
           <div class="info-box-item"><span>📹</span> Recordings provided after every session</div>
           <div class="info-box-item"><span>📅</span> Tue &amp; Thu: 7 PM – 9 PM</div>
-          <div class="info-box-item"><span>📅</span> Saturday: 10 AM – 6 PM</div>
+          <div class="info-box-item"><span>📅</span> Saturday: 10 AM – 6 PM · Guided projects</div>
           <div class="info-box-item"><span>⏱️</span> 8 Weeks · 20 seats per cohort</div>
+          <div class="info-box-item"><span>🌐</span> Build your own portfolio website from Week 1</div>
+          <div class="info-box-item"><span>📝</span> Assignments after every lecture</div>
         </div>
       </div>
     </div>
