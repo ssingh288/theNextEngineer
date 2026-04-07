@@ -902,12 +902,12 @@ body  {{
     and Cognizant.
   </p>
   <div class="hero-ctas">
-    <a href="{FORM_URL}" target="_blank" rel="noopener" class="btn-p">
+    <button onclick="openEnrollModal()" class="btn-p" style="border:none;cursor:pointer;">
       Enroll Now
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-    </a>
+    </button>
   </div>
 
   <!-- Course highlight chips -->
@@ -1007,11 +1007,11 @@ body  {{
       </div>
       <div class="enroll-card">
         <h3>Apply Now</h3>
-        <p>Fill in our short Google Form — we'll get back to you within 24 hours.</p>
-        <a href="{FORM_URL}" target="_blank" rel="noopener"
-           class="btn-p" style="width:100%;justify-content:center;font-size:16px;padding:16px 0;">
+        <p>Fill in our short form — we'll get back to you within 24 hours.</p>
+        <button onclick="openEnrollModal()"
+           class="btn-p" style="width:100%;justify-content:center;font-size:16px;padding:16px 0;border:none;cursor:pointer;">
           Open Application Form →
-        </a>
+        </button>
         <div class="timing-note">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
             <circle cx="7" cy="7" r="6"/><path d="M7 4v3l2 2"/>
@@ -1065,6 +1065,56 @@ body  {{
 </footer>
 
 </div><!-- /tne-page -->
+
+<!-- ══ Enroll Modal ══════════════════════════════════════ -->
+<div id="enroll-modal" class="reg-modal">
+  <div class="reg-card" style="max-width:500px;">
+    <button class="reg-close" onclick="closeEnrollModal()" aria-label="Close">&times;</button>
+    <p class="reg-title">Apply for the Bootcamp</p>
+    <p class="reg-sub">Data Analytics Bootcamp · 1st Cohort starting 4th May 2026<br>We'll review your application and reach out within 24 hours.</p>
+
+    <div id="enroll-success" style="display:none;text-align:center;padding:24px 0;">
+      <div style="font-size:48px;margin-bottom:16px;">🎉</div>
+      <p style="font-size:17px;font-weight:700;color:#fff;margin-bottom:8px;">Application received!</p>
+      <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.6;">We'll review your details and get back to you within 24 hours.<br>Check your inbox for a confirmation email.</p>
+    </div>
+
+    <form id="enroll-form">
+      <label class="reg-label" for="enroll-name">Full Name</label>
+      <input class="reg-input" type="text" id="enroll-name" placeholder="Your name" required />
+
+      <label class="reg-label" for="enroll-email">Email Address</label>
+      <input class="reg-input" type="email" id="enroll-email" placeholder="you@email.com" required />
+
+      <label class="reg-label" for="enroll-phone">Phone Number</label>
+      <input class="reg-input" type="tel" id="enroll-phone" placeholder="+91 98765 43210" required />
+
+      <label class="reg-label" for="enroll-status">Current Status</label>
+      <select class="reg-input" id="enroll-status" required style="cursor:pointer;">
+        <option value="" disabled selected>Select your status…</option>
+        <option value="Working Professional">Working Professional</option>
+        <option value="Looking for a Job">Looking for a Job</option>
+      </select>
+
+      <label class="reg-label" for="enroll-edu">Highest Education</label>
+      <select class="reg-input" id="enroll-edu" required style="cursor:pointer;">
+        <option value="" disabled selected>Select your qualification…</option>
+        <option value="High School">High School / 12th</option>
+        <option value="Diploma">Diploma</option>
+        <option value="Bachelor's Degree">Bachelor's Degree</option>
+        <option value="Master's Degree">Master's Degree</option>
+        <option value="PhD">PhD</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label class="reg-label" for="enroll-city">City</label>
+      <input class="reg-input" type="text" id="enroll-city" placeholder="Your city" required />
+
+      <button type="submit" class="reg-submit" id="enroll-submit">Submit Application →</button>
+    </form>
+    <p class="reg-note">Your info is only used to process your application.</p>
+  </div>
+</div>
 
 <!-- ══ Registration Modal ════════════════════════════════ -->
 <div id="reg-modal" class="reg-modal">
@@ -1168,6 +1218,51 @@ document.addEventListener('DOMContentLoaded', function() {
     }).finally(function() {
       closeRegModal();
       window.open(PAYMENT_LINK, '_blank');
+    });
+  });
+});
+
+// ── Enroll modal ──────────────────────────────────────────
+function openEnrollModal() {
+  document.getElementById('enroll-modal').style.display = 'flex';
+}
+function closeEnrollModal() {
+  document.getElementById('enroll-modal').style.display = 'none';
+  document.getElementById('enroll-form').style.display = 'block';
+  document.getElementById('enroll-success').style.display = 'none';
+  document.getElementById('enroll-form').reset();
+  var b = document.getElementById('enroll-submit');
+  if (b) { b.textContent = 'Submit Application \u2192'; b.disabled = false; }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('enroll-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeEnrollModal();
+  });
+
+  document.getElementById('enroll-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('enroll-submit');
+    btn.textContent = 'Submitting…';
+    btn.disabled = true;
+
+    var body = 'formType=enroll'
+             + '&name='    + encodeURIComponent(document.getElementById('enroll-name').value.trim())
+             + '&email='   + encodeURIComponent(document.getElementById('enroll-email').value.trim())
+             + '&phone='   + encodeURIComponent(document.getElementById('enroll-phone').value.trim())
+             + '&status='  + encodeURIComponent(document.getElementById('enroll-status').value)
+             + '&education='+ encodeURIComponent(document.getElementById('enroll-edu').value)
+             + '&city='    + encodeURIComponent(document.getElementById('enroll-city').value.trim());
+
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body
+    }).finally(function() {
+      document.getElementById('enroll-form').style.display = 'none';
+      document.getElementById('enroll-success').style.display = 'block';
+      setTimeout(closeEnrollModal, 4000);
     });
   });
 });
