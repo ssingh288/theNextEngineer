@@ -1,0 +1,5 @@
+rzp-key.csv
+.claude/
+__pycache__/
+*.pyc
+.env
