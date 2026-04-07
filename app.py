@@ -895,30 +895,6 @@ body  {{
 <hr class="glow-divider"/>
 
 <!-- ══════════════════════════════════════════════════════
-     STATS
-     ══════════════════════════════════════════════════════ -->
-<section class="sec" id="stats">
-  <div class="stats-wrap reveal">
-    <div class="stats-row">
-      <div class="stat-item">
-        <div class="stat-num">100%</div>
-        <div class="stat-lbl">Online &amp; Flexible</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">4</div>
-        <div class="stat-lbl">Programs Available</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">∞</div>
-        <div class="stat-lbl">Career Possibilities</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="glow-divider"/>
-
-<!-- ══════════════════════════════════════════════════════
      MENTORS
      ══════════════════════════════════════════════════════ -->
 <section class="sec" id="mentors">
