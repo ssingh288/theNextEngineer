@@ -1003,8 +1003,8 @@ body  {{
   <div class="sec-inner">
     <div class="contact-card reveal">
       <span class="sec-label">// let's talk</span>
-      <h2 class="contact-h2">Have questions?<br>We're here for you.</h2>
-      <p class="contact-sub">Text your teacher directly on LinkedIn and ask for a call — we'll help you find the right path.</p>
+      <h2 class="contact-h2">Have questions?</h2>
+      <p class="contact-sub">Text your teacher directly on LinkedIn and ask for a call.</p>
       <div class="contact-btns">
         <a href="https://www.linkedin.com/in/sandeepsingh1910/" target="_blank" rel="noopener" class="btn-p">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -1012,7 +1012,6 @@ body  {{
           </svg>
           Text your teacher on LinkedIn
         </a>
-        <a href="{FORM_URL}" target="_blank" rel="noopener" class="btn-o">Apply Now</a>
       </div>
     </div>
   </div>
