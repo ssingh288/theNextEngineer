@@ -939,7 +939,7 @@ body  {{
     <div class="reveal" style="margin-bottom:56px;">
       <span class="sec-label">// know your mentors</span>
       <h2 class="sec-title" style="white-space:nowrap;">The people who'll guide your journey</h2>
-      <p class="sec-sub">I'm a passionate trainer with international experience in Data Analytics &amp; Data Engineering — working in France, Sweden and India with multinationals like
+      <p class="sec-sub" style="max-width:860px;">I'm a passionate trainer with international experience in Data Analytics &amp; Data Engineering — working in France, Sweden and India with multinationals like
         <a href="https://nova.space/" target="_blank" rel="noopener" class="hero-link">Nova.space</a>,
         <a href="https://www.ironhack.com/us" target="_blank" rel="noopener" class="hero-link">Ironhack</a>,
         <a href="https://nodcoding.com/" target="_blank" rel="noopener" class="hero-link">NodCoding</a>,
