@@ -691,12 +691,12 @@ hr.ws-glow {{
 <div class="ws-banner" id="ws-banner">
   <span class="ws-banner-pulse"></span>
   <span class="ws-banner-text">
-    🗓&nbsp; <strong>Workshop — ₹100:</strong>&nbsp;
-    <span class="ws-date">Saturday, 18 April 2026 · 10:30 AM</span>
+    🗓&nbsp; <strong>Workshop — ₹99:</strong>&nbsp;
+    <span class="ws-date">Saturday, 18 April 2026 · 10:00 AM – 11:30 AM</span>
     &nbsp;—&nbsp; Your First Step towards the Data Team (Live Online)
   </span>
   <span class="ws-banner-sep">·</span>
-  <button onclick="openRegModal()" class="ws-banner-btn">Register — ₹100 →</button>
+  <button onclick="openRegModal()" class="ws-banner-btn">Register — ₹99 →</button>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
@@ -709,7 +709,7 @@ hr.ws-glow {{
     <div class="ws-hero">
       <div class="ws-badge">
         <span class="ws-badge-dot"></span>
-        Live Online &nbsp;·&nbsp; Saturday, 18 April 2026
+        Live Online &nbsp;·&nbsp; Saturday, 18 April 2026 &nbsp;·&nbsp; 10:00 AM – 11:30 AM
       </div>
       <h1 class="ws-h1">
         Your First Step towards<br><span class="cyan">the Data Team</span>
@@ -720,11 +720,11 @@ hr.ws-glow {{
         and honest time it takes to master each role.
       </p>
       <div class="ws-price-row">
-        <div class="ws-price">₹100</div>
+        <div class="ws-price">₹99</div>
         <div class="ws-price-note">One-time entry fee<br>Seats fill fast</div>
       </div>
       <button onclick="openRegModal()" class="ws-cta-btn">Reserve My Seat →</button>
-      <p class="ws-seats-note">⚡ Only <span>20 seats</span> available</p>
+      <p class="ws-seats-note">⚡ Seats are limited — register early</p>
       <div class="ws-countdown">
         <div class="cd-block"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">Days</div></div>
         <div class="cd-block"><div class="cd-num" id="cd-hours">--</div><div class="cd-lbl">Hours</div></div>
@@ -799,7 +799,7 @@ hr.ws-glow {{
       <div class="ws-details-grid">
         <div class="ws-detail-item">
           <span class="ws-detail-icon">📅</span>
-          <div class="ws-detail-text"><strong>Saturday, 18 April 2026</strong><span>10:30 AM — 12:00 PM IST</span></div>
+          <div class="ws-detail-text"><strong>Saturday, 18 April 2026</strong><span>10:00 AM — 11:30 AM IST</span></div>
         </div>
         <div class="ws-detail-item">
           <span class="ws-detail-icon">💻</span>
@@ -811,7 +811,7 @@ hr.ws-glow {{
         </div>
         <div class="ws-detail-item">
           <span class="ws-detail-icon">🎟️</span>
-          <div class="ws-detail-text"><strong>Only ₹100 entry</strong><span>20 seats · First come first served</span></div>
+          <div class="ws-detail-text"><strong>Only ₹99 entry</strong><span>Limited seats · Register early</span></div>
         </div>
         <div class="ws-detail-item">
           <span class="ws-detail-icon">📹</span>
@@ -832,9 +832,9 @@ hr.ws-glow {{
         Don't think too long —<br>seats go fast.
       </h2>
       <p style="font-size:15px;color:rgba(255,255,255,0.50);margin-bottom:32px;line-height:1.6;">
-        ₹100 is less than a coffee. Two hours could change your career.
+        ₹99 is less than a coffee. 1.5 hours could change your career.
       </p>
-      <button onclick="openRegModal()" class="ws-cta-btn">Reserve My Seat — ₹100 →</button>
+      <button onclick="openRegModal()" class="ws-cta-btn">Reserve My Seat — ₹99 →</button>
     </section>
 
   </div><!-- /ws-wrap -->
@@ -843,7 +843,7 @@ hr.ws-glow {{
   <div class="ws-sticky" id="ws-sticky">
     <div class="ws-sticky-info">
       <strong>Data Analytics Workshop</strong>
-      <span>18 Apr 2026 · 10:30 AM · ₹100 · 20 seats only</span>
+      <span>18 Apr 2026 · 10:00 AM – 11:30 AM · ₹99</span>
     </div>
     <button onclick="openRegModal()" class="ws-sticky-btn">Reserve My Seat →</button>
   </div>
@@ -1052,7 +1052,7 @@ hr.ws-glow {{
   <div class="reg-card">
     <button class="reg-close" onclick="closeRegModal()" aria-label="Close">&times;</button>
     <p class="reg-title">Reserve Your Seat</p>
-    <p class="reg-sub">Workshop — ₹100 &nbsp;·&nbsp; Saturday, 18 April 2026 &nbsp;·&nbsp; 10:30 AM<br>Fill in your details — you'll be redirected to pay.</p>
+    <p class="reg-sub">Workshop — ₹99 &nbsp;·&nbsp; Saturday, 18 April 2026 &nbsp;·&nbsp; 10:00 AM – 11:30 AM<br>Fill in your details — you'll be redirected to pay.</p>
     <form id="reg-form">
       <label class="reg-label" for="reg-name">Full Name</label>
       <input class="reg-input" type="text" id="reg-name" placeholder="Your name" required />
