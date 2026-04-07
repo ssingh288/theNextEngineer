@@ -815,7 +815,7 @@ body  {{
     &nbsp;—&nbsp; Intro to Data Analytics (Live Online)
   </span>
   <span class="ws-banner-sep">·</span>
-  <button onclick="openWorkshopPayment()" class="ws-banner-btn" style="border:none;cursor:pointer;">
+  <button onclick="window.open('https://rzp.io/rzp/XTP0oz9','_blank')" class="ws-banner-btn" style="border:none;cursor:pointer;">
     Register — ₹100 →
   </button>
 </div>
@@ -1084,7 +1084,7 @@ body  {{
         </div>
       </div>
       <div class="workshop-cta-wrap">
-        <button onclick="openWorkshopPayment()" class="btn-p" style="font-size:16px;padding:16px 36px;white-space:nowrap;border:none;cursor:pointer;">
+        <button onclick="window.open('https://rzp.io/rzp/XTP0oz9','_blank')" class="btn-p" style="font-size:16px;padding:16px 36px;white-space:nowrap;border:none;cursor:pointer;">
           Register — ₹100 →
         </button>
         <span class="spots-txt">Limited spots available</span>
