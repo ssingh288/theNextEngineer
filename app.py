@@ -1000,7 +1000,7 @@ body  {{
         <h2 class="enroll-h2">Ready to become<br>a data analyst?</h2>
         <p class="enroll-p">Spots are limited each cohort. Apply now to secure your seat and take the first step toward your new career in data.</p>
         <ol class="steps">
-          <li class="step"><div class="step-num">01</div><div class="step-text"><strong>Fill out the form</strong><span>Takes 3 minutes. Tell us about your goals.</span></div></li>
+          <li class="step"><div class="step-num">01</div><div class="step-text"><strong>Fill out the form</strong><span>Takes &lt;1 min.</span></div></li>
           <li class="step"><div class="step-num">02</div><div class="step-text"><strong>We review &amp; interview call</strong><span>Our team will review your application and schedule a quick call.</span></div></li>
           <li class="step"><div class="step-num">03</div><div class="step-text"><strong>Confirm your seat</strong><span>Secure your spot and receive onboarding details.</span></div></li>
           <li class="step"><div class="step-num">04</div><div class="step-text"><strong>Prework before bootcamp</strong><span>Complete the pre-reading materials to hit the ground running.</span></div></li>
