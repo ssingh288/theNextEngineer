@@ -845,10 +845,10 @@ body  {{
   </div>
   <div class="hero-batch-note">
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="5" width="10" height="7" rx="1.5"/><path d="M3.5 5V3.5a2.5 2.5 0 015 0V5"/></svg>
-    Only 20 seats per batch
+    Online Only · Tue &amp; Thu 7–9 PM · Sat 10 AM–6 PM · 8 Weeks · 20 seats
   </div>
-  <h1 class="hero-h1">
-    <span class="grad-text">Learn. Implement. Grow 📈</span>
+  <h1 class="hero-h1" style="white-space:nowrap;">
+    Learn. Implement. Grow 📈
   </h1>
   <p class="hero-sub">
     I'm a passionate trainer with international experience in Data Analytics &amp; Data Engineering —
@@ -866,7 +866,6 @@ body  {{
         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </a>
-    <a href="#courses" class="btn-o">Explore Courses</a>
   </div>
 
   <!-- Course highlight chips -->
@@ -880,7 +879,9 @@ body  {{
       </div>
       <div class="course-chip"><span>🐍</span><span>Python</span></div>
       <div class="course-chip"><span>🗄️</span><span>SQL</span></div>
-      <div class="course-chip"><span>📈</span><span>Tableau</span></div>
+      <div class="course-chip"><span>📈</span><span>Data Visualization</span></div>
+      <div class="course-chip"><span>🤖</span><span>Machine Learning Algorithms</span></div>
+      <div class="course-chip"><span>🎯</span><span>Recommendation Engines</span></div>
     </div>
   </div>
 
@@ -910,102 +911,6 @@ body  {{
       <div class="stat-item">
         <div class="stat-num">∞</div>
         <div class="stat-lbl">Career Possibilities</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="glow-divider"/>
-
-<!-- ══════════════════════════════════════════════════════
-     COURSES
-     ══════════════════════════════════════════════════════ -->
-<section class="sec" id="courses">
-  <div class="sec-inner">
-    <div class="reveal" style="margin-bottom:56px;">
-      <span class="sec-label">// what we teach</span>
-      <h2 class="sec-title">Programs built for<br>real-world impact</h2>
-      <p class="sec-sub">Industry-aligned curriculum designed to take you from zero to job-ready in data analytics.</p>
-    </div>
-
-    <div class="courses-grid">
-      <!-- Featured: Data Analytics Bootcamp -->
-      <div class="course-featured reveal">
-        <div>
-          <div class="course-icon">📊</div>
-          <span class="course-tag">Flagship Program</span>
-          <h3 class="course-title">Data Analytics Bootcamp</h3>
-          <p class="course-desc">Our comprehensive bootcamp takes you from data beginner to analytics professional. Covering the full data stack — collection, querying, analysis and visualisation — with real projects and mentorship throughout.</p>
-          <ul class="course-list">
-            <li>Foundations of Data Analytics &amp; Statistical Thinking</li>
-            <li>Python for Data Analysis — Pandas &amp; NumPy</li>
-            <li>SQL &amp; Database Querying</li>
-            <li>Data Visualisation with Tableau</li>
-            <li>Capstone Project with Real Dataset</li>
-            <li>Career Coaching &amp; Portfolio Review</li>
-          </ul>
-          <br>
-          <a href="{FORM_URL}" target="_blank" rel="noopener" class="btn-p" style="margin-top:8px;">
-            Enroll in Bootcamp
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-        </div>
-        <div class="skills-viz">
-          <span style="font-family:'Space Mono',monospace;font-size:11px;color:{W50};letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;display:block;">Skills You'll Gain</span>
-          <div class="bar-row"><span class="bar-lbl">Python</span><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div><span class="bar-pct">90%</span></div>
-          <div class="bar-row"><span class="bar-lbl">SQL</span><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div><span class="bar-pct">85%</span></div>
-          <div class="bar-row"><span class="bar-lbl">Tableau</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><span class="bar-pct">80%</span></div>
-          <div class="bar-row"><span class="bar-lbl">Analytics</span><div class="bar-track"><div class="bar-fill" style="width:95%"></div></div><span class="bar-pct">95%</span></div>
-          <div class="bar-row"><span class="bar-lbl">Excel</span><div class="bar-track"><div class="bar-fill" style="width:72%"></div></div><span class="bar-pct">72%</span></div>
-          <div class="format-box">
-            <span class="format-lbl">Program Format</span>
-            <div class="format-item"><span>🌐</span> 100% Online &amp; Self-paced</div>
-            <div class="format-item"><span>👨‍🏫</span> Live Mentorship Sessions</div>
-            <div class="format-item"><span>🏆</span> Certificate of Completion</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Short Courses -->
-      <div class="short-row">
-        <div class="card course-card reveal">
-          <div class="course-icon">🐍</div>
-          <span class="course-tag">Short Course</span>
-          <h3 class="course-title">Python Essentials</h3>
-          <p class="course-desc">Master Python fundamentals and data libraries used in every analytics role.</p>
-          <ul class="course-list">
-            <li>Python syntax &amp; fundamentals</li>
-            <li>Data structures &amp; control flow</li>
-            <li>Pandas &amp; NumPy for data</li>
-            <li>Hands-on mini projects</li>
-          </ul>
-        </div>
-        <div class="card course-card reveal">
-          <div class="course-icon">🗄️</div>
-          <span class="course-tag">Short Course</span>
-          <h3 class="course-title">SQL Mastery</h3>
-          <p class="course-desc">Query databases like a pro and extract insights from real-world datasets.</p>
-          <ul class="course-list">
-            <li>SELECT, JOINs &amp; aggregations</li>
-            <li>Subqueries &amp; CTEs</li>
-            <li>Window functions</li>
-            <li>Real database practice</li>
-          </ul>
-        </div>
-        <div class="card course-card reveal">
-          <div class="course-icon">📈</div>
-          <span class="course-tag">Short Course</span>
-          <h3 class="course-title">Tableau for Analysts</h3>
-          <p class="course-desc">Turn raw data into compelling dashboards that drive business decisions.</p>
-          <ul class="course-list">
-            <li>Tableau Desktop basics</li>
-            <li>Charts, maps &amp; filters</li>
-            <li>Dashboard design principles</li>
-            <li>Publishing &amp; sharing</li>
-          </ul>
-        </div>
       </div>
     </div>
   </div>
@@ -1065,35 +970,6 @@ body  {{
 
 
 <!-- ══════════════════════════════════════════════════════
-     WORKSHOP
-     ══════════════════════════════════════════════════════ -->
-<section class="sec" id="workshop">
-  <div class="sec-inner">
-    <div class="workshop-card reveal">
-      <div>
-        <span class="sec-label">// upcoming event</span>
-        <h2 class="workshop-title">
-          Data Analytics<br>
-          <span class="grad-text">Workshop</span>
-        </h2>
-        <p class="workshop-desc">Join our free hands-on workshop and get a real taste of the data analyst's world. We'll walk through a live dataset, build a Tableau dashboard, and answer every question you have.</p>
-        <div class="workshop-meta">
-          <div class="meta-item"><span class="live-dot"></span> Saturday, 18 April 2026</div>
-          <div class="meta-item"><span class="live-dot"></span> 10:30 AM (Online)</div>
-          <div class="meta-item"><span class="live-dot"></span> ₹100 · Beginner Friendly</div>
-        </div>
-      </div>
-      <div class="workshop-cta-wrap">
-        <button onclick="window.open('https://rzp.io/rzp/XTP0oz9','_blank')" class="btn-p" style="font-size:16px;padding:16px 36px;white-space:nowrap;border:none;cursor:pointer;">
-          Register — ₹100 →
-        </button>
-        <span class="spots-txt">Limited spots available</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════
      ENROLL
      ══════════════════════════════════════════════════════ -->
 <section class="sec" id="enroll">
@@ -1104,10 +980,11 @@ body  {{
         <h2 class="enroll-h2">Ready to become<br>a data analyst?</h2>
         <p class="enroll-p">Spots are limited each cohort. Apply now to secure your seat and take the first step toward your new career in data.</p>
         <ol class="steps">
-          <li class="step"><div class="step-num">01</div><div class="step-text"><strong>Fill out the application</strong><span>Takes 3 minutes. Tell us about your goals.</span></div></li>
-          <li class="step"><div class="step-num">02</div><div class="step-text"><strong>We review &amp; reach out</strong><span>Our team will contact you within 24 hours.</span></div></li>
+          <li class="step"><div class="step-num">01</div><div class="step-text"><strong>Fill out the form</strong><span>Takes 3 minutes. Tell us about your goals.</span></div></li>
+          <li class="step"><div class="step-num">02</div><div class="step-text"><strong>We review &amp; interview call</strong><span>Our team will review your application and schedule a quick call.</span></div></li>
           <li class="step"><div class="step-num">03</div><div class="step-text"><strong>Confirm your seat</strong><span>Secure your spot and receive onboarding details.</span></div></li>
-          <li class="step"><div class="step-num">04</div><div class="step-text"><strong>Start learning</strong><span>Day one begins your transformation.</span></div></li>
+          <li class="step"><div class="step-num">04</div><div class="step-text"><strong>Prework before bootcamp</strong><span>Complete the pre-reading materials to hit the ground running.</span></div></li>
+          <li class="step"><div class="step-num">05</div><div class="step-text"><strong>Join the bootcamp</strong><span>Day one begins your transformation — live, online, together.</span></div></li>
         </ol>
       </div>
       <div class="enroll-card">
@@ -1124,36 +1001,14 @@ body  {{
           Response within 24 hours guaranteed
         </div>
         <div class="info-box">
-          <span class="info-box-lbl">Courses Offered</span>
-          <div class="info-box-item"><span>📊</span> Data Analytics Bootcamp (Full Program)</div>
-          <div class="info-box-item"><span>🐍</span> Python Essentials</div>
-          <div class="info-box-item"><span>🗄️</span> SQL Mastery</div>
-          <div class="info-box-item"><span>📈</span> Tableau for Analysts</div>
+          <span class="info-box-lbl">Program Format</span>
+          <div class="info-box-item"><span>🎥</span> 100% Live Online Classes</div>
+          <div class="info-box-item"><span>📹</span> Recordings provided after every session</div>
+          <div class="info-box-item"><span>📅</span> Tue &amp; Thu: 7 PM – 9 PM</div>
+          <div class="info-box-item"><span>📅</span> Saturday: 10 AM – 6 PM</div>
+          <div class="info-box-item"><span>⏱️</span> 8 Weeks · 20 seats per cohort</div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<hr class="glow-divider"/>
-
-<!-- ══════════════════════════════════════════════════════
-     WHY US
-     ══════════════════════════════════════════════════════ -->
-<section class="sec" id="why">
-  <div class="sec-inner">
-    <div class="reveal" style="margin-bottom:56px;">
-      <span class="sec-label">// why choose us</span>
-      <h2 class="sec-title">Built for results,<br>not just certificates</h2>
-      <p class="sec-sub">Everything about The Next Engineer is designed to get you hired.</p>
-    </div>
-    <div class="why-grid">
-      <div class="card why-card reveal"><div class="why-icon">🎯</div><h4 class="why-title">Outcome-Focused</h4><p class="why-desc">Curriculum built backwards from what employers actually hire for — not just theory.</p></div>
-      <div class="card why-card reveal"><div class="why-icon">🌐</div><h4 class="why-title">100% Online</h4><p class="why-desc">Learn at your own pace from anywhere. Flexible enough to fit around your life.</p></div>
-      <div class="card why-card reveal"><div class="why-icon">🤝</div><h4 class="why-title">Real Mentorship</h4><p class="why-desc">Live sessions with instructors who work in data every single day.</p></div>
-      <div class="card why-card reveal"><div class="why-icon">🏗️</div><h4 class="why-title">Project-Based</h4><p class="why-desc">Build a portfolio of real projects to show employers — not just quizzes.</p></div>
-      <div class="card why-card reveal"><div class="why-icon">⚡</div><h4 class="why-title">Fast-Track Learning</h4><p class="why-desc">Get job-ready as fast as possible without cutting corners on depth.</p></div>
-      <div class="card why-card reveal"><div class="why-icon">🏆</div><h4 class="why-title">Recognised Certificate</h4><p class="why-desc">A certificate that adds real credibility to your CV and LinkedIn profile.</p></div>
     </div>
   </div>
 </section>
@@ -1186,9 +1041,9 @@ body  {{
   <div class="footer-copy">© 2025 The Next Engineer · All rights reserved.</div>
   <div class="footer-links">
     <a href="{WA_URL}" target="_blank" rel="noopener">WhatsApp</a>
-    <a href="#courses">Courses</a>
-    <a href="#workshop">Workshop</a>
-    <a href="{FORM_URL}" target="_blank" rel="noopener">Enroll</a>
+    <a href="#enroll">Enroll</a>
+    <a href="#mentors">Mentors</a>
+    <a href="{FORM_URL}" target="_blank" rel="noopener">Apply Now</a>
   </div>
 </footer>
 
