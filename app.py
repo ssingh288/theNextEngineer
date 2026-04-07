@@ -796,6 +796,58 @@ body  {{
     .ws-banner        {{ padding: 8px 16px; gap: 10px; }}
     .ws-banner-text   {{ font-size: 12px; text-align: center; }}
 }}
+
+/* ════════════════════════════════════════════════════════
+   REGISTRATION MODAL
+   ════════════════════════════════════════════════════════ */
+.reg-modal {{
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(8,8,16,0.92); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center; padding: 20px;
+}}
+.reg-card {{
+    background: #0f0f1e; border: 1px solid {BORDER_BLUE};
+    border-radius: 24px; padding: 48px 40px; width: 100%; max-width: 440px;
+    position: relative; box-shadow: 0 0 80px rgba(0,71,255,0.15);
+}}
+.reg-card::before {{
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, {BLUE}, {CYAN}, transparent);
+}}
+.reg-close {{
+    position: absolute; top: 16px; right: 20px;
+    background: none; border: none; cursor: pointer;
+    font-size: 24px; color: {W50}; line-height: 1; transition: color 0.2s;
+}}
+.reg-close:hover {{ color: {WHITE}; }}
+.reg-title {{ font-size: 22px; font-weight: 800; letter-spacing: -0.04em; color: {WHITE} !important; margin-bottom: 6px; }}
+.reg-sub   {{ font-size: 13px; color: {W50} !important; margin-bottom: 28px; line-height: 1.55; }}
+.reg-label {{
+    display: block; font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: {BLUE_B} !important; margin-bottom: 8px;
+}}
+.reg-input {{
+    width: 100%; padding: 13px 16px;
+    background: rgba(255,255,255,0.04); border: 1px solid {BORDER};
+    border-radius: 12px; font-family: 'Manrope', sans-serif;
+    font-size: 14px; color: {WHITE} !important; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 20px; box-sizing: border-box;
+}}
+.reg-input::placeholder {{ color: {W20}; }}
+.reg-input:focus {{
+    border-color: {BORDER_BLUE}; box-shadow: 0 0 0 3px rgba(0,71,255,0.12);
+}}
+.reg-submit {{
+    width: 100%; padding: 15px; background: {BLUE}; color: {WHITE} !important;
+    border: none; border-radius: 100px; font-family: 'Manrope', sans-serif;
+    font-size: 15px; font-weight: 700; letter-spacing: -0.02em;
+    cursor: pointer; transition: background 0.2s, box-shadow 0.2s;
+}}
+.reg-submit:hover:not(:disabled) {{ background: {BLUE_B}; box-shadow: 0 0 40px {BLUE_GLOW}; }}
+.reg-submit:disabled {{ opacity: 0.6; cursor: not-allowed; }}
+.reg-note {{ text-align: center; font-size: 11px; color: {W20} !important; margin-top: 16px; font-family: 'Space Mono', monospace; }}
 </style>
 
 <!-- ══ Stars ═══════════════════════════════════════════ -->
@@ -816,7 +868,7 @@ body  {{
     &nbsp;—&nbsp; Intro to Data Analytics (Live Online)
   </span>
   <span class="ws-banner-sep">·</span>
-  <button onclick="window.open('https://rzp.io/rzp/XTP0oz9','_blank')" class="ws-banner-btn" style="border:none;cursor:pointer;">
+  <button onclick="openRegModal()" class="ws-banner-btn" style="border:none;cursor:pointer;">
     Register — ₹100 →
   </button>
 </div>
@@ -1024,6 +1076,31 @@ body  {{
 </footer>
 
 </div><!-- /tne-page -->
+
+<!-- ══ Registration Modal ════════════════════════════════ -->
+<div id="reg-modal" class="reg-modal">
+  <div class="reg-card">
+    <button class="reg-close" onclick="closeRegModal()" aria-label="Close">&times;</button>
+    <p class="reg-title">Register for the Workshop</p>
+    <p class="reg-sub">
+      Workshop — ₹100 &nbsp;·&nbsp; Saturday, 18 April 2026 &nbsp;·&nbsp; 10:30 AM<br>
+      Fill in your details — you'll be redirected to pay.
+    </p>
+    <form id="reg-form">
+      <label class="reg-label" for="reg-name">Full Name</label>
+      <input class="reg-input" type="text" id="reg-name" placeholder="Your name" required />
+
+      <label class="reg-label" for="reg-email">Email Address</label>
+      <input class="reg-input" type="email" id="reg-email" placeholder="you@email.com" required />
+
+      <label class="reg-label" for="reg-phone">Phone Number</label>
+      <input class="reg-input" type="tel" id="reg-phone" placeholder="+91 98765 43210" required />
+
+      <button type="submit" class="reg-submit" id="reg-submit">Proceed to Payment →</button>
+    </form>
+    <p class="reg-note">Your info is only used to send you workshop details.</p>
+  </div>
+</div>
 """
 
 HTML_HEAD = """<!DOCTYPE html>
@@ -1050,30 +1127,53 @@ HTML_FOOT = """
   <p style="font-family:'Manrope',sans-serif;font-size:15px;color:rgba(255,255,255,0.55);max-width:380px;line-height:1.6;margin:0;">Redirecting you to WhatsApp to confirm your workshop spot...</p>
 </div>
 <script>
-function openWorkshopPayment() {
-  var rzp = new Razorpay({
-    key: "rzp_live_SahJJtEgrCiJOp",
-    amount: 10000,
-    currency: "INR",
-    name: "The Next Engineer",
-    description: "Data Analytics Workshop — 18 Apr 2026",
-    handler: function(response) {
-      var msg = encodeURIComponent(
-        "Hi! I just registered for the Data Analytics Workshop. My Razorpay Payment ID: "
-        + response.razorpay_payment_id
-      );
-      var overlay = document.getElementById("rzp-success");
-      overlay.style.display = "flex";
-      setTimeout(function() {
-        window.open("https://wa.me/918019101592?text=" + msg, "_blank");
-        overlay.style.display = "none";
-      }, 2000);
-    },
-    theme: { color: "#0047ff" },
-    modal: { backdropclose: false }
-  });
-  rzp.open();
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyIahJO9hJNTd4Z08Xi7S2RtkOTZUgCxQ0xaELMFrK68lpxcdsFrEkBV-w2SXX6e-5T/exec";
+var PAYMENT_LINK    = "https://rzp.io/rzp/XTP0oz9";
+
+function openRegModal() {
+  document.getElementById('reg-modal').style.display = 'flex';
 }
+function closeRegModal() {
+  document.getElementById('reg-modal').style.display = 'none';
+  var f = document.getElementById('reg-form');
+  if (f) f.reset();
+  var b = document.getElementById('reg-submit');
+  if (b) { b.textContent = 'Proceed to Payment \u2192'; b.disabled = false; }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Close modal on backdrop click
+  document.getElementById('reg-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeRegModal();
+  });
+
+  document.getElementById('reg-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var name  = document.getElementById('reg-name').value.trim();
+    var email = document.getElementById('reg-email').value.trim();
+    var phone = document.getElementById('reg-phone').value.trim();
+
+    var btn = document.getElementById('reg-submit');
+    btn.textContent = 'Saving…';
+    btn.disabled = true;
+
+    var body = 'name=' + encodeURIComponent(name)
+             + '&email=' + encodeURIComponent(email)
+             + '&phone=' + encodeURIComponent(phone);
+
+    // no-cors: response is opaque but data reaches Apps Script
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body
+    }).finally(function() {
+      closeRegModal();
+      window.open(PAYMENT_LINK, '_blank');
+    });
+  });
+});
+
 // Resize iframe to fill the parent viewport so position:fixed works correctly
 window.addEventListener("load", function() {
   if (window.frameElement) {
