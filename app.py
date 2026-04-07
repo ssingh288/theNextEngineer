@@ -1080,46 +1080,21 @@ function openWorkshopPayment() {
   });
   rzp.open();
 }
+// Resize iframe to fill the parent viewport so position:fixed works correctly
 window.addEventListener("load", function() {
   if (window.frameElement) {
-    window.frameElement.style.height = (document.documentElement.scrollHeight + 20) + "px";
+    var vh = window.parent.innerHeight || 800;
+    window.frameElement.style.height = vh + 'px';
+    window.frameElement.style.display = 'block';
   }
+  window.addEventListener('resize', function() {
+    if (window.frameElement) {
+      window.frameElement.style.height = (window.parent.innerHeight || 800) + 'px';
+    }
+  });
 });
-
-// Make ws-banner and nav sticky relative to parent viewport (Streamlit iframe fix)
-(function() {
-  var banner = document.querySelector('.ws-banner');
-  var header = document.querySelector('.tne-header');
-  if (!banner) return;
-
-  banner.style.position = 'absolute';
-  banner.style.left = '0';
-  banner.style.right = '0';
-  banner.style.width = '100%';
-  banner.style.zIndex = '999';
-
-  if (header) {
-    header.style.position = 'absolute';
-    header.style.left = '0';
-    header.style.right = '0';
-    header.style.width = '100%';
-    header.style.zIndex = '998';
-  }
-
-  function updatePos() {
-    try {
-      var scrollY = window.parent.scrollY || window.parent.pageYOffset || 0;
-      banner.style.top = scrollY + 'px';
-      if (header) header.style.top = (scrollY + banner.offsetHeight) + 'px';
-    } catch(e) {}
-  }
-
-  try { window.parent.addEventListener('scroll', updatePos, { passive: true }); } catch(e) {}
-  updatePos();
-  setInterval(updatePos, 30);
-})();
 </script>
 </body>
 </html>"""
 
-components.html(HTML_HEAD + page + HTML_FOOT, height=8500, scrolling=False)
+components.html(HTML_HEAD + page + HTML_FOOT, height=900, scrolling=True)
