@@ -1067,7 +1067,18 @@ hr.ws-glow {{
       </select>
       <label class="reg-label" for="enroll-city">City</label>
       <input class="reg-input" type="text" id="enroll-city" placeholder="Your city" required />
-      <button type="submit" class="reg-submit" id="enroll-submit">Submit Application →</button>
+      <label class="reg-label" for="enroll-amount">Payment Amount (₹)</label>
+      <div style="position:relative;">
+        <input class="reg-input" type="number" id="enroll-amount" placeholder="e.g. 5000"
+               min="1" max="19999" required
+               style="padding-right:90px;" />
+        <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);
+                     font-size:11px;color:rgba(255,255,255,0.4);pointer-events:none;">max ₹19,999</span>
+      </div>
+      <p style="font-size:11px;color:rgba(255,255,255,0.45);margin:-6px 0 10px;line-height:1.5;">
+        Pay full ₹19,999 to confirm your seat · or pay a partial amount to reserve it now and pay the rest later.
+      </p>
+      <button type="submit" class="reg-submit" id="enroll-submit">Pay &amp; Apply →</button>
     </form>
     <p class="reg-note">Your info is only used to process your application.</p>
   </div>
@@ -1110,6 +1121,7 @@ HTML_HEAD = """<!DOCTYPE html>
 <style>
   #hero { min-height: 720px !important; }
 </style>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body style="margin:0;padding:0;">
 """
@@ -1195,20 +1207,45 @@ document.addEventListener('DOMContentLoaded', function() {{
   document.getElementById('enroll-form').addEventListener('submit', function(e) {{
     e.preventDefault();
     var btn = document.getElementById('enroll-submit');
-    btn.textContent = 'Submitting\u2026'; btn.disabled = true;
+    btn.textContent = 'Processing\u2026'; btn.disabled = true;
+
+    var name   = document.getElementById('enroll-name').value.trim();
+    var email  = document.getElementById('enroll-email').value.trim();
+    var phone  = document.getElementById('enroll-phone').value.trim();
+    var amount = parseInt(document.getElementById('enroll-amount').value, 10);
+
+    // Save to sheet (fire-and-forget)
     var body = 'formType=enroll'
-             + '&name='     + encodeURIComponent(document.getElementById('enroll-name').value.trim())
-             + '&email='    + encodeURIComponent(document.getElementById('enroll-email').value.trim())
-             + '&phone='    + encodeURIComponent(document.getElementById('enroll-phone').value.trim())
+             + '&name='     + encodeURIComponent(name)
+             + '&email='    + encodeURIComponent(email)
+             + '&phone='    + encodeURIComponent(phone)
              + '&status='   + encodeURIComponent(document.getElementById('enroll-status').value)
              + '&education='+ encodeURIComponent(document.getElementById('enroll-edu').value)
-             + '&city='     + encodeURIComponent(document.getElementById('enroll-city').value.trim());
-    fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }})
-    .finally(function() {{
-      document.getElementById('enroll-form').style.display = 'none';
-      document.getElementById('enroll-success').style.display = 'block';
-      setTimeout(closeEnrollModal, 4000);
+             + '&city='     + encodeURIComponent(document.getElementById('enroll-city').value.trim())
+             + '&amount='   + encodeURIComponent(amount);
+    fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
+
+    // Open Razorpay checkout
+    var rzp = new Razorpay({{
+      key: 'rzp_live_SahJJtEgrCiJOp',
+      amount: amount * 100,
+      currency: 'INR',
+      name: 'The Next Engineer',
+      description: 'DA Bootcamp — ' + (amount < 19999 ? 'Partial payment · seat reserved' : 'Full payment · seat confirmed'),
+      prefill: {{ name: name, email: email, contact: phone }},
+      theme: {{ color: '#00e5ff' }},
+      handler: function(response) {{
+        document.getElementById('enroll-form').style.display = 'none';
+        document.getElementById('enroll-success').style.display = 'block';
+        setTimeout(closeEnrollModal, 5000);
+      }},
+      modal: {{
+        ondismiss: function() {{
+          btn.textContent = 'Pay \u0026 Apply \u2192'; btn.disabled = false;
+        }}
+      }}
     }});
+    rzp.open();
   }});
 }});
 
