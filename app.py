@@ -1194,47 +1194,75 @@ document.addEventListener('DOMContentLoaded', function() {{
   document.getElementById('reg-form').addEventListener('submit', function(e) {{
     e.preventDefault();
     var btn = document.getElementById('reg-submit');
-    btn.textContent = 'Saving\u2026'; btn.disabled = true;
-    var body = 'name='   + encodeURIComponent(document.getElementById('reg-name').value.trim())
-             + '&email=' + encodeURIComponent(document.getElementById('reg-email').value.trim())
-             + '&phone=' + encodeURIComponent(document.getElementById('reg-phone').value.trim())
-             + '&status='+ encodeURIComponent(document.getElementById('reg-status').value);
-    fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }})
-    .finally(function() {{ closeRegModal(); window.open(PAYMENT_LINK,'_blank'); }});
+    btn.textContent = 'Opening payment\u2026'; btn.disabled = true;
+    var name   = document.getElementById('reg-name').value.trim();
+    var email  = document.getElementById('reg-email').value.trim();
+    var phone  = document.getElementById('reg-phone').value.trim();
+    var status = document.getElementById('reg-status').value;
+
+    var rzp = new Razorpay({{
+      key: 'rzp_live_SahJJtEgrCiJOp',
+      amount: 9900,
+      currency: 'INR',
+      name: 'The Next Engineer',
+      description: 'Data Analytics Workshop \u2014 18 April 2026',
+      prefill: {{ name: name, email: email, contact: phone }},
+      theme: {{ color: '#00e5ff' }},
+      handler: function(response) {{
+        // Payment successful — now save to sheet + send confirmation email
+        var body = 'formType=reg-paid'
+                 + '&name='       + encodeURIComponent(name)
+                 + '&email='      + encodeURIComponent(email)
+                 + '&phone='      + encodeURIComponent(phone)
+                 + '&status='     + encodeURIComponent(status)
+                 + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id)
+                 + '&amount=99';
+        fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
+        closeRegModal();
+      }},
+      modal: {{
+        ondismiss: function() {{
+          btn.textContent = 'Pay \u20b999 \u0026 Reserve \u2192'; btn.disabled = false;
+        }}
+      }}
+    }});
+    rzp.open();
   }});
 
   // Enroll form submit
   document.getElementById('enroll-form').addEventListener('submit', function(e) {{
     e.preventDefault();
     var btn = document.getElementById('enroll-submit');
-    btn.textContent = 'Processing\u2026'; btn.disabled = true;
+    btn.textContent = 'Opening payment\u2026'; btn.disabled = true;
 
     var name   = document.getElementById('enroll-name').value.trim();
     var email  = document.getElementById('enroll-email').value.trim();
     var phone  = document.getElementById('enroll-phone').value.trim();
+    var status = document.getElementById('enroll-status').value;
+    var edu    = document.getElementById('enroll-edu').value;
+    var city   = document.getElementById('enroll-city').value.trim();
     var amount = parseInt(document.getElementById('enroll-amount').value, 10);
 
-    // Save to sheet (fire-and-forget)
-    var body = 'formType=enroll'
-             + '&name='     + encodeURIComponent(name)
-             + '&email='    + encodeURIComponent(email)
-             + '&phone='    + encodeURIComponent(phone)
-             + '&status='   + encodeURIComponent(document.getElementById('enroll-status').value)
-             + '&education='+ encodeURIComponent(document.getElementById('enroll-edu').value)
-             + '&city='     + encodeURIComponent(document.getElementById('enroll-city').value.trim())
-             + '&amount='   + encodeURIComponent(amount);
-    fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
-
-    // Open Razorpay checkout
     var rzp = new Razorpay({{
       key: 'rzp_live_SahJJtEgrCiJOp',
       amount: amount * 100,
       currency: 'INR',
       name: 'The Next Engineer',
-      description: 'DA Bootcamp — ' + (amount < 19999 ? 'Partial payment · seat reserved' : 'Full payment · seat confirmed'),
+      description: 'DA Bootcamp \u2014 ' + (amount < 19999 ? 'Partial payment \u00b7 seat reserved' : 'Full payment \u00b7 seat confirmed'),
       prefill: {{ name: name, email: email, contact: phone }},
       theme: {{ color: '#00e5ff' }},
       handler: function(response) {{
+        // Payment successful — save to sheet + send confirmation email
+        var body = 'formType=enroll-paid'
+                 + '&name='       + encodeURIComponent(name)
+                 + '&email='      + encodeURIComponent(email)
+                 + '&phone='      + encodeURIComponent(phone)
+                 + '&status='     + encodeURIComponent(status)
+                 + '&education='  + encodeURIComponent(edu)
+                 + '&city='       + encodeURIComponent(city)
+                 + '&amount='     + encodeURIComponent(amount)
+                 + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id);
+        fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
         document.getElementById('enroll-form').style.display = 'none';
         document.getElementById('enroll-success').style.display = 'block';
         setTimeout(closeEnrollModal, 5000);
