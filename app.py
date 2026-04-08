@@ -1069,14 +1069,14 @@ hr.ws-glow {{
       <input class="reg-input" type="text" id="enroll-city" placeholder="Your city" required />
       <label class="reg-label" for="enroll-amount">Payment Amount (₹)</label>
       <div style="position:relative;">
-        <input class="reg-input" type="number" id="enroll-amount" placeholder="e.g. 5000"
-               min="1" max="19999" required
+        <input class="reg-input" type="number" id="enroll-amount" placeholder="min ₹5,000"
+               min="5000" max="19999" required
                style="padding-right:90px;" />
         <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);
                      font-size:11px;color:rgba(255,255,255,0.4);pointer-events:none;">max ₹19,999</span>
       </div>
       <p style="font-size:11px;color:rgba(255,255,255,0.45);margin:-6px 0 10px;line-height:1.5;">
-        Pay full ₹19,999 to confirm your seat · or pay a partial amount to reserve it now and pay the rest later.
+        Pay full ₹19,999 to confirm your seat · or pay min ₹5,000 to reserve it now and pay the rest later.
       </p>
       <button type="submit" class="reg-submit" id="enroll-submit">Pay &amp; Apply →</button>
     </form>
