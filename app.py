@@ -726,7 +726,10 @@ hr.ws-glow {{
         and honest time it takes to master each role.
       </p>
       <div class="ws-price-row">
-        <div class="ws-price">₹99</div>
+        <div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.4);text-decoration:line-through;margin-bottom:2px;">₹299</div>
+          <div class="ws-price">₹99</div>
+        </div>
         <div class="ws-price-note">One-time entry fee<br>Seats fill fast</div>
       </div>
       <button onclick="openRegModal()" class="ws-cta-btn">Reserve My Seat →</button>
@@ -787,6 +790,7 @@ hr.ws-glow {{
         <div>
           <div class="ws-instructor-name">Sandeep Singh</div>
           <div class="ws-instructor-role">Founder · The Next Engineer</div>
+          <div class="ws-instructor-role" style="color:rgba(255,255,255,0.55);font-size:12px;margin-top:2px;">Senior Data Engineer at Guardant Health</div>
           <p class="ws-instructor-bio">
             Trained 50+ students across France, Sweden &amp; India. Worked with
             Nova.space, Ironhack, Guardant Health and Cognizant.
@@ -924,6 +928,7 @@ hr.ws-glow {{
         <div class="mentor-info">
           <h4 class="mentor-name">Sandeep Singh</h4>
           <p class="mentor-role">Founder &amp; Lead Instructor</p>
+          <p class="mentor-role" style="font-size:12px;color:rgba(255,255,255,0.50);margin-top:2px;">Senior Data Engineer at Guardant Health</p>
           <a href="https://www.linkedin.com/in/sandeepsingh1910/" target="_blank" rel="noopener" class="mentor-linkedin">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             LinkedIn
@@ -970,6 +975,13 @@ hr.ws-glow {{
         <div class="timing-note">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="6"/><path d="M7 4v3l2 2"/></svg>
           Response within 24 hours guaranteed
+        </div>
+        <div style="margin:16px 0 0;text-align:center;">
+          <span style="font-size:13px;color:rgba(255,255,255,0.4);text-decoration:line-through;">₹24,999</span>
+          <span style="font-size:26px;font-weight:700;color:#00e5ff;margin-left:10px;">₹19,999</span>
+        </div>
+        <div style="text-align:center;margin-bottom:16px;font-size:12px;color:rgba(255,255,255,0.5);">
+          🎓 Scholarships for best performers at end of Week 8
         </div>
         <div class="info-box">
           <span class="info-box-lbl">Program Format</span>
