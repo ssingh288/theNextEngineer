@@ -699,7 +699,7 @@ hr.ws-glow {{
   <span class="ws-banner-text">
     🗓&nbsp; <strong>Workshop — ₹99:</strong>&nbsp;
     <span class="ws-date">Saturday, 18 April 2026 · 10:00 AM – 11:30 AM</span>
-    &nbsp;—&nbsp; Your First Step towards the Data Team (Live Online)
+    &nbsp;—&nbsp; Your First Step into Data Analytics (Live Online)
   </span>
   <span class="ws-banner-sep">·</span>
   <button onclick="openRegModal()" class="ws-banner-btn">Register — ₹99 →</button>
@@ -718,12 +718,11 @@ hr.ws-glow {{
         Live Online &nbsp;·&nbsp; Saturday, 18 April 2026 &nbsp;·&nbsp; 10:00 AM – 11:30 AM
       </div>
       <h1 class="ws-h1">
-        Your First Step towards<br><span class="cyan">the Data Team</span>
+        Your First Step into<br><span class="cyan">Data Analytics</span>
       </h1>
       <p class="ws-sub">
-        A 1.5-hour workshop where you'll see exactly how a Data Analyst, Data Engineer,
-        Data Scientist and Business Analyst work — real tools, skills required,
-        and honest time it takes to master each role.
+        A 1.5-hour hands-on workshop where you'll see exactly what a Data Analyst does —
+        real tools, real data, and a clear roadmap to go from zero to job-ready.
       </p>
       <div class="ws-price-row">
         <div>
@@ -747,34 +746,34 @@ hr.ws-glow {{
     <!-- What you'll learn -->
     <section>
       <span class="ws-sec-label">// what you'll walk away with</span>
-      <h2 class="ws-sec-title">4 roles. 1.5 hours. Zero fluff.</h2>
+      <h2 class="ws-sec-title">4 things you'll learn<br>in 1.5 hours</h2>
       <ul class="ws-learn-list">
         <li class="ws-learn-item">
           <span class="ws-learn-icon">📊</span>
           <div class="ws-learn-text">
-            <strong>Data Analyst</strong>
-            <span>You become the person everyone turns to for answers. Your charts sit in boardroom presentations. Your findings help companies save money and make smarter decisions. Great starting point — achievable without a degree in 4–6 months.</span>
+            <strong>What a Data Analyst actually does</strong>
+            <span>No jargon. You'll see what a data analyst does on a real Monday morning at work — the questions they answer, the tools they open, and why companies can't function without them.</span>
           </div>
         </li>
         <li class="ws-learn-item">
-          <span class="ws-learn-icon">⚙️</span>
+          <span class="ws-learn-icon">🐍</span>
           <div class="ws-learn-text">
-            <strong>Data Engineer</strong>
-            <span>Less visible but one of the highest-paid roles in tech. You build the systems that power every other data role. If you enjoy building things and solving complex problems — this is your lane. 8–12 months to get job-ready.</span>
+            <strong>Your first Python + SQL query — live</strong>
+            <span>We'll pull real data and answer a real business question together, step by step. You don't need any experience — just follow along and it'll click.</span>
           </div>
         </li>
         <li class="ws-learn-item">
-          <span class="ws-learn-icon">🤖</span>
+          <span class="ws-learn-icon">📈</span>
           <div class="ws-learn-text">
-            <strong>Data Scientist</strong>
-            <span>The role that makes headlines. You predict outcomes, spot hidden patterns and build AI models. It's the most exciting — and the most challenging. Requires patience, but the career ceiling is sky-high. Plan for 10–14 months.</span>
+            <strong>How to turn numbers into a story</strong>
+            <span>See how pros build charts that actually convince managers to take action. This is the skill that makes an analyst valuable — and we'll show you how it's done.</span>
           </div>
         </li>
         <li class="ws-learn-item">
-          <span class="ws-learn-icon">💼</span>
+          <span class="ws-learn-icon">🗺️</span>
           <div class="ws-learn-text">
-            <strong>Business Analyst</strong>
-            <span>The easiest door into the data world, especially if you already have work experience. You translate what the business needs into what the data team builds. High demand, good pay, and you don't need to code heavily. 3–5 months.</span>
+            <strong>Your personal roadmap to become an analyst</strong>
+            <span>What to learn, in what order, and how long it realistically takes — no BS. Walk away with a clear plan and the confidence that this is absolutely doable for you.</span>
           </div>
         </li>
       </ul>
