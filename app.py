@@ -76,6 +76,131 @@ BORDER      = "rgba(255,255,255,0.10)"
 BORDER_BLUE = "rgba(0,100,255,0.35)"
 BLUE_GLOW   = "rgba(0,71,255,0.40)"
 
+# ── Curriculum PDF ────────────────────────────────────────────────────────────
+@st.cache_data
+def _build_curriculum_pdf_b64():
+    try:
+        from fpdf import FPDF
+    except ImportError:
+        return ""
+
+    CURRICULUM = [
+        {"week":1,"focus":"Python + Dev Setup",
+         "tue":"VS Code + Copilot/Claude setup  ·  data types, loops, conditions",
+         "thu":"Functions  ·  data structures  ·  GitHub (init, commit, push)",
+         "sat_lec":"Modules  ·  error handling  ·  file I/O",
+         "sat_proj":"Build a Python game (Hangman / Tic-Tac-Toe / Quiz)  ·  push to GitHub"},
+        {"week":2,"focus":"Python Deeper + APIs",
+         "tue":"OOP  ·  classes  ·  file read/write",
+         "thu":"requests library  ·  JSON APIs  ·  GitHub branches + PRs",
+         "sat_lec":"Build and consume a live API  ·  store response as JSON/CSV",
+         "sat_proj":"Weather app or News feed CLI using a public API  ·  raise a PR on GitHub"},
+        {"week":3,"focus":"SQL",
+         "tue":"SELECT  ·  WHERE  ·  JOINs  ·  GROUP BY",
+         "thu":"Subqueries  ·  CTEs  ·  window functions",
+         "sat_lec":"SQL + Python (sqlite3, pd.read_sql)  ·  date functions",
+         "sat_proj":"Analyze an Indian e-commerce / IPL / Zomato dataset in SQL"},
+        {"week":4,"focus":"Pandas + NumPy + Web Scraping",
+         "tue":"NumPy  ·  Pandas Series, DataFrames  ·  data cleaning",
+         "thu":"Pandas groupby  ·  merge  ·  pivot  ·  apply/lambda",
+         "sat_lec":"BeautifulSoup  ·  scraping static pages  ·  scraping + Pandas",
+         "sat_proj":"Scrape a real site  ·  clean with Pandas  ·  answer 5 business questions"},
+        {"week":5,"focus":"Statistics + Probability + EDA",
+         "tue":"Descriptive stats  ·  distributions  ·  probability",
+         "thu":"Hypothesis testing  ·  A/B testing  ·  correlation",
+         "sat_lec":"EDA framework  ·  feature engineering  ·  outlier treatment",
+         "sat_proj":"Full EDA on a messy real dataset  ·  document findings in a notebook"},
+        {"week":6,"focus":"Visualization + Streamlit",
+         "tue":"Matplotlib + Seaborn  (line, bar, heatmap, scatter)",
+         "thu":"Streamlit basics  ·  layout  ·  widgets  ·  charts",
+         "sat_lec":"Streamlit multi-page apps  ·  deployment on Streamlit Cloud",
+         "sat_proj":"Re-present Week 5 EDA as a live Streamlit dashboard  ·  push + deploy"},
+        {"week":7,"focus":"ML — Supervised Learning",
+         "tue":"Linear regression  ·  train/test split  ·  evaluation metrics",
+         "thu":"Logistic regression  ·  decision trees  ·  random forest",
+         "sat_lec":"Cross-validation  ·  hyperparameter tuning  ·  feature importance",
+         "sat_proj":"Predict customer churn or house prices  ·  Streamlit prediction UI"},
+        {"week":8,"focus":"ML — Unsupervised + Recommendations",
+         "tue":"K-means  ·  hierarchical clustering  ·  PCA",
+         "thu":"Content-based filtering  ·  collaborative filtering  ·  cosine similarity",
+         "sat_lec":"Build a recommendation engine end-to-end",
+         "sat_proj":"Capstone: raw data  →  EDA  →  ML model  →  Streamlit app  →  GitHub"},
+    ]
+
+    class PDF(FPDF):
+        def footer(self):
+            self.set_y(-11)
+            self.set_font("Helvetica", "I", 7)
+            self.set_text_color(150, 150, 170)
+            self.cell(0, 5, "The Next Engineer  ·  Live Online Bootcamp  ·  wa.me/918019101592", align="C")
+
+    pdf = PDF(orientation="P", unit="mm", format="A4")
+    pdf.set_auto_page_break(auto=True, margin=18)
+    pdf.set_margins(12, 12, 12)
+    pdf.add_page()
+    W = 186  # usable width
+
+    # Banner
+    pdf.set_fill_color(0, 71, 255)
+    pdf.set_text_color(255, 255, 255)
+    pdf.set_font("Helvetica", "B", 20)
+    pdf.cell(W, 13, "The Next Engineer", align="C", fill=True, ln=True)
+    pdf.set_fill_color(0, 50, 200)
+    pdf.set_font("Helvetica", "B", 10)
+    pdf.cell(W, 8, "Data Analytics Bootcamp  —  8-Week Live Curriculum", align="C", fill=True, ln=True)
+    pdf.set_fill_color(220, 232, 255)
+    pdf.set_text_color(20, 30, 90)
+    pdf.set_font("Helvetica", "", 8)
+    pdf.cell(W, 7, "Live Online  |  Tue & Thu 7-9 PM  |  Sat 10 AM-6 PM  |  12h/week  |  20 seats  |  Starts 4 May 2026", align="C", fill=True, ln=True)
+    pdf.ln(5)
+
+    LW, CW = 24, 162  # label / content column widths
+
+    for item in CURRICULUM:
+        if pdf.get_y() > 252:
+            pdf.add_page()
+
+        # Week header
+        pdf.set_fill_color(0, 71, 255)
+        pdf.set_text_color(255, 255, 255)
+        pdf.set_font("Helvetica", "B", 9)
+        pdf.set_x(12)
+        pdf.cell(W, 6.5, f"  WEEK {item['week']}    {item['focus'].upper()}", fill=True, ln=True)
+
+        rows = [
+            ("Tue",         item["tue"],      (248, 251, 255)),
+            ("Thu",         item["thu"],      (240, 245, 255)),
+            ("Sat Lecture", item["sat_lec"],  (248, 251, 255)),
+            ("Sat Project", item["sat_proj"], (233, 243, 255)),
+        ]
+
+        for label, content, bg in rows:
+            y0 = pdf.get_y()
+            pdf.set_fill_color(*bg)
+            pdf.set_text_color(20, 20, 50)
+            # label
+            pdf.set_font("Helvetica", "B", 7.5)
+            pdf.set_xy(12, y0)
+            pdf.multi_cell(LW, 4.5, label, border=0, fill=True, align="L")
+            y1 = pdf.get_y()
+            # content
+            pdf.set_font("Helvetica", "", 7.5)
+            pdf.set_xy(12 + LW, y0)
+            pdf.multi_cell(CW, 4.5, content, border=0, fill=True, align="L")
+            y2 = pdf.get_y()
+            # fill label gap if content wrapped further
+            if y1 < y2:
+                pdf.set_fill_color(*bg)
+                pdf.set_xy(12, y1)
+                pdf.cell(LW, y2 - y1, "", fill=True)
+            pdf.set_y(y2)
+
+        pdf.ln(3)
+
+    return base64.b64encode(bytes(pdf.output())).decode()
+
+PDF_B64 = _build_curriculum_pdf_b64()
+
 page = f"""
 <style>
 /* ── BASE ── */
@@ -835,6 +960,23 @@ hr.ws-glow {{
           <div class="ws-detail-text"><strong>No prior experience needed</strong><span>Just bring curiosity &amp; a laptop</span></div>
         </div>
       </div>
+    </section>
+
+    <!-- Curriculum Download -->
+    <section style="text-align:center;padding:8px 0 0;">
+      <span class="ws-sec-label">// the full bootcamp</span>
+      <h2 class="ws-sec-title" style="margin-bottom:12px;">Curious about the full 8-week roadmap?</h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:28px;line-height:1.6;max-width:500px;margin-left:auto;margin-right:auto;">
+        Download the complete week-by-week curriculum for the Data Analytics Bootcamp starting 4th May 2026.
+      </p>
+      <a href="data:application/pdf;base64,{PDF_B64}"
+         download="TheNextEngineer_DataAnalytics_Curriculum.pdf"
+         style="display:inline-flex;align-items:center;gap:10px;background:transparent;color:#4f9eff;padding:15px 36px;border-radius:100px;border:1.5px solid #4f9eff;font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;letter-spacing:-0.02em;text-decoration:none;transition:background 0.2s,color 0.2s,box-shadow 0.2s;">
+        Download Bootcamp Curriculum
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 2v9M4 7l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
     </section>
 
     <hr class="ws-glow"/>
