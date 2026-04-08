@@ -1014,6 +1014,16 @@ hr.ws-glow {{
       <span style="font-size:13px;color:rgba(255,255,255,0.4);text-decoration:line-through;">₹24,999</span>
       <span style="font-size:20px;font-weight:700;color:#00e5ff;margin-left:8px;">₹19,999</span>
     </div>
+    <div style="margin-top:10px;text-align:center;">
+      <a href="data:application/pdf;base64,{PDF_B64}"
+         download="TheNextEngineer_DataAnalytics_Curriculum.pdf"
+         style="display:inline-flex;align-items:center;gap:7px;color:rgba(79,158,255,0.85);font-size:13px;font-weight:600;text-decoration:none;letter-spacing:-0.01em;">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+          <path d="M8 2v9M4 7l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Download Full Curriculum (PDF)
+      </a>
+    </div>
   </div>
   <div class="hero-courses reveal" style="margin-top:12px;">
     <div class="hero-course-label">What we teach</div>
