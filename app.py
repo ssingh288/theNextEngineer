@@ -746,7 +746,7 @@ hr.ws-glow {{
     <!-- What you'll learn -->
     <section>
       <span class="ws-sec-label">// what you'll walk away with</span>
-      <h2 class="ws-sec-title">4 things you'll learn<br>in 1.5 hours</h2>
+      <h2 class="ws-sec-title">4 things you'll learn in 1.5 hours</h2>
       <ul class="ws-learn-list">
         <li class="ws-learn-item">
           <span class="ws-learn-icon">📊</span>
