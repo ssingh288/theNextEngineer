@@ -727,7 +727,7 @@ hr.ws-glow {{
       </p>
       <div class="ws-price-row">
         <div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.4);text-decoration:line-through;margin-bottom:2px;">₹299</div>
+          <div style="font-size:18px;color:rgba(255,255,255,0.4);text-decoration:line-through;margin-bottom:2px;">₹299</div>
           <div class="ws-price">₹99</div>
         </div>
         <div class="ws-price-note">One-time entry fee<br>Seats fill fast</div>
