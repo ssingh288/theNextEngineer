@@ -880,12 +880,16 @@ hr.ws-glow {{
   </div>
   <h1 class="hero-h1" style="white-space:nowrap;">Learn. Build. Grow 📈</h1>
   <div class="hero-ctas">
-    <button onclick="openEnrollModal()" class="btn-p" style="border:none;cursor:pointer;">
+    <button onclick="document.getElementById('enroll').scrollIntoView({{behavior:'smooth'}})" class="btn-p" style="border:none;cursor:pointer;">
       Enroll Now
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
+    <div style="margin-top:10px;text-align:center;">
+      <span style="font-size:13px;color:rgba(255,255,255,0.4);text-decoration:line-through;">₹24,999</span>
+      <span style="font-size:20px;font-weight:700;color:#00e5ff;margin-left:8px;">₹19,999</span>
+    </div>
   </div>
   <div class="hero-courses reveal" style="margin-top:12px;">
     <div class="hero-course-label">What we teach</div>
