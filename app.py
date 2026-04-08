@@ -962,23 +962,6 @@ hr.ws-glow {{
       </div>
     </section>
 
-    <!-- Curriculum Download -->
-    <section style="text-align:center;padding:8px 0 0;">
-      <span class="ws-sec-label">// the full bootcamp</span>
-      <h2 class="ws-sec-title" style="margin-bottom:12px;">Curious about the full 8-week roadmap?</h2>
-      <p style="font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:28px;line-height:1.6;max-width:500px;margin-left:auto;margin-right:auto;">
-        Download the complete week-by-week curriculum for the Data Analytics Bootcamp starting 4th May 2026.
-      </p>
-      <a href="data:application/pdf;base64,{PDF_B64}"
-         download="TheNextEngineer_DataAnalytics_Curriculum.pdf"
-         style="display:inline-flex;align-items:center;gap:10px;background:transparent;color:#4f9eff;padding:15px 36px;border-radius:100px;border:1.5px solid #4f9eff;font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;letter-spacing:-0.02em;text-decoration:none;transition:background 0.2s,color 0.2s,box-shadow 0.2s;">
-        Download Bootcamp Curriculum
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 2v9M4 7l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-    </section>
-
     <hr class="ws-glow"/>
 
     <!-- Final CTA -->
@@ -1120,6 +1103,16 @@ hr.ws-glow {{
         <div class="timing-note">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="6"/><path d="M7 4v3l2 2"/></svg>
           Response within 24 hours guaranteed
+        </div>
+        <div style="text-align:center;margin-top:14px;">
+          <a href="data:application/pdf;base64,{PDF_B64}"
+             download="TheNextEngineer_DataAnalytics_Curriculum.pdf"
+             style="display:inline-flex;align-items:center;gap:8px;color:rgba(79,158,255,0.85);font-size:13px;font-weight:600;text-decoration:none;letter-spacing:-0.01em;">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2v9M4 7l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Download Full Curriculum (PDF)
+          </a>
         </div>
         <div style="margin:16px 0 0;text-align:center;">
           <span style="font-size:13px;color:rgba(255,255,255,0.4);text-decoration:line-through;">₹24,999</span>
