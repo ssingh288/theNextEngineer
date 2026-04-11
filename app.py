@@ -1344,6 +1344,11 @@ hr.ws-glow {{
     </div>
   </div>
 </div>
+
+<!-- ── End-of-body init: runs as soon as full DOM is parsed, no DOMContentLoaded needed ── -->
+<script>
+if (typeof _initPage === 'function') _initPage();
+</script>
 """
 
 HTML_HEAD = f"""<!DOCTYPE html>
@@ -1534,8 +1539,11 @@ function closeEnrollModal() {{
   if (b) {{ b.disabled = true; b.style.opacity = '0.4'; b.style.cursor = 'not-allowed'; b.textContent = 'Pay \u0026 Apply \u2192'; }}
 }}
 
-document.addEventListener('DOMContentLoaded', function() {{
-  dbg('DOMContentLoaded fired');
+var _pageInited = false;
+function _initPage() {{
+  if (_pageInited) return;
+  _pageInited = true;
+  dbg('_initPage called');
   // ── Bind all handlers FIRST — before anything else can throw ──
   _bindAll();
   dbg('_bindAll done — tab-btns:' + document.querySelectorAll('.tab-btn').length + ' ws-cta:' + document.querySelectorAll('.ws-cta-btn').length);
@@ -1708,6 +1716,10 @@ document.addEventListener('DOMContentLoaded', function() {{
     }}
   }});
 
+}}
+document.addEventListener('DOMContentLoaded', function() {{
+  dbg('DOMContentLoaded fired');
+  _initPage();
 }});
 
 // ── Fill viewport ──
@@ -1774,7 +1786,7 @@ function _bindAll() {{
   }});
 }}
 </script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
 </head>
 <body style="margin:0;padding:0;">
 <div id="js-status" style="position:fixed;bottom:52px;right:10px;background:#cc0000;color:#fff;font-family:monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;z-index:99999999;pointer-events:none;">JS:WAIT</div>
