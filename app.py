@@ -1466,7 +1466,7 @@ function closeRegModal() {{
   // Reset OTP state
   regOTP = null;
   document.getElementById('reg-send-otp').style.display = 'block';
-  document.getElementById('reg-send-otp').textContent = '\ud83d\udce7 Send verification code to this email';
+  document.getElementById('reg-send-otp').textContent = '📧 Send verification code to this email';
   document.getElementById('reg-send-otp').disabled = false;
   document.getElementById('reg-otp-section').style.display = 'none';
   document.getElementById('reg-otp-verified').style.display = 'none';
@@ -1487,7 +1487,7 @@ function closeEnrollModal() {{
   // Reset OTP state
   enrollOTP = null;
   document.getElementById('enroll-send-otp').style.display = 'block';
-  document.getElementById('enroll-send-otp').textContent = '\ud83d\udce7 Send verification code to this email';
+  document.getElementById('enroll-send-otp').textContent = '📧 Send verification code to this email';
   document.getElementById('enroll-send-otp').disabled = false;
   document.getElementById('enroll-otp-section').style.display = 'none';
   document.getElementById('enroll-otp-verified').style.display = 'none';
@@ -1499,11 +1499,11 @@ function closeEnrollModal() {{
 document.addEventListener('DOMContentLoaded', function() {{
   // Auto-verify OTP when 6 digits typed
   document.getElementById('reg-otp-input').addEventListener('input', function() {{
-    this.value = this.value.replace(/\D/g, '');
+    this.value = this.value.replace(/\\D/g, '');
     if (this.value.length === 6) verifyRegOTP();
   }});
   document.getElementById('enroll-otp-input').addEventListener('input', function() {{
-    this.value = this.value.replace(/\D/g, '');
+    this.value = this.value.replace(/\\D/g, '');
     if (this.value.length === 6) verifyEnrollOTP();
   }});
 
