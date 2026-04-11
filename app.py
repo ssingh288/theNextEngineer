@@ -1360,8 +1360,16 @@ if (typeof window.closeEnrollModal !== 'function') {{
     <p class="reg-note">Your info is only used to send you workshop details.</p>
     <div id="reg-success" style="display:none;text-align:center;padding:24px 0;">
       <div style="font-size:48px;margin-bottom:16px;">🎉</div>
-      <p style="font-size:17px;font-weight:700;color:#fff;margin-bottom:8px;">Payment Successful!</p>
+      <p id="reg-success-title" style="font-size:17px;font-weight:700;color:#fff;margin-bottom:8px;">Payment Successful!</p>
       <p id="reg-success-msg" style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:20px;"></p>
+      <a id="reg-mobile-pay-btn" href="#" target="_blank" rel="noopener"
+         style="display:none;align-items:center;justify-content:center;gap:8px;
+                background:#0047ff;color:#fff;font-size:15px;font-weight:700;
+                padding:14px 28px;border-radius:100px;text-decoration:none;
+                letter-spacing:-0.01em;margin-bottom:14px;">
+        Complete Payment →
+      </a>
+      <br id="reg-mobile-pay-br" style="display:none;">
       <a id="reg-wa-btn" href="https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG" target="_blank" rel="noopener"
          style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;
                 font-size:15px;font-weight:700;padding:14px 28px;border-radius:100px;
@@ -1442,13 +1450,17 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var status = document.getElementById('reg-status').value;
       var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (isMobile) {{
-        /* Mobile: save details to sheet first, then open standalone payment link */
+        /* Mobile: save details to sheet first, then show payment button in modal */
         var mbody = 'formType=reg-mobile&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status);
         fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:mbody }});
         document.getElementById('reg-form').style.display = 'none';
         document.getElementById('reg-success').style.display = 'block';
-        document.getElementById('reg-success-msg').textContent = 'Taking you to the payment page\u2026 Complete payment there, then join the WhatsApp group below.';
-        try {{ window.top.open('https://rzp.io/rzp/JgiKfTI', '_blank'); }} catch(err) {{ window.open('https://rzp.io/rzp/JgiKfTI', '_blank'); }}
+        document.getElementById('reg-success-title').textContent = 'Almost there!';
+        document.getElementById('reg-success-msg').textContent = 'Your details are saved. Tap below to complete your payment, then join the WhatsApp group.';
+        var payBtn = document.getElementById('reg-mobile-pay-btn');
+        payBtn.href = 'https://rzp.io/rzp/JgiKfTI';
+        payBtn.style.display = 'inline-flex';
+        document.getElementById('reg-mobile-pay-br').style.display = 'inline';
       }} else {{
         if (typeof Razorpay === 'undefined') {{
           alert('Payment system is still loading — please try in a moment.');
