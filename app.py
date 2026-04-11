@@ -1293,6 +1293,44 @@ hr.ws-glow {{
     </div>
 
   </div>
+
+  <div style="text-align:center;margin-top:48px;padding-bottom:40px;">
+    <button id="dummy-pay-btn"
+      style="background:#0047ff;color:#fff;padding:16px 40px;border:none;border-radius:100px;
+             font-size:17px;font-weight:700;cursor:pointer;letter-spacing:-0.02em;
+             transition:background 0.2s,box-shadow 0.2s;"
+      onmouseover="this.style.background='#4f9eff'"
+      onmouseout="this.style.background='#0047ff'">
+      Register Now — ₹10
+    </button>
+    <p style="margin-top:12px;font-size:13px;color:rgba(255,255,255,0.4);">Test payment — ₹10 only</p>
+  </div>
+  <script>
+  document.getElementById('dummy-pay-btn').addEventListener('click', function() {{
+    var btn = this;
+    if (typeof Razorpay === 'undefined') {{
+      btn.textContent = 'Loading… try again in a sec';
+      setTimeout(function() {{ btn.textContent = 'Register Now — ₹10'; }}, 2000);
+      return;
+    }}
+    var rzp = new Razorpay({{
+      key: 'rzp_live_SahJJtEgrCiJOp',
+      amount: 1000,
+      currency: 'INR',
+      name: 'The Next Engineer',
+      description: 'Test Registration — ₹10',
+      handler: function(response) {{
+        btn.textContent = 'Payment done ✓';
+        btn.style.background = '#00db57';
+      }},
+      modal: {{
+        ondismiss: function() {{ btn.textContent = 'Register Now — ₹10'; }}
+      }}
+    }});
+    rzp.open();
+  }});
+  </script>
+
 </div>
 </div><!-- /tab-dummy -->
 
