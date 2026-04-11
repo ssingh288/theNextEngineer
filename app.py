@@ -917,7 +917,7 @@ hr.ws-glow {{
         <div class="ws-price-note">One-time entry fee<br>Seats fill fast</div>
       </div>
       <button onclick="openRegModal()" class="ws-cta-btn">Reserve My Seat →</button>
-      <p class="ws-seats-note">⚡ Seats are limited — register early</p>
+      <p class="ws-seats-note">⚡ Only <span>30 seats</span> available — register early</p>
       <div class="ws-countdown">
         <div class="cd-block"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">Days</div></div>
         <div class="cd-block"><div class="cd-num" id="cd-hours">--</div><div class="cd-lbl">Hours</div></div>
@@ -1009,7 +1009,7 @@ hr.ws-glow {{
         </div>
         <div class="ws-detail-item">
           <span class="ws-detail-icon">🎟️</span>
-          <div class="ws-detail-text"><strong>Only ₹99 entry</strong><span>Limited seats · Register early</span></div>
+          <div class="ws-detail-text"><strong>Only ₹99 entry</strong><span>30 seats only · Register early</span></div>
         </div>
         <div class="ws-detail-item">
           <span class="ws-detail-icon">❓</span>
@@ -1392,7 +1392,7 @@ var APPS_SCRIPT_URL = "{APPS_SCRIPT_URL}";
 var PAYMENT_LINK    = "{PAYMENT_LINK}";
 
 // ── Countdown ──
-var cdTarget = new Date("2026-04-18T05:00:00Z");
+var cdTarget = new Date("2026-04-18T04:30:00Z");
 function tick() {{
   var diff = cdTarget - new Date();
   if (diff <= 0) {{ document.querySelector('.ws-countdown') && (document.querySelector('.ws-countdown').style.display='none'); return; }}
@@ -1651,7 +1651,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   document.getElementById('enroll-form').addEventListener('submit', function(e) {{
     e.preventDefault();
     var btn = document.getElementById('enroll-submit');
-    btn.textContent = 'Opening payment\u2026'; btn.disabled = true;
+    btn.textContent = 'Submitting\u2026'; btn.disabled = true;
 
     var name   = document.getElementById('enroll-name').value.trim();
     var email  = document.getElementById('enroll-email').value.trim();
@@ -1661,55 +1661,92 @@ document.addEventListener('DOMContentLoaded', function() {{
     var city   = document.getElementById('enroll-city').value.trim();
     var amount = parseInt(document.getElementById('enroll-amount').value, 10);
 
-    // Show loading overlay immediately
     var loadingEl  = document.getElementById('pay-loading');
     var loadingMsg = document.getElementById('pay-loading-sub');
-    loadingEl.style.display = 'flex';
-    loadingMsg.textContent = 'Please do not close this window.';
 
-    var rzp = new Razorpay({{
-      key: 'rzp_live_SahJJtEgrCiJOp',
-      amount: amount * 100,
-      currency: 'INR',
-      name: 'The Next Engineer',
-      description: 'DA Bootcamp \u2014 ' + (amount < 19999 ? 'Partial payment \u00b7 seat reserved' : 'Full payment \u00b7 seat confirmed'),
-      prefill: {{ name: name, email: email, contact: phone }},
-      theme: {{ color: '#00e5ff' }},
-      handler: function(response) {{
-        loadingEl.style.display = 'none';
-        var body = 'formType=enroll-paid'
-                 + '&name='       + encodeURIComponent(name)
-                 + '&email='      + encodeURIComponent(email)
-                 + '&phone='      + encodeURIComponent(phone)
-                 + '&status='     + encodeURIComponent(status)
-                 + '&education='  + encodeURIComponent(edu)
-                 + '&city='       + encodeURIComponent(city)
-                 + '&amount='     + encodeURIComponent(amount)
-                 + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id);
-        fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
-        document.getElementById('enroll-success-msg').innerHTML =
-          'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
-          + 'We\'ll review your details and get back to you within 24 hours.<br><br>'
-          + '<a href="https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG" target="_blank" rel="noopener" '
-          + 'style="display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:11px 22px;'
-          + 'background:#25D366;color:#fff;border-radius:100px;font-weight:700;font-size:14px;'
-          + 'text-decoration:none;letter-spacing:-0.01em;">'
-          + '<svg width="18" height="18" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm6.267 18.926c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/></svg>'
-          + 'Join WhatsApp Community</a>';
-        document.getElementById('enroll-form').style.display = 'none';
-        document.getElementById('enroll-success').style.display = 'block';
-        setTimeout(closeEnrollModal, 20000);
-      }},
-      modal: {{
-        ondismiss: function() {{
+    var WA_ENROLL = 'https://wa.me/918019101592?text='
+      + encodeURIComponent('Hi Sandeep! I just applied for the Data Analytics Bootcamp.\nName: ' + name + '\nEmail: ' + email + '\nPhone: ' + phone + '\nAmount: \u20b9' + amount + '\nPlease send me the payment link.');
+
+    var mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (mobile) {{
+      // On mobile: save application without payment, redirect to WhatsApp for payment link
+      loadingEl.style.display = 'flex';
+      loadingMsg.textContent = 'Saving your application\u2026';
+      var body = 'formType=enroll-pending'
+               + '&name='      + encodeURIComponent(name)
+               + '&email='     + encodeURIComponent(email)
+               + '&phone='     + encodeURIComponent(phone)
+               + '&status='    + encodeURIComponent(status)
+               + '&education=' + encodeURIComponent(edu)
+               + '&city='      + encodeURIComponent(city)
+               + '&amount='    + encodeURIComponent(amount);
+      fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }})
+        .finally(function() {{
           loadingEl.style.display = 'none';
-          btn.textContent = 'Pay \u0026 Apply \u2192'; btn.disabled = false;
+          document.getElementById('enroll-success-msg').innerHTML =
+            'Application received! \u{1F389}<br><br>'
+            + 'Tap below \u2014 we\u2019ll send your payment link on WhatsApp within a few hours.<br><br>'
+            + '<a href="' + WA_ENROLL + '" target="_blank" rel="noopener" '
+            + 'style="display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:11px 22px;'
+            + 'background:#25D366;color:#fff;border-radius:100px;font-weight:700;font-size:14px;'
+            + 'text-decoration:none;letter-spacing:-0.01em;">'
+            + '<svg width="18" height="18" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm6.267 18.926c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/></svg>'
+            + 'Continue on WhatsApp</a>';
+          document.getElementById('enroll-form').style.display = 'none';
+          document.getElementById('enroll-success').style.display = 'block';
+          // No auto-close — let user tap the WhatsApp button
+        }});
+    }} else {{
+      // Desktop: use Razorpay SDK modal
+      loadingEl.style.display = 'flex';
+      loadingMsg.textContent = 'Please do not close this window.';
+      btn.textContent = 'Opening payment\u2026';
+
+      var rzp = new Razorpay({{
+        key: 'rzp_live_SahJJtEgrCiJOp',
+        amount: amount * 100,
+        currency: 'INR',
+        name: 'The Next Engineer',
+        description: 'DA Bootcamp \u2014 ' + (amount < 19999 ? 'Partial payment \u00b7 seat reserved' : 'Full payment \u00b7 seat confirmed'),
+        prefill: {{ name: name, email: email, contact: phone }},
+        theme: {{ color: '#00e5ff' }},
+        handler: function(response) {{
+          loadingEl.style.display = 'none';
+          var body = 'formType=enroll-paid'
+                   + '&name='       + encodeURIComponent(name)
+                   + '&email='      + encodeURIComponent(email)
+                   + '&phone='      + encodeURIComponent(phone)
+                   + '&status='     + encodeURIComponent(status)
+                   + '&education='  + encodeURIComponent(edu)
+                   + '&city='       + encodeURIComponent(city)
+                   + '&amount='     + encodeURIComponent(amount)
+                   + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id);
+          fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
+          document.getElementById('enroll-success-msg').innerHTML =
+            'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
+            + 'We\'ll review your details and get back to you within 24 hours.<br><br>'
+            + '<a href="https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG" target="_blank" rel="noopener" '
+            + 'style="display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:11px 22px;'
+            + 'background:#25D366;color:#fff;border-radius:100px;font-weight:700;font-size:14px;'
+            + 'text-decoration:none;letter-spacing:-0.01em;">'
+            + '<svg width="18" height="18" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm6.267 18.926c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/></svg>'
+            + 'Join WhatsApp Community</a>';
+          document.getElementById('enroll-form').style.display = 'none';
+          document.getElementById('enroll-success').style.display = 'block';
+          setTimeout(closeEnrollModal, 20000);
+        }},
+        modal: {{
+          ondismiss: function() {{
+            loadingEl.style.display = 'none';
+            btn.textContent = 'Pay \u0026 Apply \u2192'; btn.disabled = false;
+          }}
         }}
-      }}
-    }});
-    rzp.open();
-    // Hide spinner once Razorpay modal is visible
-    setTimeout(function() {{ loadingEl.style.display = 'none'; }}, 800);
+      }});
+      rzp.open();
+      // Hide spinner once Razorpay modal is visible
+      setTimeout(function() {{ loadingEl.style.display = 'none'; }}, 800);
+    }}  // end else (desktop)
   }});
 }});
 
