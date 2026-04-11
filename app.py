@@ -1184,7 +1184,7 @@ hr.ws-glow {{
     <div id="enroll-success" style="display:none;text-align:center;padding:24px 0;">
       <div style="font-size:48px;margin-bottom:16px;">🎉</div>
       <p style="font-size:17px;font-weight:700;color:#fff;margin-bottom:8px;">Application received!</p>
-      <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.6;">We'll review your details and get back to you within 24 hours.<br>Check your inbox for a confirmation email.</p>
+      <p id="enroll-success-msg" style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.6;">We'll review your details and get back to you within 24 hours.<br>Check your inbox for a confirmation email.</p>
     </div>
     <form id="enroll-form">
       <label class="reg-label" for="enroll-name">Full Name</label>
@@ -1250,6 +1250,11 @@ hr.ws-glow {{
       <button type="submit" class="reg-submit" id="reg-submit">Proceed to Payment →</button>
     </form>
     <p class="reg-note">Your info is only used to send you workshop details.</p>
+    <div id="reg-success" style="display:none;text-align:center;padding:24px 0;">
+      <div style="font-size:48px;margin-bottom:16px;">🎉</div>
+      <p style="font-size:17px;font-weight:700;color:#fff;margin-bottom:8px;">Payment Successful!</p>
+      <p id="reg-success-msg" style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.7;"></p>
+    </div>
   </div>
 </div>
 """
@@ -1308,6 +1313,8 @@ function openRegModal() {{
 }}
 function closeRegModal() {{
   document.getElementById('reg-modal').style.display = 'none';
+  document.getElementById('reg-form').style.display = 'block';
+  document.getElementById('reg-success').style.display = 'none';
   document.getElementById('reg-form').reset();
   var b = document.getElementById('reg-submit');
   if (b) {{ b.textContent = 'Proceed to Payment \u2192'; b.disabled = false; }}
@@ -1362,7 +1369,13 @@ document.addEventListener('DOMContentLoaded', function() {{
                  + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id)
                  + '&amount=99';
         fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
-        closeRegModal();
+        document.getElementById('reg-form').style.display = 'none';
+        document.getElementById('reg-success').style.display = 'block';
+        document.getElementById('reg-success-msg').innerHTML =
+          'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
+          + 'Check your inbox (and spam folder).<br><br>'
+          + '\u2728 See you on Saturday, 18 April!';
+        setTimeout(closeRegModal, 5000);
       }},
       modal: {{
         ondismiss: function() {{
@@ -1407,6 +1420,9 @@ document.addEventListener('DOMContentLoaded', function() {{
                  + '&amount='     + encodeURIComponent(amount)
                  + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id);
         fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
+        document.getElementById('enroll-success-msg').innerHTML =
+          'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
+          + 'We\'ll review your details and get back to you within 24 hours.';
         document.getElementById('enroll-form').style.display = 'none';
         document.getElementById('enroll-success').style.display = 'block';
         setTimeout(closeEnrollModal, 5000);
