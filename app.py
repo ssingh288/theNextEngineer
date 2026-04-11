@@ -1356,9 +1356,15 @@ HTML_HEAD = """<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   #hero { min-height: 720px !important; }
+  #js-status { position:fixed; top:0; left:50%; transform:translateX(-50%);
+                background:#cc0000; color:#fff; font-size:11px; font-weight:700;
+                padding:3px 12px; border-radius:0 0 6px 6px; z-index:99999;
+                font-family:monospace; letter-spacing:0.05em; }
 </style>
 </head>
 <body style="margin:0;padding:0;">
+<div id="js-status">JS: BLOCKED</div>
+<script>document.getElementById('js-status').textContent='JS: OK \u2714';document.getElementById('js-status').style.background='#00aa44';</script>
 """
 
 HTML_FOOT = f"""
