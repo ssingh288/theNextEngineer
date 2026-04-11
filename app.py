@@ -1271,7 +1271,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
       <div style="font-size:48px;margin-bottom:16px;">🎉</div>
       <p style="font-size:17px;font-weight:700;color:#fff;margin-bottom:8px;">Application received!</p>
       <p id="enroll-success-msg" style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.6;margin-bottom:20px;">We'll review your details and get back to you within 24 hours.</p>
-      <a id="enroll-wa-btn" href="https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG" target="_blank" rel="noopener"
+      <a id="enroll-wa-btn" href="https://chat.whatsapp.com/CqjDEV5N6fU4acibrZ5wbm" target="_blank" rel="noopener"
          style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;
                 font-size:15px;font-weight:700;padding:14px 28px;border-radius:100px;
                 text-decoration:none;letter-spacing:-0.01em;">
@@ -1457,7 +1457,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
         document.getElementById('enroll-form').style.display = 'none';
         document.getElementById('enroll-success').style.display = 'block';
         document.getElementById('enroll-success-msg').textContent = 'Your details have been received! \u2764\ufe0f Our team will reach out within 24 hours. Join the community below:';
-        try {{ window.open('https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG', '_blank'); }} catch(e) {{}}
+        try {{ window.open('https://chat.whatsapp.com/CqjDEV5N6fU4acibrZ5wbm', '_blank'); }} catch(e) {{}}
       }} else {{
         if (typeof Razorpay === 'undefined') {{
           alert('Payment system is still loading — please try in a moment.');
@@ -1476,7 +1476,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
             document.getElementById('enroll-form').style.display = 'none';
             document.getElementById('enroll-success').style.display = 'block';
             document.getElementById('enroll-success-msg').textContent = 'Seat reserved! \u2764\ufe0f We\u2019ll review your details and get back within 24 hours. Join the community below:';
-            try {{ window.open('https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG', '_blank'); }} catch(e) {{}}
+            try {{ window.open('https://chat.whatsapp.com/CqjDEV5N6fU4acibrZ5wbm', '_blank'); }} catch(e) {{}}
           }},
           modal: {{ ondismiss: function() {{ btn.textContent = 'Pay & Apply \u2192'; btn.disabled = false; }} }}
         }});
