@@ -886,6 +886,20 @@ hr.ws-glow {{
     btn.addEventListener('click', function() {{ switchTab(this.getAttribute('data-tab')); }});
   }});
 }})();
+
+/* Modal open/close fallbacks — only activate if head script failed to define them */
+if (typeof window.openRegModal !== 'function') {{
+  window.openRegModal = function() {{ var m=document.getElementById('reg-modal'); if(m) m.style.display='flex'; }};
+}}
+if (typeof window.closeRegModal !== 'function') {{
+  window.closeRegModal = function() {{ var m=document.getElementById('reg-modal'); if(m) m.style.display='none'; }};
+}}
+if (typeof window.openEnrollModal !== 'function') {{
+  window.openEnrollModal = function() {{ var m=document.getElementById('enroll-modal'); if(m) m.style.display='flex'; }};
+}}
+if (typeof window.closeEnrollModal !== 'function') {{
+  window.closeEnrollModal = function() {{ var m=document.getElementById('enroll-modal'); if(m) m.style.display='none'; }};
+}}
 </script>
 
 <!-- ══════════════════════════════════════════════════════
@@ -1179,7 +1193,7 @@ hr.ws-glow {{
       <div class="enroll-card">
         <h3>Apply Now</h3>
         <p>Fill in our short form — we'll get back to you within 24 hours.</p>
-        <button data-open-enroll="1"
+        <button data-open-enroll="1" onclick="openEnrollModal()"
            class="btn-p" style="width:100%;justify-content:center;font-size:16px;padding:16px 0;border:none;cursor:pointer;">
           Open Application Form →
         </button>
