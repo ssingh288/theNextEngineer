@@ -894,7 +894,7 @@ hr.ws-glow {{
         <div class="ws-price-note">One-time entry fee<br>Seats fill fast</div>
       </div>
       <button onclick="openRegModal()" class="ws-cta-btn">Reserve My Seat →</button>
-      <p class="ws-seats-note">⚡ Seats are limited — register early</p>
+      <p class="ws-seats-note">⚡ Seats are filling up — register early</p>
       <div class="ws-countdown">
         <div class="cd-block"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">Days</div></div>
         <div class="cd-block"><div class="cd-num" id="cd-hours">--</div><div class="cd-lbl">Hours</div></div>
@@ -1500,13 +1500,15 @@ function closeEnrollModal() {{
 }}
 
 document.addEventListener('DOMContentLoaded', function() {{
-  // Auto-verify OTP when 6 digits typed
-  document.getElementById('reg-otp-input').addEventListener('input', function() {{
-    this.value = this.value.replace(/\\D/g, '');
+  // Auto-verify OTP when 6 digits typed (null-safe: guard against missing elements)
+  var regOtpIn = document.getElementById('reg-otp-input');
+  if (regOtpIn) regOtpIn.addEventListener('input', function() {{
+    this.value = this.value.replace(/[^0-9]/g, '');
     if (this.value.length === 6) verifyRegOTP();
   }});
-  document.getElementById('enroll-otp-input').addEventListener('input', function() {{
-    this.value = this.value.replace(/\\D/g, '');
+  var enrollOtpIn = document.getElementById('enroll-otp-input');
+  if (enrollOtpIn) enrollOtpIn.addEventListener('input', function() {{
+    this.value = this.value.replace(/[^0-9]/g, '');
     if (this.value.length === 6) verifyEnrollOTP();
   }});
 
