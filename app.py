@@ -1440,39 +1440,28 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var email  = document.getElementById('reg-email').value.trim();
       var phone  = document.getElementById('reg-phone').value.trim();
       var status = document.getElementById('reg-status').value;
-      var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      if (isMobile) {{
-        var mbody = 'formType=reg-pending&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status);
-        fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:mbody }});
-        document.getElementById('reg-form').style.display = 'none';
-        document.getElementById('reg-success').style.display = 'block';
-        document.getElementById('reg-success-msg').textContent = 'Taking you to the payment page\u2026 A confirmation email will be sent to ' + email + ' after payment. \u2728 See you on Saturday, 18 April!';
-        try {{ window.top.open(window.PAYMENT_LINK, '_blank'); }} catch(err) {{ window.open(window.PAYMENT_LINK, '_blank'); }}
-        setTimeout(function() {{ if (typeof closeRegModal === 'function') closeRegModal(); }}, 10000);
-      }} else {{
-        if (typeof Razorpay === 'undefined') {{
-          alert('Payment system is still loading — please try in a moment.');
-          btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
-        }}
-        var rzp = new Razorpay({{
-          key: 'rzp_live_SahJJtEgrCiJOp',
-          amount: 100, currency: 'INR',
-          name: 'The Next Engineer',
-          description: 'Data Analytics Workshop \u2014 18 April 2026',
-          prefill: {{ name: name, email: email, contact: phone }},
-          theme: {{ color: '#00e5ff' }},
-          handler: function(response) {{
-            var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
-            fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
-            document.getElementById('reg-form').style.display = 'none';
-            document.getElementById('reg-success').style.display = 'block';
-            document.getElementById('reg-success-msg').textContent = 'Payment confirmed! \u2728 See you on Saturday, 18 April. Razorpay will send a receipt to ' + email + '. Join the group below for all updates:';
-            try {{ window.open('https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG', '_blank'); }} catch(e) {{}}
-          }},
-          modal: {{ ondismiss: function() {{ btn.textContent = 'Pay \u20b999 & Reserve \u2192'; btn.disabled = false; }} }}
-        }});
-        rzp.open();
+      if (typeof Razorpay === 'undefined') {{
+        alert('Payment system is still loading — please try in a moment.');
+        btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
       }}
+      var rzp = new Razorpay({{
+        key: 'rzp_live_SahJJtEgrCiJOp',
+        amount: 100, currency: 'INR',
+        name: 'The Next Engineer',
+        description: 'Data Analytics Workshop \u2014 18 April 2026',
+        prefill: {{ name: name, email: email, contact: phone }},
+        theme: {{ color: '#00e5ff' }},
+        handler: function(response) {{
+          var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
+          fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+          document.getElementById('reg-form').style.display = 'none';
+          document.getElementById('reg-success').style.display = 'block';
+          document.getElementById('reg-success-msg').textContent = 'Payment confirmed! \u2728 See you on Saturday, 18 April. Razorpay will send a receipt to ' + email + '. Join the group below for all updates:';
+          try {{ window.open('https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG', '_blank'); }} catch(e) {{}}
+        }},
+        modal: {{ ondismiss: function() {{ btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; }} }}
+      }});
+      rzp.open();
     }});
   }}
 
