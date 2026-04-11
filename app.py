@@ -1580,8 +1580,14 @@ document.addEventListener('DOMContentLoaded', function() {{
         document.getElementById('reg-success').style.display = 'block';
         document.getElementById('reg-success-msg').innerHTML =
           'Payment page opened in a new tab \u2014 complete your payment there.<br><br>'
-          + 'A confirmation email will be sent to <strong>' + email + '</strong> once payment is done.';
-        setTimeout(closeRegModal, 7000);
+          + 'A confirmation email will be sent to <strong>' + email + '</strong> once payment is done.<br><br>'
+          + '<a href="https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG" target="_blank" rel="noopener" '
+          + 'style="display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:11px 22px;'
+          + 'background:#25D366;color:#fff;border-radius:100px;font-weight:700;font-size:14px;'
+          + 'text-decoration:none;letter-spacing:-0.01em;">'
+          + '<svg width="18" height="18" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm6.267 18.926c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/></svg>'
+          + 'Join Workshop WhatsApp Community</a>';
+        setTimeout(closeRegModal, 12000);
       }}, 1000);
     }} else {{
       // Desktop: use Razorpay SDK modal
@@ -1609,8 +1615,14 @@ document.addEventListener('DOMContentLoaded', function() {{
           document.getElementById('reg-success-msg').innerHTML =
             'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
             + 'Check your inbox (and spam folder).<br><br>'
-            + '\u2728 See you on Saturday, 18 April!';
-          setTimeout(closeRegModal, 5000);
+            + '\u2728 See you on Saturday, 18 April!<br><br>'
+            + '<a href="https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG" target="_blank" rel="noopener" '
+            + 'style="display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:11px 22px;'
+            + 'background:#25D366;color:#fff;border-radius:100px;font-weight:700;font-size:14px;'
+            + 'text-decoration:none;letter-spacing:-0.01em;">'
+            + '<svg width="18" height="18" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm6.267 18.926c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/></svg>'
+            + 'Join Workshop WhatsApp Community</a>';
+          setTimeout(closeRegModal, 12000);
         }},
         modal: {{
           ondismiss: function() {{
@@ -1667,10 +1679,16 @@ document.addEventListener('DOMContentLoaded', function() {{
         fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
         document.getElementById('enroll-success-msg').innerHTML =
           'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
-          + 'We\'ll review your details and get back to you within 24 hours.';
+          + 'We\'ll review your details and get back to you within 24 hours.<br><br>'
+          + '<a href="https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG" target="_blank" rel="noopener" '
+          + 'style="display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:11px 22px;'
+          + 'background:#25D366;color:#fff;border-radius:100px;font-weight:700;font-size:14px;'
+          + 'text-decoration:none;letter-spacing:-0.01em;">'
+          + '<svg width="18" height="18" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm6.267 18.926c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/></svg>'
+          + 'Join WhatsApp Community</a>';
         document.getElementById('enroll-form').style.display = 'none';
         document.getElementById('enroll-success').style.display = 'block';
-        setTimeout(closeEnrollModal, 5000);
+        setTimeout(closeEnrollModal, 12000);
       }},
       modal: {{
         ondismiss: function() {{
