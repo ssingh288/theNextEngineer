@@ -1442,7 +1442,9 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var status = document.getElementById('reg-status').value;
       var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (isMobile) {{
-        /* Mobile: UPI deep links blocked inside Streamlit iframe — open standalone link in new tab */
+        /* Mobile: save details to sheet first, then open standalone payment link */
+        var mbody = 'formType=reg-mobile&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status);
+        fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:mbody }});
         document.getElementById('reg-form').style.display = 'none';
         document.getElementById('reg-success').style.display = 'block';
         document.getElementById('reg-success-msg').textContent = 'Taking you to the payment page\u2026 Complete payment there, then join the WhatsApp group below.';
