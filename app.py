@@ -859,8 +859,34 @@ hr.ws-glow {{
   <div class="tab-btns">
     <button class="tab-btn active" data-tab="workshop" onclick="showTab('workshop')">Workshop</button>
     <button class="tab-btn" data-tab="course" onclick="showTab('course')">Data Analytics Course</button>
+    <button class="tab-btn" data-tab="dummy" onclick="showTab('dummy')">Dummy</button>
   </div>
 </nav>
+<script>
+/* Inline tab binding — runs immediately, no DOMContentLoaded needed.
+   Also redefines window.showTab so onclick attrs work even if head script fails. */
+(function() {{
+  function switchTab(name) {{
+    document.querySelectorAll('.tab-content').forEach(function(el) {{
+      el.style.display = 'none'; el.classList.remove('active');
+    }});
+    document.querySelectorAll('.tab-btn').forEach(function(b) {{ b.classList.remove('active'); }});
+    var tab = document.getElementById('tab-' + name);
+    if (tab) {{ tab.style.display = 'block'; tab.classList.add('active'); }}
+    var btn = document.querySelector('[data-tab="' + name + '"]');
+    if (btn) btn.classList.add('active');
+    var banner = document.getElementById('ws-banner');
+    var sticky = document.getElementById('ws-sticky');
+    if (banner) banner.style.display = name === 'course' ? 'flex' : 'none';
+    if (sticky) sticky.style.display = name === 'workshop' ? 'flex' : 'none';
+    try {{ window.scrollTo(0, 0); }} catch(e) {{}}
+  }}
+  window.showTab = switchTab;
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {{
+    btn.addEventListener('click', function() {{ switchTab(this.getAttribute('data-tab')); }});
+  }});
+}})();
+</script>
 
 <!-- ══════════════════════════════════════════════════════
      WORKSHOP BANNER  (shown only on course tab)
@@ -1221,6 +1247,54 @@ hr.ws-glow {{
 
 </div><!-- /tne-page -->
 </div><!-- /tab-course -->
+
+<!-- ══ Dummy Tab ══════════════════════════════════════════ -->
+<div id="tab-dummy" class="tab-content">
+<div style="min-height:100vh;padding:100px 40px 60px;max-width:900px;margin:0 auto;">
+  <h2 style="font-size:2rem;font-weight:800;margin-bottom:8px;">Data Analytics — Quick Reference</h2>
+  <p style="color:rgba(255,255,255,0.55);margin-bottom:40px;">Key concepts every data analyst should know.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;">
+
+    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
+      <div style="font-size:2rem;margin-bottom:12px;">📊</div>
+      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Exploratory Data Analysis</h3>
+      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Understand data distributions, find missing values, detect outliers, and uncover patterns before building any model or report.</p>
+    </div>
+
+    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
+      <div style="font-size:2rem;margin-bottom:12px;">🐍</div>
+      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Python for Data</h3>
+      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Pandas for data wrangling, NumPy for numerical ops, Matplotlib &amp; Seaborn for charts — the core toolkit of every data analyst.</p>
+    </div>
+
+    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
+      <div style="font-size:2rem;margin-bottom:12px;">🗄️</div>
+      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">SQL Fundamentals</h3>
+      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">SELECT, JOIN, GROUP BY, window functions. SQL is the #1 skill in every data analyst job description — non-negotiable.</p>
+    </div>
+
+    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
+      <div style="font-size:2rem;margin-bottom:12px;">📈</div>
+      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Data Visualisation</h3>
+      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Turn numbers into stories. Tableau, Power BI, or Streamlit — pick one and master it. Clear visuals drive business decisions.</p>
+    </div>
+
+    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
+      <div style="font-size:2rem;margin-bottom:12px;">📉</div>
+      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Statistics &amp; Probability</h3>
+      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Mean, median, std deviation, correlation, hypothesis testing, p-values. Stats give you confidence that your insights are real, not noise.</p>
+    </div>
+
+    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
+      <div style="font-size:2rem;margin-bottom:12px;">🤖</div>
+      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Intro to Machine Learning</h3>
+      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Linear &amp; logistic regression, decision trees, clustering. Know when to apply ML and when a pivot table does the job better.</p>
+    </div>
+
+  </div>
+</div>
+</div><!-- /tab-dummy -->
 
 <!-- ══ Enroll Modal ══════════════════════════════════════ -->
 <div id="enroll-modal" class="reg-modal">
@@ -1789,9 +1863,6 @@ function _bindAll() {{
 <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
 </head>
 <body style="margin:0;padding:0;">
-<div id="js-status" style="position:fixed;bottom:52px;right:10px;background:#cc0000;color:#fff;font-family:monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;z-index:99999999;pointer-events:none;">JS:WAIT</div>
-<script>document.getElementById('js-status').textContent='JS:OK';document.getElementById('js-status').style.background='#00aa44';</script>
-<div id="dbg-log" style="position:fixed;bottom:0;left:0;right:0;max-height:200px;overflow-y:auto;background:rgba(0,0,16,0.97);color:#00ff88;font-family:monospace;font-size:11px;padding:6px 10px;z-index:9999990;border-top:2px solid #00ff88;"><div style="color:#aaa;font-style:italic;">-- waiting for JS --</div></div>
 """
 
 HTML_FOOT = """
