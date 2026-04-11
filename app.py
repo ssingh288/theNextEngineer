@@ -1014,15 +1014,16 @@ hr.ws-glow {{
 
   </div><!-- /ws-wrap -->
 
-  <!-- Sticky bottom bar (workshop tab only) -->
-  <div class="ws-sticky" id="ws-sticky">
-    <div class="ws-sticky-info">
-      <strong>Data Analytics Workshop</strong>
-      <span>18 Apr 2026 · 10:00 AM – 11:30 AM · ₹99</span>
-    </div>
-    <button onclick="openRegModal()" class="ws-sticky-btn">Reserve My Seat →</button>
-  </div>
 </div><!-- /tab-workshop -->
+
+<!-- Sticky bottom bar — fixed overlay, outside tabs so display is fully JS-controlled -->
+<div class="ws-sticky" id="ws-sticky" style="display:none;">
+  <div class="ws-sticky-info">
+    <strong>Data Analytics Workshop</strong>
+    <span>18 Apr 2026 · 10:00 AM – 11:30 AM · ₹99</span>
+  </div>
+  <button onclick="openRegModal()" class="ws-sticky-btn">Reserve My Seat →</button>
+</div>
 
 <!-- ══════════════════════════════════════════════════════
      COURSE TAB
@@ -1374,13 +1375,15 @@ tick(); setInterval(tick, 1000);
 function showTab(name) {{
   document.querySelectorAll('.tab-content').forEach(function(el) {{ el.classList.remove('active'); el.style.display='none'; }});
   var tab = document.getElementById('tab-' + name);
+  if (!tab) {{ return; }}
   tab.classList.add('active'); tab.style.display = 'block';
   document.querySelectorAll('.tab-btn').forEach(function(el) {{ el.classList.remove('active'); }});
-  document.querySelector('[data-tab="' + name + '"]').classList.add('active');
-  // Workshop banner only on course tab
-  document.getElementById('ws-banner').style.display = name === 'course' ? 'flex' : 'none';
-  // Sticky CTA only on workshop tab
-  document.getElementById('ws-sticky').style.display = name === 'workshop' ? 'flex' : 'none';
+  var activeBtn = document.querySelector('[data-tab="' + name + '"]');
+  if (activeBtn) activeBtn.classList.add('active');
+  var banner = document.getElementById('ws-banner');
+  var sticky = document.getElementById('ws-sticky');
+  if (banner) banner.style.display = name === 'course' ? 'flex' : 'none';
+  if (sticky) sticky.style.display = name === 'workshop' ? 'flex' : 'none';
   window.scrollTo(0, 0);
 }}
 
