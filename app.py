@@ -1277,25 +1277,6 @@ if (typeof window.closeEnrollModal !== 'function') {{
       <input class="reg-input" type="text" id="enroll-name" placeholder="Your name" required />
       <label class="reg-label" for="enroll-email">Email Address</label>
       <input class="reg-input" type="email" id="enroll-email" placeholder="you@email.com" required />
-      <button type="button" id="enroll-send-otp" class="send-otp-btn" onclick="sendEnrollOTP()">
-        📧 Send verification code to this email
-      </button>
-      <div id="enroll-otp-section" class="otp-section" style="display:none;">
-        <label class="reg-label">Enter the 6-digit code sent to your email</label>
-        <div class="otp-row">
-          <input class="otp-num-input" type="text" id="enroll-otp-input"
-                 placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" />
-          <button type="button" class="otp-verify-btn" onclick="verifyEnrollOTP()">Verify</button>
-        </div>
-        <p id="enroll-otp-error" class="otp-error">Incorrect code — please try again.</p>
-      </div>
-      <div id="enroll-otp-verified" class="otp-verified">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <circle cx="7" cy="7" r="6" fill="#00db57" fill-opacity="0.2" stroke="#00db57" stroke-width="1.2"/>
-          <path d="M4.5 7l2 2 3-3" stroke="#00db57" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Email verified ✓
-      </div>
       <label class="reg-label" for="enroll-phone">Phone Number</label>
       <input class="reg-input" type="tel" id="enroll-phone" placeholder="+91 98765 43210" required />
       <label class="reg-label" for="enroll-status">Current Status</label>
@@ -1327,8 +1308,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
       <p style="font-size:11px;color:rgba(255,255,255,0.45);margin:-6px 0 10px;line-height:1.5;">
         Pay full ₹19,999 to confirm your seat · or pay min ₹5,000 to reserve it now and pay the rest later.
       </p>
-      <button type="submit" class="reg-submit" id="enroll-submit" disabled
-              style="opacity:0.4;cursor:not-allowed;">Pay &amp; Apply →</button>
+      <button type="submit" class="reg-submit" id="enroll-submit">Pay &amp; Apply →</button>
     </form>
     <p class="reg-note">Your info is only used to process your application.</p>
   </div>
@@ -1345,25 +1325,6 @@ if (typeof window.closeEnrollModal !== 'function') {{
       <input class="reg-input" type="text" id="reg-name" placeholder="Your name" required />
       <label class="reg-label" for="reg-email">Email Address</label>
       <input class="reg-input" type="email" id="reg-email" placeholder="you@email.com" required />
-      <button type="button" id="reg-send-otp" class="send-otp-btn" onclick="sendRegOTP()">
-        📧 Send verification code to this email
-      </button>
-      <div id="reg-otp-section" class="otp-section" style="display:none;">
-        <label class="reg-label">Enter the 6-digit code sent to your email</label>
-        <div class="otp-row">
-          <input class="otp-num-input" type="text" id="reg-otp-input"
-                 placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" />
-          <button type="button" class="otp-verify-btn" onclick="verifyRegOTP()">Verify</button>
-        </div>
-        <p id="reg-otp-error" class="otp-error">Incorrect code — please try again.</p>
-      </div>
-      <div id="reg-otp-verified" class="otp-verified">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <circle cx="7" cy="7" r="6" fill="#00db57" fill-opacity="0.2" stroke="#00db57" stroke-width="1.2"/>
-          <path d="M4.5 7l2 2 3-3" stroke="#00db57" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Email verified ✓
-      </div>
       <label class="reg-label" for="reg-phone">Phone Number</label>
       <input class="reg-input" type="tel" id="reg-phone" placeholder="+91 98765 43210" required />
       <label class="reg-label" for="reg-status">Current Status</label>
@@ -1372,8 +1333,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
         <option value="Working Professional">Working Professional</option>
         <option value="Looking for a Job">Looking for a Job</option>
       </select>
-      <button type="submit" class="reg-submit" id="reg-submit" disabled
-              style="opacity:0.4;cursor:not-allowed;">Proceed to Payment →</button>
+      <button type="submit" class="reg-submit" id="reg-submit">Proceed to Payment →</button>
     </form>
     <p class="reg-note">Your info is only used to send you workshop details.</p>
     <div id="reg-success" style="display:none;text-align:center;padding:24px 0;">
@@ -1384,93 +1344,12 @@ if (typeof window.closeEnrollModal !== 'function') {{
   </div>
 </div>
 
-<!-- ── Inline fallbacks: OTP, payment, countdown — runs even if head script fails ── -->
+<!-- ── Inline fallbacks: payment + countdown — runs even if head script fails ── -->
 <script>
 (function() {{
   /* ── Shared vars ── */
   if (!window.APPS_SCRIPT_URL) window.APPS_SCRIPT_URL = "{APPS_SCRIPT_URL}";
   if (!window.PAYMENT_LINK)    window.PAYMENT_LINK    = "{PAYMENT_LINK}";
-
-  /* ── OTP helpers ── */
-  if (typeof window.generateOTP !== 'function') {{
-    window.generateOTP = function() {{ return String(Math.floor(100000 + Math.random() * 900000)); }};
-  }}
-  if (typeof window.regOTP   === 'undefined') window.regOTP   = null;
-  if (typeof window.enrollOTP === 'undefined') window.enrollOTP = null;
-
-  /* ── sendRegOTP ── */
-  if (typeof window.sendRegOTP !== 'function') {{
-    window.sendRegOTP = function() {{
-      var name  = document.getElementById('reg-name').value.trim();
-      var email = document.getElementById('reg-email').value.trim();
-      if (!name || !email) {{ alert('Please enter your name and email first.'); return; }}
-      window.regOTP = window.generateOTP();
-      var btn = document.getElementById('reg-send-otp');
-      btn.textContent = '\u231b Sending\u2026'; btn.disabled = true;
-      var body = 'formType=send-otp'
-               + '&name='  + encodeURIComponent(name)
-               + '&email=' + encodeURIComponent(email)
-               + '&otp='   + encodeURIComponent(window.regOTP);
-      fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }})
-        .finally(function() {{
-          document.getElementById('reg-otp-section').style.display = 'block';
-          btn.textContent = '\u2713 Code sent \u2014 Resend'; btn.disabled = false;
-        }});
-    }};
-  }}
-
-  /* ── verifyRegOTP ── */
-  if (typeof window.verifyRegOTP !== 'function') {{
-    window.verifyRegOTP = function() {{
-      var entered = document.getElementById('reg-otp-input').value.trim();
-      if (entered === window.regOTP) {{
-        document.getElementById('reg-otp-section').style.display = 'none';
-        document.getElementById('reg-send-otp').style.display = 'none';
-        document.getElementById('reg-otp-verified').style.display = 'flex';
-        var btn = document.getElementById('reg-submit');
-        btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
-      }} else {{
-        document.getElementById('reg-otp-error').style.display = 'block';
-      }}
-    }};
-  }}
-
-  /* ── sendEnrollOTP ── */
-  if (typeof window.sendEnrollOTP !== 'function') {{
-    window.sendEnrollOTP = function() {{
-      var name  = document.getElementById('enroll-name').value.trim();
-      var email = document.getElementById('enroll-email').value.trim();
-      if (!name || !email) {{ alert('Please enter your name and email first.'); return; }}
-      window.enrollOTP = window.generateOTP();
-      var btn = document.getElementById('enroll-send-otp');
-      btn.textContent = '\u231b Sending\u2026'; btn.disabled = true;
-      var body = 'formType=send-otp'
-               + '&name='  + encodeURIComponent(name)
-               + '&email=' + encodeURIComponent(email)
-               + '&otp='   + encodeURIComponent(window.enrollOTP);
-      fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }})
-        .finally(function() {{
-          document.getElementById('enroll-otp-section').style.display = 'block';
-          btn.textContent = '\u2713 Code sent \u2014 Resend'; btn.disabled = false;
-        }});
-    }};
-  }}
-
-  /* ── verifyEnrollOTP ── */
-  if (typeof window.verifyEnrollOTP !== 'function') {{
-    window.verifyEnrollOTP = function() {{
-      var entered = document.getElementById('enroll-otp-input').value.trim();
-      if (entered === window.enrollOTP) {{
-        document.getElementById('enroll-otp-section').style.display = 'none';
-        document.getElementById('enroll-send-otp').style.display = 'none';
-        document.getElementById('enroll-otp-verified').style.display = 'flex';
-        var btn = document.getElementById('enroll-submit');
-        btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
-      }} else {{
-        document.getElementById('enroll-otp-error').style.display = 'block';
-      }}
-    }};
-  }}
 
   /* ── Countdown ── */
   if (typeof window.tick !== 'function') {{
@@ -1488,24 +1367,6 @@ if (typeof window.closeEnrollModal !== 'function') {{
     }};
     window.tick();
     setInterval(window.tick, 1000);
-  }}
-
-  /* ── OTP auto-verify on 6-digit input ── */
-  var regOtpIn = document.getElementById('reg-otp-input');
-  if (regOtpIn && !regOtpIn._otpBound) {{
-    regOtpIn._otpBound = true;
-    regOtpIn.addEventListener('input', function() {{
-      this.value = this.value.replace(/[^0-9]/g, '');
-      if (this.value.length === 6) window.verifyRegOTP();
-    }});
-  }}
-  var enrollOtpIn = document.getElementById('enroll-otp-input');
-  if (enrollOtpIn && !enrollOtpIn._otpBound) {{
-    enrollOtpIn._otpBound = true;
-    enrollOtpIn.addEventListener('input', function() {{
-      this.value = this.value.replace(/[^0-9]/g, '');
-      if (this.value.length === 6) window.verifyEnrollOTP();
-    }});
   }}
 
   /* ── Workshop form submit → Razorpay ── */
