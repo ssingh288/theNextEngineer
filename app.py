@@ -834,6 +834,30 @@ hr.ws-glow {{
     font-size: 12px; color: {GREEN}; font-family: 'Space Mono', monospace;
     margin-bottom: 16px; letter-spacing: 0.02em;
 }}
+/* ── Payment loading overlay ── */
+.pay-loading {{
+    display: none; position: fixed; inset: 0; z-index: 2000;
+    background: rgba(8,8,16,0.96); backdrop-filter: blur(8px);
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 20px; text-align: center; padding: 24px;
+}}
+.pay-spinner {{
+    width: 52px; height: 52px;
+    border: 3px solid rgba(0,71,255,0.2);
+    border-top-color: {BLUE};
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+}}
+@keyframes spin {{ to {{ transform: rotate(360deg); }} }}
+.pay-loading-title {{
+    font-family: 'Manrope', sans-serif; font-size: 18px;
+    font-weight: 700; color: {WHITE}; margin: 0;
+}}
+.pay-loading-sub {{
+    font-family: 'Manrope', sans-serif; font-size: 13px;
+    color: rgba(255,255,255,0.45); margin: 0;
+    max-width: 300px; line-height: 1.6;
+}}
 </style>
 
 {STARS_HTML}
@@ -1285,6 +1309,13 @@ hr.ws-glow {{
   </div>
 </div>
 
+<!-- ══ Payment Loading Overlay ═══════════════════════════ -->
+<div id="pay-loading" class="pay-loading">
+  <div class="pay-spinner"></div>
+  <p class="pay-loading-title">Opening Payment Page</p>
+  <p class="pay-loading-sub" id="pay-loading-sub">Please wait — do not close this window.</p>
+</div>
+
 <!-- ══ Workshop Register Modal ═══════════════════════════ -->
 <div id="reg-modal" class="reg-modal">
   <div class="reg-card">
@@ -1524,39 +1555,74 @@ document.addEventListener('DOMContentLoaded', function() {{
     var phone  = document.getElementById('reg-phone').value.trim();
     var status = document.getElementById('reg-status').value;
 
-    var rzp = new Razorpay({{
-      key: 'rzp_live_SahJJtEgrCiJOp',
-      amount: 9900,
-      currency: 'INR',
-      name: 'The Next Engineer',
-      description: 'Data Analytics Workshop \u2014 18 April 2026',
-      prefill: {{ name: name, email: email, contact: phone }},
-      theme: {{ color: '#00e5ff' }},
-      handler: function(response) {{
-        // Payment successful — now save to sheet + send confirmation email
-        var body = 'formType=reg-paid'
-                 + '&name='       + encodeURIComponent(name)
-                 + '&email='      + encodeURIComponent(email)
-                 + '&phone='      + encodeURIComponent(phone)
-                 + '&status='     + encodeURIComponent(status)
-                 + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id)
-                 + '&amount=99';
-        fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
+    // Show loading overlay immediately
+    var loadingEl  = document.getElementById('pay-loading');
+    var loadingMsg = document.getElementById('pay-loading-sub');
+    loadingEl.style.display = 'flex';
+
+    var mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (mobile) {{
+      // On mobile: save data first, then open payment link directly
+      // (avoids iframe popup restriction that causes blank tab on mobile)
+      loadingMsg.textContent = 'Payment page is opening in a new tab\u2026 Please complete payment there.';
+      var preBody = 'formType=reg-pending'
+               + '&name='   + encodeURIComponent(name)
+               + '&email='  + encodeURIComponent(email)
+               + '&phone='  + encodeURIComponent(phone)
+               + '&status=' + encodeURIComponent(status)
+               + '&amount=99';
+      fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:preBody }});
+      try {{ window.top.open(PAYMENT_LINK, '_blank'); }} catch(e) {{ window.open(PAYMENT_LINK, '_blank'); }}
+      setTimeout(function() {{
+        loadingEl.style.display = 'none';
         document.getElementById('reg-form').style.display = 'none';
         document.getElementById('reg-success').style.display = 'block';
         document.getElementById('reg-success-msg').innerHTML =
-          'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
-          + 'Check your inbox (and spam folder).<br><br>'
-          + '\u2728 See you on Saturday, 18 April!';
-        setTimeout(closeRegModal, 5000);
-      }},
-      modal: {{
-        ondismiss: function() {{
-          btn.textContent = 'Pay \u20b999 \u0026 Reserve \u2192'; btn.disabled = false;
+          'Payment page opened in a new tab \u2014 complete your payment there.<br><br>'
+          + 'A confirmation email will be sent to <strong>' + email + '</strong> once payment is done.';
+        setTimeout(closeRegModal, 7000);
+      }}, 1000);
+    }} else {{
+      // Desktop: use Razorpay SDK modal
+      loadingMsg.textContent = 'Please do not close this window.';
+      var rzp = new Razorpay({{
+        key: 'rzp_live_SahJJtEgrCiJOp',
+        amount: 9900,
+        currency: 'INR',
+        name: 'The Next Engineer',
+        description: 'Data Analytics Workshop \u2014 18 April 2026',
+        prefill: {{ name: name, email: email, contact: phone }},
+        theme: {{ color: '#00e5ff' }},
+        handler: function(response) {{
+          loadingEl.style.display = 'none';
+          var body = 'formType=reg-paid'
+                   + '&name='       + encodeURIComponent(name)
+                   + '&email='      + encodeURIComponent(email)
+                   + '&phone='      + encodeURIComponent(phone)
+                   + '&status='     + encodeURIComponent(status)
+                   + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id)
+                   + '&amount=99';
+          fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
+          document.getElementById('reg-form').style.display = 'none';
+          document.getElementById('reg-success').style.display = 'block';
+          document.getElementById('reg-success-msg').innerHTML =
+            'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
+            + 'Check your inbox (and spam folder).<br><br>'
+            + '\u2728 See you on Saturday, 18 April!';
+          setTimeout(closeRegModal, 5000);
+        }},
+        modal: {{
+          ondismiss: function() {{
+            loadingEl.style.display = 'none';
+            btn.textContent = 'Pay \u20b999 \u0026 Reserve \u2192'; btn.disabled = false;
+          }}
         }}
-      }}
-    }});
-    rzp.open();
+      }});
+      rzp.open();
+      // Hide spinner once Razorpay modal is visible
+      setTimeout(function() {{ loadingEl.style.display = 'none'; }}, 800);
+    }}
   }});
 
   // Enroll form submit
@@ -1573,6 +1639,12 @@ document.addEventListener('DOMContentLoaded', function() {{
     var city   = document.getElementById('enroll-city').value.trim();
     var amount = parseInt(document.getElementById('enroll-amount').value, 10);
 
+    // Show loading overlay immediately
+    var loadingEl  = document.getElementById('pay-loading');
+    var loadingMsg = document.getElementById('pay-loading-sub');
+    loadingEl.style.display = 'flex';
+    loadingMsg.textContent = 'Please do not close this window.';
+
     var rzp = new Razorpay({{
       key: 'rzp_live_SahJJtEgrCiJOp',
       amount: amount * 100,
@@ -1582,7 +1654,7 @@ document.addEventListener('DOMContentLoaded', function() {{
       prefill: {{ name: name, email: email, contact: phone }},
       theme: {{ color: '#00e5ff' }},
       handler: function(response) {{
-        // Payment successful — save to sheet + send confirmation email
+        loadingEl.style.display = 'none';
         var body = 'formType=enroll-paid'
                  + '&name='       + encodeURIComponent(name)
                  + '&email='      + encodeURIComponent(email)
@@ -1602,11 +1674,14 @@ document.addEventListener('DOMContentLoaded', function() {{
       }},
       modal: {{
         ondismiss: function() {{
+          loadingEl.style.display = 'none';
           btn.textContent = 'Pay \u0026 Apply \u2192'; btn.disabled = false;
         }}
       }}
     }});
     rzp.open();
+    // Hide spinner once Razorpay modal is visible
+    setTimeout(function() {{ loadingEl.style.display = 'none'; }}, 800);
   }});
 }});
 
