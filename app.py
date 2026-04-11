@@ -1665,7 +1665,7 @@ document.addEventListener('DOMContentLoaded', function() {{
     var loadingMsg = document.getElementById('pay-loading-sub');
 
     var WA_ENROLL = 'https://wa.me/918019101592?text='
-      + encodeURIComponent('Hi Sandeep! I just applied for the Data Analytics Bootcamp.\nName: ' + name + '\nEmail: ' + email + '\nPhone: ' + phone + '\nAmount: \u20b9' + amount + '\nPlease send me the payment link.');
+      + encodeURIComponent('Hi Sandeep! I just applied for the Data Analytics Bootcamp.\\nName: ' + name + '\\nEmail: ' + email + '\\nPhone: ' + phone + '\\nAmount: \u20b9' + amount + '\\nPlease send me the payment link.');
 
     var mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
