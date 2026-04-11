@@ -917,7 +917,7 @@ hr.ws-glow {{
         <div class="ws-price-note">One-time entry fee<br>Seats fill fast</div>
       </div>
       <button onclick="openRegModal()" class="ws-cta-btn">Reserve My Seat →</button>
-      <p class="ws-seats-note">⚡ Only <span>30 seats</span> available — register early</p>
+      <p class="ws-seats-note">⚡ Register now — it's only ₹99</p>
       <div class="ws-countdown">
         <div class="cd-block"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">Days</div></div>
         <div class="cd-block"><div class="cd-num" id="cd-hours">--</div><div class="cd-lbl">Hours</div></div>
@@ -1009,7 +1009,7 @@ hr.ws-glow {{
         </div>
         <div class="ws-detail-item">
           <span class="ws-detail-icon">🎟️</span>
-          <div class="ws-detail-text"><strong>Only ₹99 entry</strong><span>30 seats only · Register early</span></div>
+          <div class="ws-detail-text"><strong>Only ₹99 entry</strong><span>Open to everyone · Register now</span></div>
         </div>
         <div class="ws-detail-item">
           <span class="ws-detail-icon">❓</span>
