@@ -1503,7 +1503,7 @@ function closeRegModal() {{
   // Reset OTP state
   regOTP = null;
   document.getElementById('reg-send-otp').style.display = 'block';
-  document.getElementById('reg-send-otp').textContent = '\ud83d\udce7 Send verification code to this email';
+  document.getElementById('reg-send-otp').textContent = '\\uD83D\\uDCE7 Send verification code to this email';
   document.getElementById('reg-send-otp').disabled = false;
   document.getElementById('reg-otp-section').style.display = 'none';
   document.getElementById('reg-otp-verified').style.display = 'none';
@@ -1524,7 +1524,7 @@ function closeEnrollModal() {{
   // Reset OTP state
   enrollOTP = null;
   document.getElementById('enroll-send-otp').style.display = 'block';
-  document.getElementById('enroll-send-otp').textContent = '\ud83d\udce7 Send verification code to this email';
+  document.getElementById('enroll-send-otp').textContent = '\\uD83D\\uDCE7 Send verification code to this email';
   document.getElementById('enroll-send-otp').disabled = false;
   document.getElementById('enroll-otp-section').style.display = 'none';
   document.getElementById('enroll-otp-verified').style.display = 'none';
