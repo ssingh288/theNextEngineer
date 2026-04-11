@@ -1153,7 +1153,7 @@ hr.ws-glow {{
       <div class="enroll-card">
         <h3>Apply Now</h3>
         <p>Fill in our short form — we'll get back to you within 24 hours.</p>
-        <button onclick="openEnrollModal()"
+        <button data-open-enroll="1"
            class="btn-p" style="width:100%;justify-content:center;font-size:16px;padding:16px 0;border:none;cursor:pointer;">
           Open Application Form →
         </button>
@@ -1392,7 +1392,7 @@ function showTab(name) {{
   var sticky = document.getElementById('ws-sticky');
   if (banner) banner.style.display = name === 'course' ? 'flex' : 'none';
   if (sticky) sticky.style.display = name === 'workshop' ? 'flex' : 'none';
-  window.scrollTo(0, 0);
+  try {{ window.scrollTo(0, 0); }} catch(e) {{}}
 }}
 
 // ── OTP ──────────────────────────────────────────────────
@@ -1672,19 +1672,62 @@ document.addEventListener('DOMContentLoaded', function() {{
 
 // ── Fill viewport ──
 function resizeIframe() {{
-  if (window.frameElement) {{
-    window.frameElement.style.height   = window.parent.innerHeight + 'px';
-    window.frameElement.style.width    = '100%';
-    window.frameElement.style.display  = 'block';
-    window.frameElement.style.border   = 'none';
-    window.frameElement.style.position = 'fixed';
-    window.frameElement.style.top      = '0';
-    window.frameElement.style.left     = '0';
-    window.frameElement.style.zIndex   = '9999';
-  }}
+  try {{
+    if (window.frameElement) {{
+      window.frameElement.style.height   = window.parent.innerHeight + 'px';
+      window.frameElement.style.width    = '100%';
+      window.frameElement.style.display  = 'block';
+      window.frameElement.style.border   = 'none';
+      window.frameElement.style.position = 'fixed';
+      window.frameElement.style.top      = '0';
+      window.frameElement.style.left     = '0';
+      window.frameElement.style.zIndex   = '9999';
+    }}
+  }} catch(e) {{}}
 }}
 window.addEventListener('load',   resizeIframe);
 window.addEventListener('resize', resizeIframe);
+
+// ── Bind all event handlers via JS (works even when inline onclick is blocked by CSP) ──
+function _bindAll() {{
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {{
+    btn.addEventListener('click', function() {{ showTab(this.getAttribute('data-tab')); }});
+  }});
+  var brand = document.querySelector('.tne-brand');
+  if (brand) brand.addEventListener('click', function() {{ showTab('workshop'); }});
+
+  // Workshop register modal openers
+  document.querySelectorAll('.ws-cta-btn, .ws-banner-btn, .ws-sticky-btn').forEach(function(btn) {{
+    btn.addEventListener('click', openRegModal);
+  }});
+
+  // Modal close buttons
+  var regClose   = document.querySelector('#reg-modal .reg-close');
+  var enrollClose = document.querySelector('#enroll-modal .reg-close');
+  if (regClose)   regClose.addEventListener('click',   closeRegModal);
+  if (enrollClose) enrollClose.addEventListener('click', closeEnrollModal);
+
+  // OTP + verify buttons
+  var rsOtp = document.getElementById('reg-send-otp');
+  var esOtp = document.getElementById('enroll-send-otp');
+  if (rsOtp) rsOtp.addEventListener('click', sendRegOTP);
+  if (esOtp) esOtp.addEventListener('click', sendEnrollOTP);
+
+  var rvOtp = document.querySelector('#reg-otp-section .otp-verify-btn');
+  var evOtp = document.querySelector('#enroll-otp-section .otp-verify-btn');
+  if (rvOtp) rvOtp.addEventListener('click', verifyRegOTP);
+  if (evOtp) evOtp.addEventListener('click', verifyEnrollOTP);
+
+  // Course tab enroll + contact section CTAs
+  document.querySelectorAll('[data-open-enroll]').forEach(function(btn) {{
+    btn.addEventListener('click', openEnrollModal);
+  }});
+}}
+// Run immediately (script is at end of body — DOM is ready)
+_bindAll();
+// Safety net: also run on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', _bindAll);
 </script>
 <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
 </body>
