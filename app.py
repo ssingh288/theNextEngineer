@@ -1051,7 +1051,7 @@ hr.ws-glow {{
   </div>
   <h1 class="hero-h1" style="white-space:nowrap;">Learn. Build. Grow 📈</h1>
   <div class="hero-ctas">
-    <button onclick="document.getElementById('enroll').scrollIntoView({{behavior:'smooth'}})" class="btn-p" style="border:none;cursor:pointer;">
+    <button data-scroll-enroll="1" class="btn-p" style="border:none;cursor:pointer;">
       Enroll Now
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1506,7 +1506,10 @@ function closeEnrollModal() {{
 }}
 
 document.addEventListener('DOMContentLoaded', function() {{
-  // Start countdown (DOM is ready now)
+  // ── Bind all handlers FIRST — before anything else can throw ──
+  _bindAll();
+
+  // Start countdown
   tick(); setInterval(tick, 1000);
 
   // Auto-verify OTP when 6 digits typed (null-safe: guard against missing elements)
@@ -1524,12 +1527,15 @@ document.addEventListener('DOMContentLoaded', function() {{
   // Init tab display
   showTab('workshop');
 
-  // Backdrop close
-  document.getElementById('reg-modal').addEventListener('click', function(e) {{ if (e.target===this) closeRegModal(); }});
-  document.getElementById('enroll-modal').addEventListener('click', function(e) {{ if (e.target===this) closeEnrollModal(); }});
+  // Backdrop close — null-safe
+  var _regM = document.getElementById('reg-modal');
+  var _enlM = document.getElementById('enroll-modal');
+  if (_regM) _regM.addEventListener('click', function(e) {{ if (e.target===this) closeRegModal(); }});
+  if (_enlM) _enlM.addEventListener('click', function(e) {{ if (e.target===this) closeEnrollModal(); }});
 
-  // Workshop form submit
-  document.getElementById('reg-form').addEventListener('submit', function(e) {{
+  // Workshop form submit — null-safe
+  var _regF = document.getElementById('reg-form');
+  if (_regF) _regF.addEventListener('submit', function(e) {{
     e.preventDefault();
     var btn = document.getElementById('reg-submit');
     btn.textContent = 'Opening payment\u2026'; btn.disabled = true;
@@ -1594,8 +1600,9 @@ document.addEventListener('DOMContentLoaded', function() {{
     }}
   }});
 
-  // Enroll form submit
-  document.getElementById('enroll-form').addEventListener('submit', function(e) {{
+  // Enroll form submit — null-safe
+  var _enlF = document.getElementById('enroll-form');
+  if (_enlF) _enlF.addEventListener('submit', function(e) {{
     e.preventDefault();
     var btn = document.getElementById('enroll-submit');
     btn.textContent = 'Opening payment\u2026'; btn.disabled = true;
@@ -1670,8 +1677,6 @@ document.addEventListener('DOMContentLoaded', function() {{
     }}
   }});
 
-  // Bind all event handlers now that DOM is ready
-  _bindAll();
 }});
 
 // ── Fill viewport ──
@@ -1727,9 +1732,17 @@ function _bindAll() {{
   document.querySelectorAll('[data-open-enroll]').forEach(function(btn) {{
     btn.addEventListener('click', openEnrollModal);
   }});
+
+  // Scroll-to-enroll buttons (CSP-safe, no inline onclick)
+  document.querySelectorAll('[data-scroll-enroll]').forEach(function(btn) {{
+    btn.addEventListener('click', function() {{
+      var t = document.getElementById('enroll');
+      if (t) t.scrollIntoView({{behavior:'smooth'}});
+    }});
+  }});
 }}
 </script>
-<script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body style="margin:0;padding:0;">
 <div id="js-status">JS: BLOCKED</div>
