@@ -1527,39 +1527,60 @@ document.addEventListener('DOMContentLoaded', function() {{
     var phone  = document.getElementById('reg-phone').value.trim();
     var status = document.getElementById('reg-status').value;
 
-    var rzp = new Razorpay({{
-      key: 'rzp_live_SahJJtEgrCiJOp',
-      amount: 9900,
-      currency: 'INR',
-      name: 'The Next Engineer',
-      description: 'Data Analytics Workshop \u2014 18 April 2026',
-      prefill: {{ name: name, email: email, contact: phone }},
-      theme: {{ color: '#00e5ff' }},
-      handler: function(response) {{
-        // Payment successful — now save to sheet + send confirmation email
-        var body = 'formType=reg-paid'
-                 + '&name='       + encodeURIComponent(name)
-                 + '&email='      + encodeURIComponent(email)
-                 + '&phone='      + encodeURIComponent(phone)
-                 + '&status='     + encodeURIComponent(status)
-                 + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id)
-                 + '&amount=99';
-        fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
-        document.getElementById('reg-form').style.display = 'none';
-        document.getElementById('reg-success').style.display = 'block';
-        document.getElementById('reg-success-msg').innerHTML =
-          'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
-          + 'Check your inbox (and spam folder).<br><br>'
-          + '\u2728 See you on Saturday, 18 April!';
-        setTimeout(closeRegModal, 5000);
-      }},
-      modal: {{
-        ondismiss: function() {{
-          btn.textContent = 'Pay \u20b999 \u0026 Reserve \u2192'; btn.disabled = false;
+    var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isMobile) {{
+      // Mobile: Razorpay SDK is blocked inside Streamlit iframe on mobile browsers.
+      // Save a pending entry, then open the standalone payment link in a new tab.
+      var body = 'formType=reg-pending'
+               + '&name='   + encodeURIComponent(name)
+               + '&email='  + encodeURIComponent(email)
+               + '&phone='  + encodeURIComponent(phone)
+               + '&status=' + encodeURIComponent(status);
+      fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
+      document.getElementById('reg-form').style.display = 'none';
+      document.getElementById('reg-success').style.display = 'block';
+      document.getElementById('reg-success-msg').innerHTML =
+        'Taking you to the payment page now\u2026<br><br>'
+        + 'After payment, a confirmation email will be sent to <strong>' + email + '</strong>.<br><br>'
+        + '\u2728 See you on Saturday, 18 April!';
+      try {{ window.top.open('{PAYMENT_LINK}', '_blank'); }} catch(err) {{ window.open('{PAYMENT_LINK}', '_blank'); }}
+      setTimeout(closeRegModal, 10000);
+    }} else {{
+      var rzp = new Razorpay({{
+        key: 'rzp_live_SahJJtEgrCiJOp',
+        amount: 9900,
+        currency: 'INR',
+        name: 'The Next Engineer',
+        description: 'Data Analytics Workshop \u2014 18 April 2026',
+        prefill: {{ name: name, email: email, contact: phone }},
+        theme: {{ color: '#00e5ff' }},
+        handler: function(response) {{
+          // Payment successful — now save to sheet + send confirmation email
+          var body = 'formType=reg-paid'
+                   + '&name='       + encodeURIComponent(name)
+                   + '&email='      + encodeURIComponent(email)
+                   + '&phone='      + encodeURIComponent(phone)
+                   + '&status='     + encodeURIComponent(status)
+                   + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id)
+                   + '&amount=99';
+          fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
+          document.getElementById('reg-form').style.display = 'none';
+          document.getElementById('reg-success').style.display = 'block';
+          document.getElementById('reg-success-msg').innerHTML =
+            'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
+            + 'Check your inbox (and spam folder).<br><br>'
+            + '\u2728 See you on Saturday, 18 April!';
+          setTimeout(closeRegModal, 8000);
+        }},
+        modal: {{
+          ondismiss: function() {{
+            btn.textContent = 'Pay \u20b999 \u0026 Reserve \u2192'; btn.disabled = false;
+          }}
         }}
-      }}
-    }});
-    rzp.open();
+      }});
+      rzp.open();
+    }}
   }});
 
   // Enroll form submit
@@ -1576,40 +1597,66 @@ document.addEventListener('DOMContentLoaded', function() {{
     var city   = document.getElementById('enroll-city').value.trim();
     var amount = parseInt(document.getElementById('enroll-amount').value, 10);
 
-    var rzp = new Razorpay({{
-      key: 'rzp_live_SahJJtEgrCiJOp',
-      amount: amount * 100,
-      currency: 'INR',
-      name: 'The Next Engineer',
-      description: 'DA Bootcamp \u2014 ' + (amount < 19999 ? 'Partial payment \u00b7 seat reserved' : 'Full payment \u00b7 seat confirmed'),
-      prefill: {{ name: name, email: email, contact: phone }},
-      theme: {{ color: '#00e5ff' }},
-      handler: function(response) {{
-        // Payment successful — save to sheet + send confirmation email
-        var body = 'formType=enroll-paid'
-                 + '&name='       + encodeURIComponent(name)
-                 + '&email='      + encodeURIComponent(email)
-                 + '&phone='      + encodeURIComponent(phone)
-                 + '&status='     + encodeURIComponent(status)
-                 + '&education='  + encodeURIComponent(edu)
-                 + '&city='       + encodeURIComponent(city)
-                 + '&amount='     + encodeURIComponent(amount)
-                 + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id);
-        fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
-        document.getElementById('enroll-success-msg').innerHTML =
-          'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
-          + 'We\'ll review your details and get back to you within 24 hours.';
-        document.getElementById('enroll-form').style.display = 'none';
-        document.getElementById('enroll-success').style.display = 'block';
-        setTimeout(closeEnrollModal, 5000);
-      }},
-      modal: {{
-        ondismiss: function() {{
-          btn.textContent = 'Pay \u0026 Apply \u2192'; btn.disabled = false;
+    var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isMobile) {{
+      // Mobile: Razorpay SDK is blocked inside Streamlit iframe on mobile browsers.
+      // Save a pending entry, then show a WhatsApp CTA to complete payment.
+      var body = 'formType=enroll-pending'
+               + '&name='      + encodeURIComponent(name)
+               + '&email='     + encodeURIComponent(email)
+               + '&phone='     + encodeURIComponent(phone)
+               + '&status='    + encodeURIComponent(status)
+               + '&education=' + encodeURIComponent(edu)
+               + '&city='      + encodeURIComponent(city)
+               + '&amount='    + encodeURIComponent(amount);
+      fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
+      var waText = encodeURIComponent('Hi Sandeep! I want to enroll in The Next Engineer bootcamp.\n\nName: ' + name + '\nEmail: ' + email + '\nCity: ' + city + '\nDeposit amount: \u20b9' + amount);
+      document.getElementById('enroll-success-msg').innerHTML =
+        'Your details have been received! \u2764\ufe0f<br><br>'
+        + 'To complete your payment on mobile, tap the button below:<br><br>'
+        + '<a href="https://wa.me/{WA_NUMBER}?text=' + waText + '" target="_blank" '
+        + 'style="display:inline-block;background:#25d366;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;margin-top:4px;">'
+        + '💬 WhatsApp to complete enrollment</a><br><br>'
+        + '<small>We will send you a direct payment link on WhatsApp.</small>';
+      document.getElementById('enroll-form').style.display = 'none';
+      document.getElementById('enroll-success').style.display = 'block';
+    }} else {{
+      var rzp = new Razorpay({{
+        key: 'rzp_live_SahJJtEgrCiJOp',
+        amount: amount * 100,
+        currency: 'INR',
+        name: 'The Next Engineer',
+        description: 'DA Bootcamp \u2014 ' + (amount < 19999 ? 'Partial payment \u00b7 seat reserved' : 'Full payment \u00b7 seat confirmed'),
+        prefill: {{ name: name, email: email, contact: phone }},
+        theme: {{ color: '#00e5ff' }},
+        handler: function(response) {{
+          // Payment successful — save to sheet + send confirmation email
+          var body = 'formType=enroll-paid'
+                   + '&name='       + encodeURIComponent(name)
+                   + '&email='      + encodeURIComponent(email)
+                   + '&phone='      + encodeURIComponent(phone)
+                   + '&status='     + encodeURIComponent(status)
+                   + '&education='  + encodeURIComponent(edu)
+                   + '&city='       + encodeURIComponent(city)
+                   + '&amount='     + encodeURIComponent(amount)
+                   + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id);
+          fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
+          document.getElementById('enroll-success-msg').innerHTML =
+            'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
+            + 'We\'ll review your details and get back to you within 24 hours.';
+          document.getElementById('enroll-form').style.display = 'none';
+          document.getElementById('enroll-success').style.display = 'block';
+          setTimeout(closeEnrollModal, 8000);
+        }},
+        modal: {{
+          ondismiss: function() {{
+            btn.textContent = 'Pay \u0026 Apply \u2192'; btn.disabled = false;
+          }}
         }}
-      }}
-    }});
-    rzp.open();
+      }});
+      rzp.open();
+    }}
   }});
 }});
 
