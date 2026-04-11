@@ -1346,7 +1346,7 @@ hr.ws-glow {{
 </div>
 """
 
-HTML_HEAD = """<!DOCTYPE html>
+HTML_HEAD = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1355,19 +1355,12 @@ HTML_HEAD = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  #hero { min-height: 720px !important; }
-  #js-status { position:fixed; top:0; left:50%; transform:translateX(-50%);
+  #hero {{ min-height: 720px !important; }}
+  #js-status {{ position:fixed; top:0; left:50%; transform:translateX(-50%);
                 background:#cc0000; color:#fff; font-size:11px; font-weight:700;
                 padding:3px 12px; border-radius:0 0 6px 6px; z-index:99999;
-                font-family:monospace; letter-spacing:0.05em; }
+                font-family:monospace; letter-spacing:0.05em; }}
 </style>
-</head>
-<body style="margin:0;padding:0;">
-<div id="js-status">JS: BLOCKED</div>
-<script>document.getElementById('js-status').textContent='JS: OK \u2714';document.getElementById('js-status').style.background='#00aa44';</script>
-"""
-
-HTML_FOOT = f"""
 <script>
 var APPS_SCRIPT_URL = "{APPS_SCRIPT_URL}";
 var PAYMENT_LINK    = "{PAYMENT_LINK}";
@@ -1383,7 +1376,6 @@ function tick() {{
   document.getElementById('cd-mins').textContent  = pad((diff%3600000)/60000);
   document.getElementById('cd-secs').textContent  = pad((diff%60000)/1000);
 }}
-tick(); setInterval(tick, 1000);
 
 // ── Tab switching ──
 function showTab(name) {{
@@ -1514,6 +1506,9 @@ function closeEnrollModal() {{
 }}
 
 document.addEventListener('DOMContentLoaded', function() {{
+  // Start countdown (DOM is ready now)
+  tick(); setInterval(tick, 1000);
+
   // Auto-verify OTP when 6 digits typed (null-safe: guard against missing elements)
   var regOtpIn = document.getElementById('reg-otp-input');
   if (regOtpIn) regOtpIn.addEventListener('input', function() {{
@@ -1674,6 +1669,9 @@ document.addEventListener('DOMContentLoaded', function() {{
       rzp.open();
     }}
   }});
+
+  // Bind all event handlers now that DOM is ready
+  _bindAll();
 }});
 
 // ── Fill viewport ──
@@ -1694,7 +1692,7 @@ function resizeIframe() {{
 window.addEventListener('load',   resizeIframe);
 window.addEventListener('resize', resizeIframe);
 
-// ── Bind all event handlers via JS (works even when inline onclick is blocked by CSP) ──
+// ── Bind all event handlers via JS ──
 function _bindAll() {{
   // Tab switching
   document.querySelectorAll('.tab-btn').forEach(function(btn) {{
@@ -1730,12 +1728,15 @@ function _bindAll() {{
     btn.addEventListener('click', openEnrollModal);
   }});
 }}
-// Run immediately (script is at end of body — DOM is ready)
-_bindAll();
-// Safety net: also run on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', _bindAll);
 </script>
 <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
+</head>
+<body style="margin:0;padding:0;">
+<div id="js-status">JS: BLOCKED</div>
+<script>document.getElementById('js-status').textContent='JS: OK \u2714';document.getElementById('js-status').style.background='#00aa44';</script>
+"""
+
+HTML_FOOT = """
 </body>
 </html>"""
 
