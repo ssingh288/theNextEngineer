@@ -1365,32 +1365,22 @@ HTML_HEAD = f"""<!DOCTYPE html>
 var APPS_SCRIPT_URL = "{APPS_SCRIPT_URL}";
 var PAYMENT_LINK    = "{PAYMENT_LINK}";
 
-// ── Debug Logger ─────────────────────────────────────────
-var _dbgEl = null;
+// ── Debug Logger (CSP-safe: uses pre-existing DOM element, no innerHTML) ──
 function dbg(msg) {{
-  if (!_dbgEl) {{
-    _dbgEl = document.createElement('div');
-    _dbgEl.style.cssText = 'position:fixed;bottom:0;left:0;right:0;max-height:200px;overflow-y:auto;' +
-      'background:rgba(0,0,16,0.97);color:#00ff88;font-family:monospace;font-size:11px;' +
-      'padding:6px 10px;z-index:9999999;border-top:2px solid #00ff88;';
-    _dbgEl.innerHTML = '<div style="font-weight:700;color:#fff;margin-bottom:4px;">' +
-      '🔍 DEBUG LOG &nbsp;<button onclick="this.closest(\'div\').parentNode.style.display=\'none\'" ' +
-      'style="background:#f55;border:none;color:#fff;padding:1px 8px;border-radius:3px;cursor:pointer;font-size:10px;">hide</button></div>';
-    if (document.body) document.body.appendChild(_dbgEl);
-    else document.addEventListener('DOMContentLoaded', function() {{ document.body.appendChild(_dbgEl); }});
-  }}
+  var el = document.getElementById('dbg-log');
+  if (!el) return;
   var t = new Date();
   var ts = String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0')+':'+String(t.getSeconds()).padStart(2,'0');
   var line = document.createElement('div');
   line.textContent = '['+ts+'] '+msg;
-  _dbgEl.appendChild(line);
-  _dbgEl.scrollTop = _dbgEl.scrollHeight;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
 }}
 window.onerror = function(msg, src, ln, col, err) {{
-  dbg('❌ JS ERROR: '+msg+' (line '+ln+')');
+  dbg('JS-ERROR: '+msg+' (line '+ln+')');
   return false;
 }};
-window.addEventListener('unhandledrejection', function(e) {{ dbg('❌ PROMISE ERR: '+e.reason); }});
+window.addEventListener('unhandledrejection', function(e) {{ dbg('PROMISE-ERR: '+e.reason); }});
 // Log every click so we know if clicks are even reaching JS
 document.addEventListener('click', function(e) {{
   var el = e.target;
@@ -1398,7 +1388,7 @@ document.addEventListener('click', function(e) {{
   if (el.id) info += '#'+el.id;
   if (el.className && typeof el.className === 'string') info += '.'+el.className.trim().split(/\s+/)[0];
   if (el.textContent) info += ' "'+el.textContent.trim().slice(0,20)+'"';
-  dbg('CLICK → '+info);
+  dbg('CLICK: '+info);
 }}, true);
 
 // ── Countdown ──
@@ -1787,8 +1777,9 @@ function _bindAll() {{
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body style="margin:0;padding:0;">
-<div id="js-status">JS: BLOCKED</div>
-<script>document.getElementById('js-status').textContent='JS: OK \u2714';document.getElementById('js-status').style.background='#00aa44';</script>
+<div id="js-status" style="position:fixed;bottom:52px;right:10px;background:#cc0000;color:#fff;font-family:monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;z-index:99999999;pointer-events:none;">JS:WAIT</div>
+<script>document.getElementById('js-status').textContent='JS:OK';document.getElementById('js-status').style.background='#00aa44';</script>
+<div id="dbg-log" style="position:fixed;bottom:0;left:0;right:0;max-height:200px;overflow-y:auto;background:rgba(0,0,16,0.97);color:#00ff88;font-family:monospace;font-size:11px;padding:6px 10px;z-index:9999990;border-top:2px solid #00ff88;"><div style="color:#aaa;font-style:italic;">-- waiting for JS --</div></div>
 """
 
 HTML_FOOT = """
