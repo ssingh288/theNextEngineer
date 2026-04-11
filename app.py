@@ -1280,6 +1280,13 @@ if (typeof window.closeEnrollModal !== 'function') {{
         </svg>
         Join WhatsApp Community
       </a>
+      <br>
+      <button type="button" onclick="closeEnrollModal()"
+              style="margin-top:14px;background:transparent;border:1px solid rgba(255,255,255,0.2);
+                     color:rgba(255,255,255,0.5);padding:10px 32px;border-radius:100px;
+                     font-size:14px;cursor:pointer;font-family:inherit;">
+        Done ✓
+      </button>
     </div>
     <form id="enroll-form">
       <label class="reg-label" for="enroll-name">Full Name</label>
@@ -1318,6 +1325,9 @@ if (typeof window.closeEnrollModal !== 'function') {{
         Pay full ₹19,999 to confirm your seat · or pay min ₹5,000 to reserve it now and pay the rest later.
       </p>
       <button type="submit" class="reg-submit" id="enroll-submit">Pay &amp; Apply →</button>
+      <p style="font-size:11px;color:rgba(255,255,255,0.35);text-align:center;margin-top:10px;">
+        Deposits are non-refundable. Remaining balance due before cohort starts.
+      </p>
     </form>
     <p class="reg-note">Your info is only used to process your application.</p>
   </div>
@@ -1343,6 +1353,9 @@ if (typeof window.closeEnrollModal !== 'function') {{
         <option value="Looking for a Job">Looking for a Job</option>
       </select>
       <button type="submit" class="reg-submit" id="reg-submit">Proceed to Payment →</button>
+      <p style="font-size:11px;color:rgba(255,255,255,0.35);text-align:center;margin-top:10px;">
+        Seats are non-refundable. By registering you agree to our terms.
+      </p>
     </form>
     <p class="reg-note">Your info is only used to send you workshop details.</p>
     <div id="reg-success" style="display:none;text-align:center;padding:24px 0;">
@@ -1358,6 +1371,13 @@ if (typeof window.closeEnrollModal !== 'function') {{
         </svg>
         Join WhatsApp Community
       </a>
+      <br>
+      <button type="button" onclick="closeRegModal()"
+              style="margin-top:14px;background:transparent;border:1px solid rgba(255,255,255,0.2);
+                     color:rgba(255,255,255,0.5);padding:10px 32px;border-radius:100px;
+                     font-size:14px;cursor:pointer;font-family:inherit;">
+        Done ✓
+      </button>
     </div>
   </div>
 </div>
@@ -1377,7 +1397,28 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var pad  = function(n) {{ return String(Math.floor(n)).padStart(2,'0'); }};
       var dEl  = document.getElementById('cd-days');
       if (!dEl) return;
-      if (diff <= 0) {{ var ws = document.querySelector('.ws-countdown'); if (ws) ws.style.display='none'; return; }}
+      if (diff <= 0) {{
+        var ws = document.querySelector('.ws-countdown'); if (ws) ws.style.display='none';
+        /* Workshop has ended — disable all Register buttons and show a message */
+        document.querySelectorAll('.ws-cta-btn, .ws-banner-btn, .ws-sticky-btn').forEach(function(b) {{
+          b.disabled = true;
+          b.textContent = 'Workshop Ended';
+          b.style.opacity = '0.4';
+          b.style.cursor  = 'not-allowed';
+        }});
+        var endMsg = document.getElementById('ws-ended-msg');
+        if (!endMsg) {{
+          endMsg = document.createElement('p');
+          endMsg.id = 'ws-ended-msg';
+          endMsg.textContent = 'This workshop has ended. \u2728 Check out the full Data Analytics Bootcamp \u2192';
+          endMsg.style.cssText = 'font-size:15px;color:rgba(255,255,255,0.6);margin:16px 0;line-height:1.6;';
+          endMsg.style.cursor = 'pointer';
+          endMsg.onclick = function() {{ if (typeof showTab==='function') showTab('course'); }};
+          var hero = document.querySelector('.ws-hero');
+          if (hero) hero.appendChild(endMsg);
+        }}
+        return;
+      }}
       dEl.textContent = pad(diff/86400000);
       document.getElementById('cd-hours').textContent = pad((diff%86400000)/3600000);
       document.getElementById('cd-mins').textContent  = pad((diff%3600000)/60000);
@@ -1425,7 +1466,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
             fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
             document.getElementById('reg-form').style.display = 'none';
             document.getElementById('reg-success').style.display = 'block';
-            document.getElementById('reg-success-msg').textContent = 'Payment confirmed! \u2728 See you on Saturday, 18 April. Join the community below to get all updates:';
+            document.getElementById('reg-success-msg').textContent = 'Payment confirmed! \u2728 See you on Saturday, 18 April. Razorpay will send a receipt to ' + email + '. Join the group below for all updates:';
             try {{ window.open('https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG', '_blank'); }} catch(e) {{}}
           }},
           modal: {{ ondismiss: function() {{ btn.textContent = 'Pay \u20b999 & Reserve \u2192'; btn.disabled = false; }} }}
@@ -1450,38 +1491,28 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var edu    = document.getElementById('enroll-edu').value;
       var city   = document.getElementById('enroll-city').value.trim();
       var amount = parseInt(document.getElementById('enroll-amount').value, 10);
-      var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      if (isMobile) {{
-        var mbody = 'formType=enroll-pending&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&education='+encodeURIComponent(edu)+'&city='+encodeURIComponent(city)+'&amount='+encodeURIComponent(amount);
-        fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:mbody }});
-        document.getElementById('enroll-form').style.display = 'none';
-        document.getElementById('enroll-success').style.display = 'block';
-        document.getElementById('enroll-success-msg').textContent = 'Your details have been received! \u2764\ufe0f Our team will reach out within 24 hours. Join the community below:';
-        try {{ window.open('https://chat.whatsapp.com/CqjDEV5N6fU4acibrZ5wbm', '_blank'); }} catch(e) {{}}
-      }} else {{
-        if (typeof Razorpay === 'undefined') {{
-          alert('Payment system is still loading — please try in a moment.');
-          btn.textContent = 'Pay & Apply \u2192'; btn.disabled = false; return;
-        }}
-        var rzp = new Razorpay({{
-          key: 'rzp_live_SahJJtEgrCiJOp',
-          amount: amount * 100, currency: 'INR',
-          name: 'The Next Engineer',
-          description: 'Data Analytics Bootcamp \u2014 1st Cohort',
-          prefill: {{ name: name, email: email, contact: phone }},
-          theme: {{ color: '#00e5ff' }},
-          handler: function(response) {{
-            var pbody = 'formType=enroll-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&education='+encodeURIComponent(edu)+'&city='+encodeURIComponent(city)+'&amount='+encodeURIComponent(amount)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id);
-            fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
-            document.getElementById('enroll-form').style.display = 'none';
-            document.getElementById('enroll-success').style.display = 'block';
-            document.getElementById('enroll-success-msg').textContent = 'Seat reserved! \u2764\ufe0f We\u2019ll review your details and get back within 24 hours. Join the community below:';
-            try {{ window.open('https://chat.whatsapp.com/CqjDEV5N6fU4acibrZ5wbm', '_blank'); }} catch(e) {{}}
-          }},
-          modal: {{ ondismiss: function() {{ btn.textContent = 'Pay & Apply \u2192'; btn.disabled = false; }} }}
-        }});
-        rzp.open();
+      if (typeof Razorpay === 'undefined') {{
+        alert('Payment system is still loading — please try in a moment.');
+        btn.textContent = 'Pay & Apply \u2192'; btn.disabled = false; return;
       }}
+      var rzp = new Razorpay({{
+        key: 'rzp_live_SahJJtEgrCiJOp',
+        amount: amount * 100, currency: 'INR',
+        name: 'The Next Engineer',
+        description: 'Data Analytics Bootcamp \u2014 1st Cohort',
+        prefill: {{ name: name, email: email, contact: phone }},
+        theme: {{ color: '#00e5ff' }},
+        handler: function(response) {{
+          var pbody = 'formType=enroll-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&education='+encodeURIComponent(edu)+'&city='+encodeURIComponent(city)+'&amount='+encodeURIComponent(amount)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id);
+          fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+          document.getElementById('enroll-form').style.display = 'none';
+          document.getElementById('enroll-success').style.display = 'block';
+          document.getElementById('enroll-success-msg').textContent = 'Seat reserved! \u2764\ufe0f Razorpay will send a receipt to ' + email + '. We\u2019ll be in touch within 24 hours. Join the group below:';
+          try {{ window.open('https://chat.whatsapp.com/CqjDEV5N6fU4acibrZ5wbm', '_blank'); }} catch(e) {{}}
+        }},
+        modal: {{ ondismiss: function() {{ btn.textContent = 'Pay & Apply \u2192'; btn.disabled = false; }} }}
+      }});
+      rzp.open();
     }});
   }}
 
@@ -1554,7 +1585,22 @@ document.addEventListener('click', function(e) {{
 var cdTarget = new Date("2026-04-18T05:00:00Z");
 function tick() {{
   var diff = cdTarget - new Date();
-  if (diff <= 0) {{ document.querySelector('.ws-countdown') && (document.querySelector('.ws-countdown').style.display='none'); return; }}
+  if (diff <= 0) {{
+    var ws = document.querySelector('.ws-countdown'); if (ws) ws.style.display='none';
+    document.querySelectorAll('.ws-cta-btn, .ws-banner-btn, .ws-sticky-btn').forEach(function(b) {{
+      b.disabled = true; b.textContent = 'Workshop Ended'; b.style.opacity='0.4'; b.style.cursor='not-allowed';
+    }});
+    if (!document.getElementById('ws-ended-msg')) {{
+      var endMsg = document.createElement('p');
+      endMsg.id = 'ws-ended-msg';
+      endMsg.textContent = 'This workshop has ended. \u2728 Check out the full Data Analytics Bootcamp \u2192';
+      endMsg.style.cssText = 'font-size:15px;color:rgba(255,255,255,0.6);margin:16px 0;line-height:1.6;cursor:pointer;';
+      endMsg.onclick = function() {{ if (typeof showTab==='function') showTab('course'); }};
+      var hero = document.querySelector('.ws-hero');
+      if (hero) hero.appendChild(endMsg);
+    }}
+    return;
+  }}
   var pad = function(n) {{ return String(Math.floor(n)).padStart(2,'0'); }};
   document.getElementById('cd-days').textContent  = pad(diff/86400000);
   document.getElementById('cd-hours').textContent = pad((diff%86400000)/3600000);
