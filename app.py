@@ -13,25 +13,34 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-#MainMenu, footer, header                    { visibility: hidden !important; }
+/* ── Hide all Streamlit chrome ── */
+#MainMenu, footer, header,
 [data-testid="stToolbar"],
 [data-testid="stDecoration"],
 [data-testid="stStatusWidget"],
-[data-testid="stAppViewBlockContainer"],
-.stDeployButton,
-#stDecoration                                { display: none !important; }
+[data-testid="stDeployButton"],
+[data-testid="stSidebar"],
+[data-testid="collapsedControl"],
+.stDeployButton, #stDecoration,
 [class*="viewerBadge"],
 [class*="managedBy"],
-[class*="toolbarActions"]                    { display: none !important; }
-.main .block-container                       { padding: 0 !important; max-width: 100% !important; }
-section[data-testid="stMain"]                { padding: 0 !important; overflow: hidden !important; }
-.stApp                                       { background: #080810 !important; overflow: hidden !important; }
-.element-container, .stMarkdown              { padding: 0 !important; margin: 0 !important; }
-iframe                                       { display: block; border: none;
-                                               width: 100vw !important;
-                                               height: 100vh !important;
-                                               min-height: 100vh !important; }
-html, body                                   { overflow: hidden !important; margin: 0 !important; padding: 0 !important; }
+[class*="toolbarActions"]                    { display: none !important; visibility: hidden !important; }
+
+/* ── Remove all layout padding / margins ── */
+.main .block-container,
+div[data-testid="stAppViewBlockContainer"],
+div[data-testid="stVerticalBlock"],
+div[data-testid="stVerticalBlockBorderWrapper"] { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+section[data-testid="stMain"]                { padding: 0 !important; overflow: hidden !important; width: 100vw !important; }
+.stApp                                       { background: #080810 !important; overflow: hidden !important; margin: 0 !important; padding: 0 !important; }
+.element-container, .stMarkdown              { padding: 0 !important; margin: 0 !important; width: 100% !important; }
+
+/* ── Force iframe to fill full viewport ── */
+iframe                                       { display: block !important; border: none !important;
+                                               position: fixed !important; top: 0 !important; left: 0 !important;
+                                               width: 100vw !important; height: 100vh !important;
+                                               min-height: 100vh !important; z-index: 9999 !important; }
+html, body                                   { overflow: hidden !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -42,9 +51,9 @@ WA_URL    = f"https://wa.me/{WA_NUMBER}?text={WA_MSG}"
 APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyIahJO9hJNTd4Z08Xi7S2RtkOTZUgCxQ0xaELMFrK68lpxcdsFrEkBV-w2SXX6e-5T/exec"
 PAYMENT_LINK    = "https://rzp.io/rzp/XTP0oz9"
 
-_img_path = os.path.join(os.path.dirname(__file__), "Sandeep.PNG")
+_img_path = os.path.join(os.path.dirname(__file__), "Sandeep.jpg")
 with open(_img_path, "rb") as _f:
-    SANDEEP_SRC = "data:image/png;base64," + base64.b64encode(_f.read()).decode()
+    SANDEEP_SRC = "data:image/jpeg;base64," + base64.b64encode(_f.read()).decode()
 
 random.seed(42)
 star_styles, star_divs = [], []
@@ -1348,7 +1357,6 @@ HTML_HEAD = """<!DOCTYPE html>
 <style>
   #hero { min-height: 720px !important; }
 </style>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body style="margin:0;padding:0;">
 """
@@ -1678,6 +1686,7 @@ function resizeIframe() {{
 window.addEventListener('load',   resizeIframe);
 window.addEventListener('resize', resizeIframe);
 </script>
+<script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
 </body>
 </html>"""
 
