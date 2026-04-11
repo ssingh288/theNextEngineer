@@ -1685,7 +1685,7 @@ document.addEventListener('DOMContentLoaded', function() {{
         .finally(function() {{
           loadingEl.style.display = 'none';
           document.getElementById('enroll-success-msg').innerHTML =
-            'Application received! 🎉<br><br>'
+            'Application received! &#x1F389;<br><br>'
             + 'Tap below \u2014 we\u2019ll send your payment link on WhatsApp within a few hours.<br><br>'
             + '<a href="' + WA_ENROLL + '" target="_blank" rel="noopener" '
             + 'style="display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:11px 22px;'
