@@ -1365,6 +1365,42 @@ HTML_HEAD = f"""<!DOCTYPE html>
 var APPS_SCRIPT_URL = "{APPS_SCRIPT_URL}";
 var PAYMENT_LINK    = "{PAYMENT_LINK}";
 
+// ── Debug Logger ─────────────────────────────────────────
+var _dbgEl = null;
+function dbg(msg) {{
+  if (!_dbgEl) {{
+    _dbgEl = document.createElement('div');
+    _dbgEl.style.cssText = 'position:fixed;bottom:0;left:0;right:0;max-height:200px;overflow-y:auto;' +
+      'background:rgba(0,0,16,0.97);color:#00ff88;font-family:monospace;font-size:11px;' +
+      'padding:6px 10px;z-index:9999999;border-top:2px solid #00ff88;';
+    _dbgEl.innerHTML = '<div style="font-weight:700;color:#fff;margin-bottom:4px;">' +
+      '🔍 DEBUG LOG &nbsp;<button onclick="this.closest(\'div\').parentNode.style.display=\'none\'" ' +
+      'style="background:#f55;border:none;color:#fff;padding:1px 8px;border-radius:3px;cursor:pointer;font-size:10px;">hide</button></div>';
+    if (document.body) document.body.appendChild(_dbgEl);
+    else document.addEventListener('DOMContentLoaded', function() {{ document.body.appendChild(_dbgEl); }});
+  }}
+  var t = new Date();
+  var ts = String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0')+':'+String(t.getSeconds()).padStart(2,'0');
+  var line = document.createElement('div');
+  line.textContent = '['+ts+'] '+msg;
+  _dbgEl.appendChild(line);
+  _dbgEl.scrollTop = _dbgEl.scrollHeight;
+}}
+window.onerror = function(msg, src, ln, col, err) {{
+  dbg('❌ JS ERROR: '+msg+' (line '+ln+')');
+  return false;
+}};
+window.addEventListener('unhandledrejection', function(e) {{ dbg('❌ PROMISE ERR: '+e.reason); }});
+// Log every click so we know if clicks are even reaching JS
+document.addEventListener('click', function(e) {{
+  var el = e.target;
+  var info = el.tagName.toLowerCase();
+  if (el.id) info += '#'+el.id;
+  if (el.className && typeof el.className === 'string') info += '.'+el.className.trim().split(/\s+/)[0];
+  if (el.textContent) info += ' "'+el.textContent.trim().slice(0,20)+'"';
+  dbg('CLICK → '+info);
+}}, true);
+
 // ── Countdown ──
 var cdTarget = new Date("2026-04-18T05:00:00Z");
 function tick() {{
@@ -1379,6 +1415,7 @@ function tick() {{
 
 // ── Tab switching ──
 function showTab(name) {{
+  dbg('showTab: ' + name);
   document.querySelectorAll('.tab-content').forEach(function(el) {{ el.classList.remove('active'); el.style.display='none'; }});
   var tab = document.getElementById('tab-' + name);
   if (!tab) {{ return; }}
@@ -1465,6 +1502,7 @@ function verifyEnrollOTP() {{
 
 // ── Workshop register modal ──
 function openRegModal() {{
+  dbg('openRegModal called');
   document.getElementById('reg-modal').style.display = 'flex';
 }}
 function closeRegModal() {{
@@ -1486,6 +1524,7 @@ function closeRegModal() {{
 
 // ── Enroll modal ──
 function openEnrollModal() {{
+  dbg('openEnrollModal called');
   document.getElementById('enroll-modal').style.display = 'flex';
 }}
 function closeEnrollModal() {{
@@ -1506,8 +1545,10 @@ function closeEnrollModal() {{
 }}
 
 document.addEventListener('DOMContentLoaded', function() {{
+  dbg('DOMContentLoaded fired');
   // ── Bind all handlers FIRST — before anything else can throw ──
   _bindAll();
+  dbg('_bindAll done — tab-btns:' + document.querySelectorAll('.tab-btn').length + ' ws-cta:' + document.querySelectorAll('.ws-cta-btn').length);
 
   // Start countdown
   tick(); setInterval(tick, 1000);
@@ -1699,6 +1740,7 @@ window.addEventListener('resize', resizeIframe);
 
 // ── Bind all event handlers via JS ──
 function _bindAll() {{
+  dbg('_bindAll start — tab-btns in DOM:' + document.querySelectorAll('.tab-btn').length);
   // Tab switching
   document.querySelectorAll('.tab-btn').forEach(function(btn) {{
     btn.addEventListener('click', function() {{ showTab(this.getAttribute('data-tab')); }});
