@@ -859,7 +859,6 @@ hr.ws-glow {{
   <div class="tab-btns">
     <button class="tab-btn active" data-tab="workshop" onclick="showTab('workshop')">Workshop</button>
     <button class="tab-btn" data-tab="course" onclick="showTab('course')">Data Analytics Course</button>
-    <button class="tab-btn" data-tab="dummy" onclick="showTab('dummy')">Dummy</button>
   </div>
 </nav>
 <script>
@@ -1091,7 +1090,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
   </div>
   <h1 class="hero-h1" style="white-space:nowrap;">Learn. Build. Grow 📈</h1>
   <div class="hero-ctas">
-    <button data-scroll-enroll="1" class="btn-p" style="border:none;cursor:pointer;">
+    <button data-scroll-enroll="1" class="btn-p" style="border:none;cursor:pointer;" onclick="openEnrollModal()">
       Enroll Now
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1262,92 +1261,6 @@ if (typeof window.closeEnrollModal !== 'function') {{
 </div><!-- /tne-page -->
 </div><!-- /tab-course -->
 
-<!-- ══ Dummy Tab ══════════════════════════════════════════ -->
-<div id="tab-dummy" class="tab-content">
-<div style="min-height:100vh;padding:100px 40px 60px;max-width:900px;margin:0 auto;">
-  <h2 style="font-size:2rem;font-weight:800;margin-bottom:8px;">Data Analytics — Quick Reference</h2>
-  <p style="color:rgba(255,255,255,0.55);margin-bottom:40px;">Key concepts every data analyst should know.</p>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;">
-
-    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
-      <div style="font-size:2rem;margin-bottom:12px;">📊</div>
-      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Exploratory Data Analysis</h3>
-      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Understand data distributions, find missing values, detect outliers, and uncover patterns before building any model or report.</p>
-    </div>
-
-    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
-      <div style="font-size:2rem;margin-bottom:12px;">🐍</div>
-      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Python for Data</h3>
-      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Pandas for data wrangling, NumPy for numerical ops, Matplotlib &amp; Seaborn for charts — the core toolkit of every data analyst.</p>
-    </div>
-
-    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
-      <div style="font-size:2rem;margin-bottom:12px;">🗄️</div>
-      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">SQL Fundamentals</h3>
-      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">SELECT, JOIN, GROUP BY, window functions. SQL is the #1 skill in every data analyst job description — non-negotiable.</p>
-    </div>
-
-    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
-      <div style="font-size:2rem;margin-bottom:12px;">📈</div>
-      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Data Visualisation</h3>
-      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Turn numbers into stories. Tableau, Power BI, or Streamlit — pick one and master it. Clear visuals drive business decisions.</p>
-    </div>
-
-    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
-      <div style="font-size:2rem;margin-bottom:12px;">📉</div>
-      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Statistics &amp; Probability</h3>
-      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Mean, median, std deviation, correlation, hypothesis testing, p-values. Stats give you confidence that your insights are real, not noise.</p>
-    </div>
-
-    <div style="background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
-      <div style="font-size:2rem;margin-bottom:12px;">🤖</div>
-      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Intro to Machine Learning</h3>
-      <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Linear &amp; logistic regression, decision trees, clustering. Know when to apply ML and when a pivot table does the job better.</p>
-    </div>
-
-  </div>
-
-  <div style="text-align:center;margin-top:48px;padding-bottom:40px;">
-    <button id="dummy-pay-btn"
-      style="background:#0047ff;color:#fff;padding:16px 40px;border:none;border-radius:100px;
-             font-size:17px;font-weight:700;cursor:pointer;letter-spacing:-0.02em;
-             transition:background 0.2s,box-shadow 0.2s;"
-      onmouseover="this.style.background='#4f9eff'"
-      onmouseout="this.style.background='#0047ff'">
-      Register Now — ₹10
-    </button>
-    <p style="margin-top:12px;font-size:13px;color:rgba(255,255,255,0.4);">Test payment — ₹10 only</p>
-  </div>
-  <script>
-  document.getElementById('dummy-pay-btn').addEventListener('click', function() {{
-    var btn = this;
-    if (typeof Razorpay === 'undefined') {{
-      btn.textContent = 'Loading… try again in a sec';
-      setTimeout(function() {{ btn.textContent = 'Register Now — ₹10'; }}, 2000);
-      return;
-    }}
-    var rzp = new Razorpay({{
-      key: 'rzp_live_SahJJtEgrCiJOp',
-      amount: 1000,
-      currency: 'INR',
-      name: 'The Next Engineer',
-      description: 'Test Registration — ₹10',
-      handler: function(response) {{
-        btn.textContent = 'Payment done ✓';
-        btn.style.background = '#00db57';
-      }},
-      modal: {{
-        ondismiss: function() {{ btn.textContent = 'Register Now — ₹10'; }}
-      }}
-    }});
-    rzp.open();
-  }});
-  </script>
-
-</div>
-</div><!-- /tab-dummy -->
-
 <!-- ══ Enroll Modal ══════════════════════════════════════ -->
 <div id="enroll-modal" class="reg-modal">
   <div class="reg-card" style="max-width:500px;">
@@ -1470,6 +1383,241 @@ if (typeof window.closeEnrollModal !== 'function') {{
     </div>
   </div>
 </div>
+
+<!-- ── Inline fallbacks: OTP, payment, countdown — runs even if head script fails ── -->
+<script>
+(function() {{
+  /* ── Shared vars ── */
+  if (!window.APPS_SCRIPT_URL) window.APPS_SCRIPT_URL = "{APPS_SCRIPT_URL}";
+  if (!window.PAYMENT_LINK)    window.PAYMENT_LINK    = "{PAYMENT_LINK}";
+
+  /* ── OTP helpers ── */
+  if (typeof window.generateOTP !== 'function') {{
+    window.generateOTP = function() {{ return String(Math.floor(100000 + Math.random() * 900000)); }};
+  }}
+  if (typeof window.regOTP   === 'undefined') window.regOTP   = null;
+  if (typeof window.enrollOTP === 'undefined') window.enrollOTP = null;
+
+  /* ── sendRegOTP ── */
+  if (typeof window.sendRegOTP !== 'function') {{
+    window.sendRegOTP = function() {{
+      var name  = document.getElementById('reg-name').value.trim();
+      var email = document.getElementById('reg-email').value.trim();
+      if (!name || !email) {{ alert('Please enter your name and email first.'); return; }}
+      window.regOTP = window.generateOTP();
+      var btn = document.getElementById('reg-send-otp');
+      btn.textContent = '\u231b Sending\u2026'; btn.disabled = true;
+      var body = 'formType=send-otp'
+               + '&name='  + encodeURIComponent(name)
+               + '&email=' + encodeURIComponent(email)
+               + '&otp='   + encodeURIComponent(window.regOTP);
+      fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }})
+        .finally(function() {{
+          document.getElementById('reg-otp-section').style.display = 'block';
+          btn.textContent = '\u2713 Code sent \u2014 Resend'; btn.disabled = false;
+        }});
+    }};
+  }}
+
+  /* ── verifyRegOTP ── */
+  if (typeof window.verifyRegOTP !== 'function') {{
+    window.verifyRegOTP = function() {{
+      var entered = document.getElementById('reg-otp-input').value.trim();
+      if (entered === window.regOTP) {{
+        document.getElementById('reg-otp-section').style.display = 'none';
+        document.getElementById('reg-send-otp').style.display = 'none';
+        document.getElementById('reg-otp-verified').style.display = 'flex';
+        var btn = document.getElementById('reg-submit');
+        btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
+      }} else {{
+        document.getElementById('reg-otp-error').style.display = 'block';
+      }}
+    }};
+  }}
+
+  /* ── sendEnrollOTP ── */
+  if (typeof window.sendEnrollOTP !== 'function') {{
+    window.sendEnrollOTP = function() {{
+      var name  = document.getElementById('enroll-name').value.trim();
+      var email = document.getElementById('enroll-email').value.trim();
+      if (!name || !email) {{ alert('Please enter your name and email first.'); return; }}
+      window.enrollOTP = window.generateOTP();
+      var btn = document.getElementById('enroll-send-otp');
+      btn.textContent = '\u231b Sending\u2026'; btn.disabled = true;
+      var body = 'formType=send-otp'
+               + '&name='  + encodeURIComponent(name)
+               + '&email=' + encodeURIComponent(email)
+               + '&otp='   + encodeURIComponent(window.enrollOTP);
+      fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }})
+        .finally(function() {{
+          document.getElementById('enroll-otp-section').style.display = 'block';
+          btn.textContent = '\u2713 Code sent \u2014 Resend'; btn.disabled = false;
+        }});
+    }};
+  }}
+
+  /* ── verifyEnrollOTP ── */
+  if (typeof window.verifyEnrollOTP !== 'function') {{
+    window.verifyEnrollOTP = function() {{
+      var entered = document.getElementById('enroll-otp-input').value.trim();
+      if (entered === window.enrollOTP) {{
+        document.getElementById('enroll-otp-section').style.display = 'none';
+        document.getElementById('enroll-send-otp').style.display = 'none';
+        document.getElementById('enroll-otp-verified').style.display = 'flex';
+        var btn = document.getElementById('enroll-submit');
+        btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
+      }} else {{
+        document.getElementById('enroll-otp-error').style.display = 'block';
+      }}
+    }};
+  }}
+
+  /* ── Countdown ── */
+  if (typeof window.tick !== 'function') {{
+    var _cdTarget = new Date("2026-04-18T05:00:00Z");
+    window.tick = function() {{
+      var diff = _cdTarget - new Date();
+      var pad  = function(n) {{ return String(Math.floor(n)).padStart(2,'0'); }};
+      var dEl  = document.getElementById('cd-days');
+      if (!dEl) return;
+      if (diff <= 0) {{ var ws = document.querySelector('.ws-countdown'); if (ws) ws.style.display='none'; return; }}
+      dEl.textContent = pad(diff/86400000);
+      document.getElementById('cd-hours').textContent = pad((diff%86400000)/3600000);
+      document.getElementById('cd-mins').textContent  = pad((diff%3600000)/60000);
+      document.getElementById('cd-secs').textContent  = pad((diff%60000)/1000);
+    }};
+    window.tick();
+    setInterval(window.tick, 1000);
+  }}
+
+  /* ── OTP auto-verify on 6-digit input ── */
+  var regOtpIn = document.getElementById('reg-otp-input');
+  if (regOtpIn && !regOtpIn._otpBound) {{
+    regOtpIn._otpBound = true;
+    regOtpIn.addEventListener('input', function() {{
+      this.value = this.value.replace(/[^0-9]/g, '');
+      if (this.value.length === 6) window.verifyRegOTP();
+    }});
+  }}
+  var enrollOtpIn = document.getElementById('enroll-otp-input');
+  if (enrollOtpIn && !enrollOtpIn._otpBound) {{
+    enrollOtpIn._otpBound = true;
+    enrollOtpIn.addEventListener('input', function() {{
+      this.value = this.value.replace(/[^0-9]/g, '');
+      if (this.value.length === 6) window.verifyEnrollOTP();
+    }});
+  }}
+
+  /* ── Workshop form submit → Razorpay ── */
+  var regF = document.getElementById('reg-form');
+  if (regF && !regF._submitBound) {{
+    regF._submitBound = true;
+    regF.addEventListener('submit', function(e) {{
+      e.preventDefault();
+      var btn    = document.getElementById('reg-submit');
+      btn.textContent = 'Opening payment\u2026'; btn.disabled = true;
+      var name   = document.getElementById('reg-name').value.trim();
+      var email  = document.getElementById('reg-email').value.trim();
+      var phone  = document.getElementById('reg-phone').value.trim();
+      var status = document.getElementById('reg-status').value;
+      var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isMobile) {{
+        var mbody = 'formType=reg-pending&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status);
+        fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:mbody }});
+        document.getElementById('reg-form').style.display = 'none';
+        document.getElementById('reg-success').style.display = 'block';
+        document.getElementById('reg-success-msg').textContent = 'Taking you to the payment page\u2026 A confirmation email will be sent to ' + email + ' after payment. \u2728 See you on Saturday, 18 April!';
+        try {{ window.top.open(window.PAYMENT_LINK, '_blank'); }} catch(err) {{ window.open(window.PAYMENT_LINK, '_blank'); }}
+        setTimeout(function() {{ if (typeof closeRegModal === 'function') closeRegModal(); }}, 10000);
+      }} else {{
+        if (typeof Razorpay === 'undefined') {{
+          alert('Payment system is still loading — please try in a moment.');
+          btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
+        }}
+        var rzp = new Razorpay({{
+          key: 'rzp_live_SahJJtEgrCiJOp',
+          amount: 9900, currency: 'INR',
+          name: 'The Next Engineer',
+          description: 'Data Analytics Workshop \u2014 18 April 2026',
+          prefill: {{ name: name, email: email, contact: phone }},
+          theme: {{ color: '#00e5ff' }},
+          handler: function(response) {{
+            var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
+            fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+            document.getElementById('reg-form').style.display = 'none';
+            document.getElementById('reg-success').style.display = 'block';
+            document.getElementById('reg-success-msg').textContent = 'A confirmation email has been sent to ' + email + '. Check your inbox (and spam folder). \u2728 See you on Saturday, 18 April!';
+            setTimeout(function() {{ if (typeof closeRegModal === 'function') closeRegModal(); }}, 8000);
+          }},
+          modal: {{ ondismiss: function() {{ btn.textContent = 'Pay \u20b999 & Reserve \u2192'; btn.disabled = false; }} }}
+        }});
+        rzp.open();
+      }}
+    }});
+  }}
+
+  /* ── Enroll form submit → Razorpay ── */
+  var enlF = document.getElementById('enroll-form');
+  if (enlF && !enlF._submitBound) {{
+    enlF._submitBound = true;
+    enlF.addEventListener('submit', function(e) {{
+      e.preventDefault();
+      var btn    = document.getElementById('enroll-submit');
+      btn.textContent = 'Opening payment\u2026'; btn.disabled = true;
+      var name   = document.getElementById('enroll-name').value.trim();
+      var email  = document.getElementById('enroll-email').value.trim();
+      var phone  = document.getElementById('enroll-phone').value.trim();
+      var status = document.getElementById('enroll-status').value;
+      var edu    = document.getElementById('enroll-edu').value;
+      var city   = document.getElementById('enroll-city').value.trim();
+      var amount = parseInt(document.getElementById('enroll-amount').value, 10);
+      var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isMobile) {{
+        var mbody = 'formType=enroll-pending&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&education='+encodeURIComponent(edu)+'&city='+encodeURIComponent(city)+'&amount='+encodeURIComponent(amount);
+        fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:mbody }});
+        document.getElementById('enroll-form').style.display = 'none';
+        document.getElementById('enroll-success').style.display = 'block';
+        document.getElementById('enroll-success-msg').textContent = 'Your details have been received! \u2764\ufe0f Our team will reach out to you within 24 hours to complete your enrollment.';
+      }} else {{
+        if (typeof Razorpay === 'undefined') {{
+          alert('Payment system is still loading — please try in a moment.');
+          btn.textContent = 'Pay & Apply \u2192'; btn.disabled = false; return;
+        }}
+        var rzp = new Razorpay({{
+          key: 'rzp_live_SahJJtEgrCiJOp',
+          amount: amount * 100, currency: 'INR',
+          name: 'The Next Engineer',
+          description: 'Data Analytics Bootcamp \u2014 1st Cohort',
+          prefill: {{ name: name, email: email, contact: phone }},
+          theme: {{ color: '#00e5ff' }},
+          handler: function(response) {{
+            var pbody = 'formType=enroll-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&education='+encodeURIComponent(edu)+'&city='+encodeURIComponent(city)+'&amount='+encodeURIComponent(amount)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id);
+            fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+            document.getElementById('enroll-form').style.display = 'none';
+            document.getElementById('enroll-success').style.display = 'block';
+            document.getElementById('enroll-success-msg').textContent = 'Application received! \u2764\ufe0f A confirmation email will be sent to ' + email + '. We\u2019ll review your details and get back within 24 hours.';
+            setTimeout(function() {{ if (typeof closeEnrollModal === 'function') closeEnrollModal(); }}, 10000);
+          }},
+          modal: {{ ondismiss: function() {{ btn.textContent = 'Pay & Apply \u2192'; btn.disabled = false; }} }}
+        }});
+        rzp.open();
+      }}
+    }});
+  }}
+
+  /* ── Backdrop close ── */
+  var _regM = document.getElementById('reg-modal');
+  var _enlM = document.getElementById('enroll-modal');
+  if (_regM && !_regM._backdropBound) {{
+    _regM._backdropBound = true;
+    _regM.addEventListener('click', function(e) {{ if (e.target===this && typeof closeRegModal==='function') closeRegModal(); }});
+  }}
+  if (_enlM && !_enlM._backdropBound) {{
+    _enlM._backdropBound = true;
+    _enlM.addEventListener('click', function(e) {{ if (e.target===this && typeof closeEnrollModal==='function') closeEnrollModal(); }});
+  }}
+}})();
+</script>
 
 <!-- ── End-of-body init: runs as soon as full DOM is parsed, no DOMContentLoaded needed ── -->
 <script>
