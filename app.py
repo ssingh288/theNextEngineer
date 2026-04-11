@@ -213,7 +213,6 @@ body  {{
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
 }}
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 ::-webkit-scrollbar {{ width: 4px; }}
 ::-webkit-scrollbar-track {{ background: {BG}; }}
 ::-webkit-scrollbar-thumb {{ background: {BLUE}; border-radius: 2px; }}
@@ -1063,7 +1062,7 @@ hr.ws-glow {{
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="5" width="10" height="7" rx="1.5"/><path d="M3.5 5V3.5a2.5 2.5 0 015 0V5"/></svg>
     Online Only · Tue &amp; Thu 7–9 PM · Sat 10 AM–6 PM · 8 Weeks · 20 seats
   </div>
-  <h1 class="hero-h1" style="white-space:nowrap;">Learn. Build. Grow 📈</h1>
+  <h1 class="hero-h1">Learn. Build. Grow 📈</h1>
   <div class="hero-ctas">
     <button onclick="document.getElementById('enroll').scrollIntoView({{behavior:'smooth'}})" class="btn-p" style="border:none;cursor:pointer;">
       Enroll Now
@@ -1212,11 +1211,15 @@ hr.ws-glow {{
     <div class="contact-card reveal">
       <span class="sec-label">// let's talk</span>
       <h2 class="contact-h2">Have questions?</h2>
-      <p class="contact-sub">Text your teacher directly on LinkedIn and ask for a call.</p>
+      <p class="contact-sub">Reach out on LinkedIn or WhatsApp — we respond fast.</p>
       <div class="contact-btns">
         <a href="https://www.linkedin.com/in/sandeepsingh1910/" target="_blank" rel="noopener" class="btn-p">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          Text your teacher on LinkedIn
+          LinkedIn
+        </a>
+        <a href="{WA_URL}" target="_blank" rel="noopener" class="btn-p" style="background:#25D366;border-color:#25D366;">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm6.267 18.926c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/></svg>
+          WhatsApp
         </a>
       </div>
     </div>
@@ -1357,7 +1360,7 @@ hr.ws-glow {{
       <button type="submit" class="reg-submit" id="reg-submit" disabled
               style="opacity:0.4;cursor:not-allowed;">Proceed to Payment →</button>
     </form>
-    <p class="reg-note">Your info is only used to send you workshop details.</p>
+    <p class="reg-note" id="reg-note">Your info is only used to send you workshop details.</p>
     <div id="reg-success" style="display:none;text-align:center;padding:24px 0;">
       <div style="font-size:48px;margin-bottom:16px;">🎉</div>
       <p style="font-size:17px;font-weight:700;color:#fff;margin-bottom:8px;">Payment Successful!</p>
@@ -1427,6 +1430,7 @@ function sendRegOTP() {{
   var name  = document.getElementById('reg-name').value.trim();
   var email = document.getElementById('reg-email').value.trim();
   if (!name || !email) {{ alert('Please enter your name and email first.'); return; }}
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {{ alert('Please enter a valid email address (e.g. you@email.com).'); return; }}
   regOTP = generateOTP();
   var btn = document.getElementById('reg-send-otp');
   btn.textContent = '\u231b Sending\u2026'; btn.disabled = true;
@@ -1458,6 +1462,7 @@ function sendEnrollOTP() {{
   var name  = document.getElementById('enroll-name').value.trim();
   var email = document.getElementById('enroll-email').value.trim();
   if (!name || !email) {{ alert('Please enter your name and email first.'); return; }}
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {{ alert('Please enter a valid email address (e.g. you@email.com).'); return; }}
   enrollOTP = generateOTP();
   var btn = document.getElementById('enroll-send-otp');
   btn.textContent = '\u231b Sending\u2026'; btn.disabled = true;
@@ -1492,6 +1497,7 @@ function openRegModal() {{
 function closeRegModal() {{
   document.getElementById('reg-modal').style.display = 'none';
   document.getElementById('reg-form').style.display = 'block';
+  document.getElementById('reg-note').style.display = 'block';
   document.getElementById('reg-success').style.display = 'none';
   document.getElementById('reg-form').reset();
   // Reset OTP state
@@ -1531,10 +1537,12 @@ document.addEventListener('DOMContentLoaded', function() {{
   // Auto-verify OTP when 6 digits typed
   document.getElementById('reg-otp-input').addEventListener('input', function() {{
     this.value = this.value.replace(/\D/g, '');
+    document.getElementById('reg-otp-error').style.display = 'none';
     if (this.value.length === 6) verifyRegOTP();
   }});
   document.getElementById('enroll-otp-input').addEventListener('input', function() {{
     this.value = this.value.replace(/\D/g, '');
+    document.getElementById('enroll-otp-error').style.display = 'none';
     if (this.value.length === 6) verifyEnrollOTP();
   }});
 
@@ -1577,17 +1585,18 @@ document.addEventListener('DOMContentLoaded', function() {{
       setTimeout(function() {{
         loadingEl.style.display = 'none';
         document.getElementById('reg-form').style.display = 'none';
+        document.getElementById('reg-note').style.display = 'none';
         document.getElementById('reg-success').style.display = 'block';
         document.getElementById('reg-success-msg').innerHTML =
           'Payment page opened in a new tab \u2014 complete your payment there.<br><br>'
-          + 'A confirmation email will be sent to <strong>' + email + '</strong> once payment is done.<br><br>'
+          + 'After paying, WhatsApp us at <strong>+91 8019101592</strong> with your payment screenshot and we\u2019ll confirm your seat.<br><br>'
           + '<a href="https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG" target="_blank" rel="noopener" '
           + 'style="display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:11px 22px;'
           + 'background:#25D366;color:#fff;border-radius:100px;font-weight:700;font-size:14px;'
           + 'text-decoration:none;letter-spacing:-0.01em;">'
           + '<svg width="18" height="18" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm6.267 18.926c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/></svg>'
           + 'Join Workshop WhatsApp Community</a>';
-        setTimeout(closeRegModal, 12000);
+        // No auto-close on mobile — user left the tab to pay, they need time to return and act
       }}, 1000);
     }} else {{
       // Desktop: use Razorpay SDK modal
@@ -1611,6 +1620,7 @@ document.addEventListener('DOMContentLoaded', function() {{
                    + '&amount=99';
           fetch(APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:body }});
           document.getElementById('reg-form').style.display = 'none';
+          document.getElementById('reg-note').style.display = 'none';
           document.getElementById('reg-success').style.display = 'block';
           document.getElementById('reg-success-msg').innerHTML =
             'A confirmation email has been sent to <strong>' + email + '</strong>.<br>'
@@ -1622,7 +1632,7 @@ document.addEventListener('DOMContentLoaded', function() {{
             + 'text-decoration:none;letter-spacing:-0.01em;">'
             + '<svg width="18" height="18" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.42.638 4.688 1.75 6.655L2 30l7.59-1.722A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm6.267 18.926c-.34-.17-2.015-1-2.328-1.11-.315-.113-.543-.17-.773.17-.228.34-.886 1.11-1.087 1.34-.2.227-.4.254-.74.085-.34-.17-1.432-.527-2.726-1.684-1.007-.9-1.687-2.01-1.884-2.35-.198-.34-.02-.524.148-.693.153-.152.34-.396.51-.594.17-.197.226-.34.34-.566.112-.228.056-.427-.028-.597-.085-.17-.773-1.862-1.06-2.55-.28-.668-.564-.578-.774-.588l-.66-.011a1.27 1.27 0 00-.917.43c-.316.34-1.2 1.172-1.2 2.857s1.228 3.314 1.4 3.543c.17.228 2.417 3.692 5.86 5.18.82.354 1.46.565 1.958.723.823.261 1.572.224 2.163.136.66-.099 2.015-.823 2.3-1.618.283-.797.283-1.48.2-1.62-.084-.14-.313-.227-.654-.397z"/></svg>'
             + 'Join Workshop WhatsApp Community</a>';
-          setTimeout(closeRegModal, 12000);
+          setTimeout(closeRegModal, 20000);
         }},
         modal: {{
           ondismiss: function() {{
@@ -1688,7 +1698,7 @@ document.addEventListener('DOMContentLoaded', function() {{
           + 'Join WhatsApp Community</a>';
         document.getElementById('enroll-form').style.display = 'none';
         document.getElementById('enroll-success').style.display = 'block';
-        setTimeout(closeEnrollModal, 12000);
+        setTimeout(closeEnrollModal, 20000);
       }},
       modal: {{
         ondismiss: function() {{
