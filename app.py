@@ -49,7 +49,7 @@ WA_NUMBER = "918019101592"
 WA_MSG    = "Hello%2C%20I%27m%20interested%20in%20The%20Next%20Engineer%20bootcamp!"
 WA_URL    = f"https://wa.me/{WA_NUMBER}?text={WA_MSG}"
 APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyIahJO9hJNTd4Z08Xi7S2RtkOTZUgCxQ0xaELMFrK68lpxcdsFrEkBV-w2SXX6e-5T/exec"
-PAYMENT_LINK    = "https://rzp.io/rzp/8WlV9XZJ"
+PAYMENT_LINK    = "https://rzp.io/rzp/7zqD4Vd"
 
 _img_path = os.path.join(os.path.dirname(__file__), "Sandeep.jpg")
 with open(_img_path, "rb") as _f:
@@ -890,8 +890,10 @@ hr.ws-glow {{
 if (typeof window.openRegModal !== 'function') {{
   window.openRegModal = function() {{
     var m=document.getElementById('reg-modal'); if(!m) return;
+    if(window._rzpMsgListener){{window.removeEventListener('message',window._rzpMsgListener);window._rzpMsgListener=null;}}
     document.getElementById('reg-form').style.display='block';
     document.getElementById('reg-success').style.display='none';
+    document.getElementById('reg-waiting').style.display='none';
     var _b=document.getElementById('reg-submit'); if(_b){{ _b.textContent='Proceed to Payment \u2192'; _b.disabled=false; }}
     m.style.display='flex';
   }};
@@ -899,9 +901,11 @@ if (typeof window.openRegModal !== 'function') {{
 if (typeof window.closeRegModal !== 'function') {{
   window.closeRegModal = function() {{
     var m=document.getElementById('reg-modal'); if(!m) return;
+    if(window._rzpMsgListener){{window.removeEventListener('message',window._rzpMsgListener);window._rzpMsgListener=null;}}
     m.style.display='none';
     document.getElementById('reg-form').style.display='block';
     document.getElementById('reg-success').style.display='none';
+    document.getElementById('reg-waiting').style.display='none';
   }};
 }}
 if (typeof window.openEnrollModal !== 'function') {{
@@ -1390,6 +1394,25 @@ if (typeof window.closeEnrollModal !== 'function') {{
         Done ✓
       </button>
     </div>
+    <!-- Waiting state: mobile user sent to payment tab, not yet confirmed -->
+    <div id="reg-waiting" style="display:none;text-align:center;padding:24px 0;">
+      <div style="font-size:36px;margin-bottom:12px;">&#128242;</div>
+      <p style="font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;">Complete Payment in New Tab</p>
+      <p id="reg-waiting-msg" style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:20px;"></p>
+      <button id="reg-paid-btn" type="button"
+              style="background:linear-gradient(135deg,#00e5ff,#0077cc);color:#fff;font-weight:700;
+                     padding:13px 28px;border:none;border-radius:100px;font-size:14px;
+                     cursor:pointer;font-family:inherit;letter-spacing:-0.01em;">
+        &#10003;&nbsp; I've Completed Payment
+      </button>
+      <br>
+      <button type="button" onclick="closeRegModal()"
+              style="margin-top:14px;background:transparent;border:1px solid rgba(255,255,255,0.2);
+                     color:rgba(255,255,255,0.5);padding:10px 32px;border-radius:100px;
+                     font-size:14px;cursor:pointer;font-family:inherit;">
+        Cancel
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1451,6 +1474,56 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var email  = document.getElementById('reg-email').value.trim();
       var phone  = document.getElementById('reg-phone').value.trim();
       var status = document.getElementById('reg-status').value;
+
+      /* ── Mobile: UPI app intent links are blocked inside Streamlit's sandboxed iframe.
+         Open the Razorpay payment page in a real browser tab → PhonePe & GPay work natively.
+         Listen for postMessage from the callback page; "I've Completed Payment" is the fallback. ── */
+      var isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+      if (isMobile) {{
+        if (window._rzpMsgListener) {{
+          window.removeEventListener('message', window._rzpMsgListener);
+          window._rzpMsgListener = null;
+        }}
+        window.open(window.PAYMENT_LINK, '_blank');
+        document.getElementById('reg-form').style.display = 'none';
+        document.getElementById('reg-waiting').style.display = 'block';
+        document.getElementById('reg-waiting-msg').textContent =
+          'Your ₹99 payment page opened in a new tab — PhonePe & GPay will work there. '
+          + 'Come back here once payment is done and tap the button below.';
+        btn.textContent = 'Proceed to Payment →'; btn.disabled = false;
+        var _doConfirm = function() {{
+          var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)
+                    + '&email='+encodeURIComponent(email)
+                    + '&phone='+encodeURIComponent(phone)
+                    + '&status='+encodeURIComponent(status)+'&amount=99';
+          fetch(window.APPS_SCRIPT_URL, {{method:'POST',mode:'no-cors',
+            headers:{{'Content-Type':'application/x-www-form-urlencoded'}},body:pbody}});
+          document.getElementById('reg-waiting').style.display = 'none';
+          document.getElementById('reg-success').style.display = 'block';
+          document.getElementById('reg-success-msg').textContent =
+            'Payment Successful! A confirmation email has been sent to ' + email
+            + '. See you on Saturday, 18 April at 10 AM IST.';
+          document.getElementById('reg-wa-btn').style.display = 'inline-flex';
+        }};
+        /* Auto-confirm when callback page sends postMessage */
+        window._rzpMsgListener = function(ev) {{
+          if (ev.data === 'rzp_payment_done') {{
+            window.removeEventListener('message', window._rzpMsgListener);
+            window._rzpMsgListener = null;
+            _doConfirm();
+          }}
+        }};
+        window.addEventListener('message', window._rzpMsgListener);
+        /* Manual fallback button */
+        document.getElementById('reg-paid-btn').onclick = function() {{
+          if (window._rzpMsgListener) {{
+            window.removeEventListener('message', window._rzpMsgListener);
+            window._rzpMsgListener = null;
+          }}
+          _doConfirm();
+        }};
+        return;
+      }}
 
       if (typeof Razorpay === 'undefined') {{
         alert('Payment system is still loading \u2014 please try in a moment.');
@@ -1699,16 +1772,26 @@ function verifyEnrollOTP() {{
 // ── Workshop register modal ──
 function openRegModal() {{
   dbg('openRegModal called');
+  if (window._rzpMsgListener) {{
+    window.removeEventListener('message', window._rzpMsgListener);
+    window._rzpMsgListener = null;
+  }}
   document.getElementById('reg-form').style.display = 'block';
   document.getElementById('reg-success').style.display = 'none';
+  document.getElementById('reg-waiting').style.display = 'none';
   var _b = document.getElementById('reg-submit');
   if (_b) {{ _b.textContent = 'Proceed to Payment \u2192'; _b.disabled = false; }}
   document.getElementById('reg-modal').style.display = 'flex';
 }}
 function closeRegModal() {{
+  if (window._rzpMsgListener) {{
+    window.removeEventListener('message', window._rzpMsgListener);
+    window._rzpMsgListener = null;
+  }}
   document.getElementById('reg-modal').style.display = 'none';
   document.getElementById('reg-form').style.display = 'block';
   document.getElementById('reg-success').style.display = 'none';
+  document.getElementById('reg-waiting').style.display = 'none';
   document.getElementById('reg-form').reset();
   // Reset OTP state
   regOTP = null;
