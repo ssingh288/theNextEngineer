@@ -888,10 +888,21 @@ hr.ws-glow {{
 
 /* Modal open/close fallbacks — only activate if head script failed to define them */
 if (typeof window.openRegModal !== 'function') {{
-  window.openRegModal = function() {{ var m=document.getElementById('reg-modal'); if(m) m.style.display='flex'; }};
+  window.openRegModal = function() {{
+    var m=document.getElementById('reg-modal'); if(!m) return;
+    document.getElementById('reg-form').style.display='block';
+    document.getElementById('reg-success').style.display='none';
+    var _b=document.getElementById('reg-submit'); if(_b){{ _b.textContent='Proceed to Payment \u2192'; _b.disabled=false; }}
+    m.style.display='flex';
+  }};
 }}
 if (typeof window.closeRegModal !== 'function') {{
-  window.closeRegModal = function() {{ var m=document.getElementById('reg-modal'); if(m) m.style.display='none'; }};
+  window.closeRegModal = function() {{
+    var m=document.getElementById('reg-modal'); if(!m) return;
+    m.style.display='none';
+    document.getElementById('reg-form').style.display='block';
+    document.getElementById('reg-success').style.display='none';
+  }};
 }}
 if (typeof window.openEnrollModal !== 'function') {{
   window.openEnrollModal = function() {{ var m=document.getElementById('enroll-modal'); if(m) m.style.display='flex'; }};
@@ -1441,20 +1452,6 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var phone  = document.getElementById('reg-phone').value.trim();
       var status = document.getElementById('reg-status').value;
 
-      var isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-      if (isMobile) {{
-        /* On mobile, UPI intent deep links are blocked inside Streamlit's iframe.
-           Open the Razorpay payment link in a new tab — PhonePe/GPay work natively there.
-           Email is sent by Razorpay callback after successful payment. */
-        window.open(window.PAYMENT_LINK, '_blank');
-        document.getElementById('reg-form').style.display = 'none';
-        document.getElementById('reg-success').style.display = 'block';
-        document.getElementById('reg-success-msg').textContent = 'Complete your payment in the tab that just opened. A confirmation email will be sent to ' + email + ' after payment is confirmed.';
-        document.getElementById('reg-wa-btn').style.display = 'inline-flex';
-        btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false;
-        return;
-      }}
-
       if (typeof Razorpay === 'undefined') {{
         alert('Payment system is still loading \u2014 please try in a moment.');
         btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
@@ -1702,6 +1699,10 @@ function verifyEnrollOTP() {{
 // ── Workshop register modal ──
 function openRegModal() {{
   dbg('openRegModal called');
+  document.getElementById('reg-form').style.display = 'block';
+  document.getElementById('reg-success').style.display = 'none';
+  var _b = document.getElementById('reg-submit');
+  if (_b) {{ _b.textContent = 'Proceed to Payment \u2192'; _b.disabled = false; }}
   document.getElementById('reg-modal').style.display = 'flex';
 }}
 function closeRegModal() {{
