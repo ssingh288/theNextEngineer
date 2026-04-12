@@ -1456,11 +1456,19 @@ if (typeof window.closeEnrollModal !== 'function') {{
         document.getElementById('reg-form').style.display = 'none';
         document.getElementById('reg-success').style.display = 'block';
         document.getElementById('reg-success-title').textContent = 'Almost there!';
-        document.getElementById('reg-success-msg').textContent = 'Your details are saved. Tap below to complete your payment, then join the WhatsApp group.';
+        document.getElementById('reg-success-msg').textContent = 'Your details are saved. Tap below to complete your payment.';
+        document.getElementById('reg-wa-btn').style.display = 'none';
+        document.getElementById('reg-mobile-pay-br').style.display = 'none';
         var payBtn = document.getElementById('reg-mobile-pay-btn');
         payBtn.href = 'https://rzp.io/rzp/JgiKfTI';
         payBtn.style.display = 'inline-flex';
-        document.getElementById('reg-mobile-pay-br').style.display = 'inline';
+        payBtn.addEventListener('click', function() {{
+          setTimeout(function() {{
+            document.getElementById('reg-success-msg').textContent = 'Payment page opened \u2728 Come back here after paying and join the WhatsApp group below.';
+            document.getElementById('reg-wa-btn').style.display = 'inline-flex';
+            document.getElementById('reg-mobile-pay-br').style.display = 'inline';
+          }}, 800);
+        }});
       }} else {{
         if (typeof Razorpay === 'undefined') {{
           alert('Payment system is still loading — please try in a moment.');
