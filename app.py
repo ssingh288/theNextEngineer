@@ -1471,7 +1471,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
           fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
           document.getElementById('reg-form').style.display = 'none';
           document.getElementById('reg-success').style.display = 'block';
-          document.getElementById('reg-success-msg').textContent = 'Payment Successful! \ud83c\udf89 A confirmation email has been sent to ' + email + '. See you on Saturday, 18 April at 10 AM IST.';
+          document.getElementById('reg-success-msg').textContent = 'Payment Successful! A confirmation email has been sent to ' + email + '. See you on Saturday, 18 April at 10 AM IST.';
           document.getElementById('reg-wa-btn').style.display = 'inline-flex';
         }},
         modal: {{ ondismiss: function() {{ btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; }} }}
