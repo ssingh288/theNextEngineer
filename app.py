@@ -1468,9 +1468,11 @@ if (typeof window.closeEnrollModal !== 'function') {{
           + '  try{{window.opener.postMessage({{type:"rzp-done",pid:r.razorpay_payment_id}},"*");}}catch(ex){{}}'
           + '}};'
           + 'c.modal={{ondismiss:function(){{document.getElementById("m").innerHTML="Cancelled. Close this tab to go back."}}}};'
-          + 'window.onload=function(){{new Razorpay(c).open();}};'
+          + 'function tryOpen(n){{if(typeof Razorpay!=="undefined"){{new Razorpay(c).open();}}else if(n>0){{setTimeout(function(){{tryOpen(n-1);}},200);}}}}'
+          + 'window.onload=function(){{tryOpen(20);}};'
           + '<\/script><\/body><\/html>';
-        var mwin = window.open('', '_blank');
+        /* Use window.top.open so the new tab is not sandboxed by the Streamlit iframe */
+        var mwin = (window.top || window).open('about:blank', '_blank');
         if (mwin) {{
           mwin.document.write(rzpHtml);
           mwin.document.close();
