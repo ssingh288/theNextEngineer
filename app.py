@@ -1464,7 +1464,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
           + '<\/head><body><p id="m">Opening payment\u2026<\/p><script>'
           + 'var c=' + cfgJson + ';'
           + 'c.handler=function(r){{'
-          + '  document.getElementById("m").innerHTML="\u2714 Payment done! Close this tab to return.";'
+          + '  document.getElementById("m").innerHTML="<h2>\u2714 Payment Done!</h2><p>A confirmation email has been sent to you.</p><p><a href=\\"https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG\\" style=\\"color:#00e5ff;font-weight:bold\\">Join WhatsApp Group \u2192<\/a><\/p>";'
           + '  try{{window.opener.postMessage({{type:"rzp-done",pid:r.razorpay_payment_id}},"*");}}catch(ex){{}}'
           + '}};'
           + 'c.modal={{ondismiss:function(){{document.getElementById("m").innerHTML="Cancelled. Close this tab to go back."}}}};'
