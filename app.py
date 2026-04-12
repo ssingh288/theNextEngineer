@@ -1434,59 +1434,12 @@ if (typeof window.closeEnrollModal !== 'function') {{
     regF._submitBound = true;
     regF.addEventListener('submit', function(e) {{
       e.preventDefault();
-      var btn    = document.getElementById('reg-submit');
+      var btn = document.getElementById('reg-submit');
       btn.textContent = 'Opening payment\u2026'; btn.disabled = true;
       var name   = document.getElementById('reg-name').value.trim();
       var email  = document.getElementById('reg-email').value.trim();
       var phone  = document.getElementById('reg-phone').value.trim();
       var status = document.getElementById('reg-status').value;
-
-      /* Mobile: UPI deep links (PhonePe/GPay) are blocked inside Streamlit's iframe.
-         Open a new tab with Razorpay checkout — PhonePe/UPI work natively there. */
-      var isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-      if (isMobile) {{
-        var rzpCfg = {{
-          key: 'rzp_live_SahJJtEgrCiJOp',
-          amount: 100, currency: 'INR',
-          name: 'The Next Engineer',
-          description: 'Data Analytics Workshop \u2014 18 April 2026',
-          prefill: {{ name: name, email: email, contact: phone }},
-          theme: {{ color: '#00e5ff' }}
-        }};
-        var cfgJson = JSON.stringify(rzpCfg);
-        var rzpHtml = '<!DOCTYPE html><html><head>'
-          + '<meta name="viewport" content="width=device-width,initial-scale=1"><title>Payment<\/title>'
-          + '<script src="https://checkout.razorpay.com/v1/checkout.js"><\/script>'
-          + '<style>body{{margin:0;background:#111;color:#fff;font-family:sans-serif;'
-          + 'display:flex;align-items:center;justify-content:center;min-height:100vh;'
-          + 'text-align:center;padding:20px;box-sizing:border-box}}<\/style>'
-          + '<\/head><body><p id="m">Opening payment\u2026<\/p><script>'
-          + 'var c=' + cfgJson + ';'
-          + 'c.handler=function(r){{'
-          + '  document.getElementById("m").innerHTML=\'<b>\u2714 Payment Done!<\/b><br><br>A confirmation email has been sent to you.<br><br><a href="https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG" style="color:#25D366;font-size:18px;font-weight:bold">\u27a4 Join WhatsApp Group<\/a>\';'
-          + '  try{{window.opener.postMessage({{type:"rzp-done",pid:r.razorpay_payment_id}},"*");}}catch(ex){{}}'
-          + '}};'
-          + 'c.modal={{ondismiss:function(){{document.getElementById("m").innerHTML="Cancelled. Close this tab to go back."}}}};'
-          + 'window.onload=function(){{new Razorpay(c).open();}};'
-          + '<\/script><\/body><\/html>';
-        /* Blob URL avoids the blank-URL bug where window.open('') navigates the page */
-        var blob = new Blob([rzpHtml], {{type:'text/html'}});
-        var blobUrl = URL.createObjectURL(blob);
-        var mwin = window.open(blobUrl, '_blank');
-        if (mwin) {{
-          window.addEventListener('message', function onRzpMobile(ev) {{
-            if (!ev.data || ev.data.type !== 'rzp-done') return;
-            window.removeEventListener('message', onRzpMobile);
-            var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(ev.data.pid)+'&amount=99';
-            fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
-          }});
-        }} else {{
-          window.open('https://rzp.io/rzp/XTP0oz9', '_blank');
-        }}
-        btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false;
-        return;
-      }}
-
       if (typeof Razorpay === 'undefined') {{
         alert('Payment system is still loading \u2014 please try in a moment.');
         btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
@@ -1503,7 +1456,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
           fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
           document.getElementById('reg-form').style.display = 'none';
           document.getElementById('reg-success').style.display = 'block';
-          document.getElementById('reg-success-msg').textContent = 'Payment confirmed! \u2728 See you on Saturday, 18 April at 10 AM IST. A confirmation email is on its way to ' + email + '. Join the group below for all updates:';
+          document.getElementById('reg-success-msg').textContent = '\u2714 Payment Done! A confirmation email has been sent to ' + email + '. See you on Saturday, 18 April at 10 AM IST.';
           document.getElementById('reg-wa-btn').style.display = 'inline-flex';
           try {{ window.open('https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG', '_blank'); }} catch(e) {{}}
         }},
