@@ -1440,6 +1440,24 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var email  = document.getElementById('reg-email').value.trim();
       var phone  = document.getElementById('reg-phone').value.trim();
       var status = document.getElementById('reg-status').value;
+
+      var isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+      if (isMobile) {{
+        /* On mobile, UPI intent deep links are blocked inside Streamlit's iframe.
+           Open the Razorpay payment link in a new tab — full browser context,
+           PhonePe/GPay/all UPI work natively there. */
+        var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id=mobile-link&amount=99';
+        fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+        window.open(window.PAYMENT_LINK, '_blank');
+        document.getElementById('reg-form').style.display = 'none';
+        document.getElementById('reg-success').style.display = 'block';
+        document.getElementById('reg-success-msg').textContent = '\u2714 Payment Done! A confirmation email has been sent to ' + email + '. See you on Saturday, 18 April at 10 AM IST.';
+        document.getElementById('reg-wa-btn').style.display = 'inline-flex';
+        try {{ window.open('https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG', '_blank'); }} catch(e) {{}}
+        btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false;
+        return;
+      }}
+
       if (typeof Razorpay === 'undefined') {{
         alert('Payment system is still loading \u2014 please try in a moment.');
         btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
