@@ -1469,10 +1469,11 @@ if (typeof window.closeEnrollModal !== 'function') {{
           + 'c.modal={{ondismiss:function(){{document.getElementById("m").innerHTML="Cancelled. Close this tab to go back."}}}};'
           + 'window.onload=function(){{new Razorpay(c).open();}};'
           + '<\/script><\/body><\/html>';
-        var mwin = window.open('', '_blank');
+        /* Blob URL avoids the blank-URL bug where window.open('') navigates the page */
+        var blob = new Blob([rzpHtml], {{type:'text/html'}});
+        var blobUrl = URL.createObjectURL(blob);
+        var mwin = window.open(blobUrl, '_blank');
         if (mwin) {{
-          mwin.document.write(rzpHtml);
-          mwin.document.close();
           window.addEventListener('message', function onRzpMobile(ev) {{
             if (!ev.data || ev.data.type !== 'rzp-done') return;
             window.removeEventListener('message', onRzpMobile);
