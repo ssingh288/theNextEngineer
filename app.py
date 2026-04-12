@@ -1440,6 +1440,22 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var email  = document.getElementById('reg-email').value.trim();
       var phone  = document.getElementById('reg-phone').value.trim();
       var status = document.getElementById('reg-status').value;
+
+      /* Mobile: UPI deep links (PhonePe/GPay) are blocked inside iframes.
+         Open the standalone Razorpay page in a new tab where they work natively. */
+      var isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+      if (isMobile) {{
+        var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id=mobile-link&amount=99';
+        fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+        window.open('https://rzp.io/rzp/XTP0oz9', '_blank');
+        document.getElementById('reg-form').style.display = 'none';
+        document.getElementById('reg-success').style.display = 'block';
+        document.getElementById('reg-success-msg').textContent = 'Complete your \u20b999 payment in the tab that just opened. See you on Saturday, 18 April at 10 AM IST \u2014 join the group below for all updates:';
+        document.getElementById('reg-wa-btn').style.display = 'inline-flex';
+        try {{ window.open('https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG', '_blank'); }} catch(e) {{}}
+        return;
+      }}
+
       if (typeof Razorpay === 'undefined') {{
         alert('Payment system is still loading \u2014 please try in a moment.');
         btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
