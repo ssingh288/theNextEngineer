@@ -1444,16 +1444,13 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
       if (isMobile) {{
         /* On mobile, UPI intent deep links are blocked inside Streamlit's iframe.
-           Open the Razorpay payment link in a new tab — full browser context,
-           PhonePe/GPay/all UPI work natively there. */
-        var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id=mobile-link&amount=99';
-        fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+           Open the Razorpay payment link in a new tab — PhonePe/GPay work natively there.
+           Email is sent by Razorpay callback after successful payment. */
         window.open(window.PAYMENT_LINK, '_blank');
         document.getElementById('reg-form').style.display = 'none';
         document.getElementById('reg-success').style.display = 'block';
-        document.getElementById('reg-success-msg').textContent = '\u2714 Payment Done! A confirmation email has been sent to ' + email + '. See you on Saturday, 18 April at 10 AM IST.';
+        document.getElementById('reg-success-msg').textContent = 'Complete your payment in the tab that just opened. A confirmation email will be sent to ' + email + ' after payment is confirmed.';
         document.getElementById('reg-wa-btn').style.display = 'inline-flex';
-        try {{ window.open('https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG', '_blank'); }} catch(e) {{}}
         btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false;
         return;
       }}
@@ -1474,9 +1471,8 @@ if (typeof window.closeEnrollModal !== 'function') {{
           fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
           document.getElementById('reg-form').style.display = 'none';
           document.getElementById('reg-success').style.display = 'block';
-          document.getElementById('reg-success-msg').textContent = '\u2714 Payment Done! A confirmation email has been sent to ' + email + '. See you on Saturday, 18 April at 10 AM IST.';
+          document.getElementById('reg-success-msg').textContent = 'Payment Successful! \ud83c\udf89 A confirmation email has been sent to ' + email + '. See you on Saturday, 18 April at 10 AM IST.';
           document.getElementById('reg-wa-btn').style.display = 'inline-flex';
-          try {{ window.open('https://chat.whatsapp.com/LQ7ZFO845smCDmHI5ZhMxG', '_blank'); }} catch(e) {{}}
         }},
         modal: {{ ondismiss: function() {{ btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; }} }}
       }});
