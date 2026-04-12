@@ -49,7 +49,7 @@ WA_NUMBER = "918019101592"
 WA_MSG    = "Hello%2C%20I%27m%20interested%20in%20The%20Next%20Engineer%20bootcamp!"
 WA_URL    = f"https://wa.me/{WA_NUMBER}?text={WA_MSG}"
 APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyIahJO9hJNTd4Z08Xi7S2RtkOTZUgCxQ0xaELMFrK68lpxcdsFrEkBV-w2SXX6e-5T/exec"
-PAYMENT_LINK    = "https://rzp.io/rzp/XTP0oz9"
+PAYMENT_LINK    = "https://rzp.io/rzp/8WlV9XZJ"
 
 _img_path = os.path.join(os.path.dirname(__file__), "Sandeep.jpg")
 with open(_img_path, "rb") as _f:
