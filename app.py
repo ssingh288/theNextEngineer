@@ -3,6 +3,7 @@ import streamlit.components.v1 as components
 import random
 import base64
 import os
+import requests
 
 st.set_page_config(
     page_title="The Next Engineer — Data Analytics",
@@ -49,7 +50,40 @@ WA_NUMBER = "918019101592"
 WA_MSG    = "Hello%2C%20I%27m%20interested%20in%20The%20Next%20Engineer%20bootcamp!"
 WA_URL    = f"https://wa.me/{WA_NUMBER}?text={WA_MSG}"
 APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyIahJO9hJNTd4Z08Xi7S2RtkOTZUgCxQ0xaELMFrK68lpxcdsFrEkBV-w2SXX6e-5T/exec"
-PAYMENT_LINK    = "https://rzp.io/rzp/7zqD4Vd"
+
+# Razorpay credentials — used server-side to create a fresh payment link per session
+_RZP_KEY_ID     = "rzp_live_SahJJtEgrCiJOp"
+_RZP_KEY_SECRET = "GltaL5aDrMPRZGuTWNJqYIhl"
+_RZP_FALLBACK   = "https://rzp.io/rzp/7zqD4Vd"  # static fallback if API fails
+
+def _create_rzp_link():
+    """Create a fresh Razorpay payment link via API.
+    Each Streamlit session calls this once — every user gets their own
+    single-use link, so no user ever sees an 'already paid' page.
+    """
+    try:
+        resp = requests.post(
+            "https://api.razorpay.com/v1/payment_links",
+            auth=(_RZP_KEY_ID, _RZP_KEY_SECRET),
+            json={
+                "amount": 100,          # ₹1 for testing — change to 9900 for ₹99 production
+                "currency": "INR",
+                "accept_partial": False,
+                "description": "Data Analytics Workshop — 18 April 2026",
+                "reminder_enable": False,
+            },
+            timeout=5,
+        )
+        url = resp.json().get("short_url")
+        return url if url else _RZP_FALLBACK
+    except Exception:
+        return _RZP_FALLBACK
+
+# Create once per session and cache — safe across Streamlit rerenders
+if "rzp_payment_link" not in st.session_state:
+    st.session_state.rzp_payment_link = _create_rzp_link()
+
+PAYMENT_LINK = st.session_state.rzp_payment_link
 
 _img_path = os.path.join(os.path.dirname(__file__), "Sandeep.jpg")
 with open(_img_path, "rb") as _f:
