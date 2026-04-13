@@ -1473,87 +1473,31 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var phone  = document.getElementById('reg-phone').value.trim();
       var status = document.getElementById('reg-status').value;
 
-      /* ── MOBILE: build fresh Razorpay checkout in a new tab via Blob URL ── */
+      /* ── MOBILE: Razorpay modal — UPI collect only (no app deep links) ── */
       if (window.innerWidth < 768) {{
-        var _h = [
-          '<!DOCTYPE html><html><head>',
-          '<meta charset="UTF-8">',
-          '<meta name="viewport" content="width=device-width,initial-scale=1">',
-          '<title>Payment \u2014 The Next Engineer<\/title>',
-          '<style>body{{background:#080810;color:#fff;display:flex;align-items:center;',
-          'justify-content:center;min-height:100vh;margin:0;font-family:sans-serif;text-align:center;}}<\/style>',
-          '<\/head><body>',
-          '<div id="s" style="padding:32px"><p style="opacity:.5;font-size:15px">Loading checkout\u2026<\/p><\/div>',
-          '<script src="https:\/\/checkout.razorpay.com\/v1\/checkout.js"><\/script>',
-          '<script>',
-          'window.addEventListener("load",function(){{',
-          'var rzp=new Razorpay({{',
-          'key:"rzp_live_SahJJtEgrCiJOp",amount:100,currency:"INR",',
-          'name:"The Next Engineer",',
-          'description:"Data Analytics Workshop \u2014 18 April 2026",',
-          'prefill:{{name:"'+name+'",email:"'+email+'",contact:"'+phone+'"}},',
-          'theme:{{color:"#00e5ff"}},',
-          'handler:function(r){{',
-          'try{{localStorage.setItem("_rzp_done",JSON.stringify({{pid:r.razorpay_payment_id,ts:Date.now()}}))}}catch(x){{}}',
-          'try{{if(window.opener)window.opener.postMessage({{type:"rzp_ok",pid:r.razorpay_payment_id}},"*")}}catch(x){{}}',
-          'document.getElementById("s").innerHTML="<div style=\'padding:32px\'><div style=\'font-size:48px;margin-bottom:12px\'>&#x2705;<\/div><h2 style=\'color:#00e5ff\'>Payment Confirmed!<\/h2><p style=\'opacity:.6;margin-top:8px\'>Close this tab and return.<\/p><\/div>";',
-          '}},',
-          'modal:{{ondismiss:function(){{',
-          'try{{if(window.opener)window.opener.postMessage({{type:"rzp_dismiss"}},"*")}}catch(x){{}}',
-          'window.close();',
-          '}}}}',
-          '}});rzp.open();',
-          '}});',
-          '<\/script><\/body><\/html>'
-        ].join('');
-        var _blob = new Blob([_h], {{type:'text/html'}});
-        window.open(URL.createObjectURL(_blob), '_blank');
-
-        var _done = function(pid) {{
-          var pb = 'formType=reg-paid&name='+encodeURIComponent(name)
-            +'&email='+encodeURIComponent(email)
-            +'&phone='+encodeURIComponent(phone)
-            +'&status='+encodeURIComponent(status)
-            +'&payment_id='+encodeURIComponent(pid||'mobile')
-            +'&amount=99';
-          fetch(window.APPS_SCRIPT_URL, {{method:'POST',mode:'no-cors',headers:{{'Content-Type':'application/x-www-form-urlencoded'}},body:pb}});
-          document.getElementById('reg-waiting').style.display = 'none';
-          document.getElementById('reg-success').style.display = 'block';
-          document.getElementById('reg-success-msg').textContent = 'Your payment is confirmed! Workshop details have been sent to '+email+'. Join the WhatsApp group below \u2014 see you on Saturday, 18 April at 10:00 AM IST \u2728';
-          document.getElementById('reg-wa-btn').style.display = 'inline-flex';
-        }};
-
-        var _poll = setInterval(function() {{
-          try {{
-            var _r = localStorage.getItem('_rzp_done');
-            if (!_r) return;
-            var _d = JSON.parse(_r);
-            if (Date.now() - _d.ts > 300000) {{ localStorage.removeItem('_rzp_done'); return; }}
-            localStorage.removeItem('_rzp_done');
-            clearInterval(_poll); window.removeEventListener('message', _msgH);
-            _done(_d.pid);
-          }} catch(x) {{}}
-        }}, 1200);
-
-        var _msgH = function(ev) {{
-          if (!ev.data || ev.data.type !== 'rzp_ok') return;
-          clearInterval(_poll); window.removeEventListener('message', _msgH);
-          _done(ev.data.pid);
-        }};
-        window.addEventListener('message', _msgH);
-
-        var _pb = document.getElementById('reg-paid-btn');
-        _pb.onclick = function() {{
-          clearInterval(_poll); window.removeEventListener('message', _msgH);
-          _pb.textContent = 'Confirming\u2026'; _pb.disabled = true;
-          _done('manual');
-        }};
-
-        document.getElementById('reg-form').style.display = 'none';
-        document.getElementById('reg-waiting').style.display = 'block';
-        document.getElementById('reg-waiting-msg').textContent =
-          'A payment page just opened in a new tab. Pay there using any UPI app, card, or wallet \u2014 this page will update automatically once your payment is confirmed.';
-        btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false;
+        if (typeof Razorpay === 'undefined') {{
+          alert('Payment system is still loading \u2014 please try in a moment.');
+          btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
+        }}
+        var rzpM = new Razorpay({{
+          key: 'rzp_live_SahJJtEgrCiJOp',
+          amount: 100, currency: 'INR',
+          name: 'The Next Engineer',
+          description: 'Data Analytics Workshop \u2014 18 April 2026',
+          prefill: {{ name: name, email: email, contact: phone, method: 'upi' }},
+          theme: {{ color: '#00e5ff' }},
+          config: {{ display: {{ blocks: {{ upi: {{ name: 'Pay via UPI ID', instruments: [{{ method: 'upi', flows: ['collect'] }}] }} }}, sequence: ['block.upi'], preferences: {{ show_default_blocks: false }} }} }},
+          handler: function(response) {{
+            var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
+            fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+            document.getElementById('reg-form').style.display = 'none';
+            document.getElementById('reg-success').style.display = 'block';
+            document.getElementById('reg-success-msg').textContent = 'Your payment is confirmed! Workshop details have been sent to '+email+'. Join the WhatsApp group below \u2014 see you on Saturday, 18 April at 10:00 AM IST \u2728';
+            document.getElementById('reg-wa-btn').style.display = 'inline-flex';
+          }},
+          modal: {{ ondismiss: function() {{ btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; }} }}
+        }});
+        rzpM.open();
         return;
       }}
 
