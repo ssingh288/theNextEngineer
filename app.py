@@ -921,7 +921,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
   <span class="ws-banner-pulse"></span>
   <span class="ws-banner-text">
     🗓&nbsp; <strong>Workshop — ₹99:</strong>&nbsp;
-    <span class="ws-date">Saturday, 18 April 2026 · 10:00 AM – 11:30 AM</span>
+    <span class="ws-date">Saturday, 25 April 2026 · 10:00 AM – 11:30 AM</span>
     &nbsp;—&nbsp; Your First Step into Data Analytics (Live Online)
   </span>
   <span class="ws-banner-sep">·</span>
@@ -938,7 +938,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
     <div class="ws-hero">
       <div class="ws-badge">
         <span class="ws-badge-dot"></span>
-        Live Online &nbsp;·&nbsp; Saturday, 18 April 2026 &nbsp;·&nbsp; 10:00 AM – 11:30 AM
+        Live Online &nbsp;·&nbsp; Saturday, 25 April 2026 &nbsp;·&nbsp; 10:00 AM – 11:30 AM
       </div>
       <h1 class="ws-h1">
         Your First Step into<br><span class="cyan">Data Analytics</span>
@@ -1039,7 +1039,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
       <div class="ws-details-grid">
         <div class="ws-detail-item">
           <span class="ws-detail-icon">📅</span>
-          <div class="ws-detail-text"><strong>Saturday, 18 April 2026</strong><span>10:00 AM — 11:30 AM IST</span></div>
+          <div class="ws-detail-text"><strong>Saturday, 25 April 2026</strong><span>10:00 AM — 11:30 AM IST</span></div>
         </div>
         <div class="ws-detail-item">
           <span class="ws-detail-icon">💻</span>
@@ -1081,7 +1081,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
 <div class="ws-sticky" id="ws-sticky" style="display:none;">
   <div class="ws-sticky-info">
     <strong>Data Analytics Workshop</strong>
-    <span>18 Apr 2026 · 10:00 AM – 11:30 AM · ₹99</span>
+    <span>25 Apr 2026 · 10:00 AM – 11:30 AM · ₹99</span>
   </div>
   <button onclick="openRegModal()" class="ws-sticky-btn">Reserve My Seat →</button>
 </div>
@@ -1352,7 +1352,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
   <div class="reg-card">
     <button class="reg-close" onclick="closeRegModal()" aria-label="Close">&times;</button>
     <p class="reg-title">Reserve Your Seat</p>
-    <p class="reg-sub">Workshop — ₹99 &nbsp;·&nbsp; Saturday, 18 April 2026 &nbsp;·&nbsp; 10:00 AM – 11:30 AM<br>Fill in your details — you'll be redirected to pay.</p>
+    <p class="reg-sub">Workshop — ₹99 &nbsp;·&nbsp; Saturday, 25 April 2026 &nbsp;·&nbsp; 10:00 AM – 11:30 AM<br>Fill in your details — you'll be redirected to pay.</p>
     <form id="reg-form">
       <label class="reg-label" for="reg-name">Full Name</label>
       <input class="reg-input" type="text" id="reg-name" placeholder="Your name" required />
@@ -1424,7 +1424,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
 
   /* ── Countdown ── */
   if (typeof window.tick !== 'function') {{
-    var _cdTarget = new Date("2026-04-18T05:00:00Z");
+    var _cdTarget = new Date("2026-04-25T04:30:00Z");
     window.tick = function() {{
       var diff = _cdTarget - new Date();
       var pad  = function(n) {{ return String(Math.floor(n)).padStart(2,'0'); }};
@@ -1484,16 +1484,16 @@ if (typeof window.closeEnrollModal !== 'function') {{
           key: 'rzp_live_SahJJtEgrCiJOp',
           amount: 100, currency: 'INR',
           name: 'The Next Engineer',
-          description: 'Data Analytics Workshop \u2014 18 April 2026',
+          description: 'Data Analytics Workshop \u2014 25 April 2026',
           prefill: {{ name: name, email: email, contact: phone, method: 'upi' }},
           theme: {{ color: '#00e5ff' }},
           config: {{ display: {{ blocks: {{ upi: {{ name: 'Pay via UPI ID', instruments: [{{ method: 'upi', flows: ['collect'] }}] }} }}, sequence: ['block.upi'], preferences: {{ show_default_blocks: false }} }} }},
           handler: function(response) {{
-            var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
+            var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99&workshopDate=Saturday%2C+25+April+2026%2C+10%3A00+AM+IST&meetLink=https%3A%2F%2Fmeet.google.com%2Ftuf-gfaq-ktg';
             (function _sendM(n) {{ fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }}).catch(function() {{ if (n > 0) setTimeout(function() {{ _sendM(n-1); }}, 2000); }}); }})(2);
             document.getElementById('reg-form').style.display = 'none';
             document.getElementById('reg-success').style.display = 'block';
-            document.getElementById('reg-success-msg').textContent = 'Your payment is confirmed! Workshop details have been sent to '+email+'. Join the WhatsApp group below \u2014 see you on Saturday, 18 April at 10:00 AM IST \u2728';
+            document.getElementById('reg-success-msg').textContent = 'Payment confirmed! See you Saturday, 25 April at 10:00 AM IST. Google Meet link: meet.google.com/tuf-gfaq-ktg \u2014 details also sent to '+email+' \u2728';
             document.getElementById('reg-wa-btn').style.display = 'inline-flex';
           }},
           modal: {{ ondismiss: function() {{ btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; }} }}
@@ -1511,16 +1511,16 @@ if (typeof window.closeEnrollModal !== 'function') {{
         key: 'rzp_live_SahJJtEgrCiJOp',
         amount: 100, currency: 'INR',
         name: 'The Next Engineer',
-        description: 'Data Analytics Workshop \u2014 18 April 2026',
+        description: 'Data Analytics Workshop \u2014 25 April 2026',
         prefill: {{ name: name, email: email, contact: phone }},
         theme: {{ color: '#00e5ff' }},
         config: {{ display: {{ hide: [{{ method: 'netbanking' }}], preferences: {{ show_default_blocks: true }} }} }},
         handler: function(response) {{
-          var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
+          var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99&workshopDate=Saturday%2C+25+April+2026%2C+10%3A00+AM+IST&meetLink=https%3A%2F%2Fmeet.google.com%2Ftuf-gfaq-ktg';
           (function _sendR(n) {{ fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }}).catch(function() {{ if (n > 0) setTimeout(function() {{ _sendR(n-1); }}, 2000); }}); }})(2);
           document.getElementById('reg-form').style.display = 'none';
           document.getElementById('reg-success').style.display = 'block';
-          document.getElementById('reg-success-msg').textContent = 'Your payment is confirmed! Workshop details have been sent to ' + email + '. Join the WhatsApp group below to connect with other attendees \u2014 see you on Saturday, 18 April at 10:00 AM IST \u2728';
+          document.getElementById('reg-success-msg').textContent = 'Payment confirmed! See you Saturday, 25 April at 10:00 AM IST. Google Meet link: meet.google.com/tuf-gfaq-ktg \u2014 details also sent to ' + email + ' \u2728';
           document.getElementById('reg-wa-btn').style.display = 'inline-flex';
         }},
         modal: {{ ondismiss: function() {{ btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; }} }}
@@ -1635,7 +1635,7 @@ document.addEventListener('click', function(e) {{
 }}, true);
 
 // ── Countdown ──
-var cdTarget = new Date("2026-04-18T05:00:00Z");
+var cdTarget = new Date("2026-04-25T04:30:00Z");
 function tick() {{
   var diff = cdTarget - new Date();
   if (diff <= 0) {{
