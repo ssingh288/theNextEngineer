@@ -1484,12 +1484,13 @@ if (typeof window.closeEnrollModal !== 'function') {{
         description: 'Data Analytics Workshop \u2014 18 April 2026',
         prefill: {{ name: name, email: email, contact: phone }},
         theme: {{ color: '#00e5ff' }},
+        config: {{ display: {{ hide: [{{ method: 'netbanking' }}], preferences: {{ show_default_blocks: true }} }} }},
         handler: function(response) {{
           var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
           fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
           document.getElementById('reg-form').style.display = 'none';
           document.getElementById('reg-success').style.display = 'block';
-          document.getElementById('reg-success-msg').textContent = 'Payment Successful! A confirmation email has been sent to ' + email + '. See you on Saturday, 18 April at 10 AM IST.';
+          document.getElementById('reg-success-msg').textContent = 'Your payment is confirmed! Workshop details have been sent to ' + email + '. Join the WhatsApp group below to connect with other attendees \u2014 see you on Saturday, 18 April at 10:00 AM IST \u2728';
           document.getElementById('reg-wa-btn').style.display = 'inline-flex';
         }},
         modal: {{ ondismiss: function() {{ btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; }} }}
