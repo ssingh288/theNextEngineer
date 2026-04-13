@@ -1351,8 +1351,11 @@ if (typeof window.closeEnrollModal !== 'function') {{
 <div id="reg-modal" class="reg-modal">
   <div class="reg-card">
     <button class="reg-close" onclick="closeRegModal()" aria-label="Close">&times;</button>
-    <p class="reg-title">Reserve Your Seat</p>
-    <p class="reg-sub">Workshop — ₹99 &nbsp;·&nbsp; Saturday, 25 April 2026 &nbsp;·&nbsp; 10:00 AM – 11:30 AM<br>Fill in your details — you'll be redirected to pay.</p>
+    <div id="reg-header">
+      <p class="reg-title">Reserve Your Seat</p>
+      <p class="reg-sub">Workshop — ₹99 &nbsp;·&nbsp; Saturday, 25 April 2026 &nbsp;·&nbsp; 10:00 AM – 11:30 AM<br>Fill in your details — you'll be redirected to pay.</p>
+      <p class="reg-note">Your info is only used to send you workshop details.</p>
+    </div>
     <form id="reg-form">
       <label class="reg-label" for="reg-name">Full Name</label>
       <input class="reg-input" type="text" id="reg-name" placeholder="Your name" required />
@@ -1371,7 +1374,6 @@ if (typeof window.closeEnrollModal !== 'function') {{
         Seats are non-refundable. By registering you agree to our terms.
       </p>
     </form>
-    <p class="reg-note">Your info is only used to send you workshop details.</p>
     <div id="reg-success" style="display:none;text-align:center;padding:24px 0;">
       <div style="font-size:48px;margin-bottom:16px;">🎉</div>
       <p id="reg-success-title" style="font-size:17px;font-weight:700;color:#fff;margin-bottom:8px;">Payment Successful!</p>
@@ -1491,6 +1493,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
           handler: function(response) {{
             var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99&workshopDate=Saturday%2C+25+April+2026%2C+10%3A00+AM+IST&meetLink=https%3A%2F%2Fmeet.google.com%2Ftuf-gfaq-ktg';
             (function _sendM(n) {{ fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }}).catch(function() {{ if (n > 0) setTimeout(function() {{ _sendM(n-1); }}, 2000); }}); }})(2);
+            document.getElementById('reg-header').style.display = 'none';
             document.getElementById('reg-form').style.display = 'none';
             document.getElementById('reg-success').style.display = 'block';
             document.getElementById('reg-success-msg').textContent = 'Payment confirmed! See you Saturday, 25 April at 10:00 AM IST. Google Meet link: meet.google.com/tuf-gfaq-ktg \u2014 details also sent to '+email+' \u2728';
@@ -1518,6 +1521,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
         handler: function(response) {{
           var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99&workshopDate=Saturday%2C+25+April+2026%2C+10%3A00+AM+IST&meetLink=https%3A%2F%2Fmeet.google.com%2Ftuf-gfaq-ktg';
           (function _sendR(n) {{ fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }}).catch(function() {{ if (n > 0) setTimeout(function() {{ _sendR(n-1); }}, 2000); }}); }})(2);
+          document.getElementById('reg-header').style.display = 'none';
           document.getElementById('reg-form').style.display = 'none';
           document.getElementById('reg-success').style.display = 'block';
           document.getElementById('reg-success-msg').textContent = 'Payment confirmed! See you Saturday, 25 April at 10:00 AM IST. Google Meet link: meet.google.com/tuf-gfaq-ktg \u2014 details also sent to ' + email + ' \u2728';
@@ -1751,6 +1755,7 @@ function verifyEnrollOTP() {{
 // ── Workshop register modal ──
 function openRegModal() {{
   dbg('openRegModal called');
+  document.getElementById('reg-header').style.display = 'block';
   document.getElementById('reg-form').style.display = 'block';
   document.getElementById('reg-success').style.display = 'none';
   document.getElementById('reg-waiting').style.display = 'none';
@@ -1760,6 +1765,7 @@ function openRegModal() {{
 }}
 function closeRegModal() {{
   document.getElementById('reg-modal').style.display = 'none';
+  document.getElementById('reg-header').style.display = 'block';
   document.getElementById('reg-form').style.display = 'block';
   document.getElementById('reg-success').style.display = 'none';
   document.getElementById('reg-waiting').style.display = 'none';
