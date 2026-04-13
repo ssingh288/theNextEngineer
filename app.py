@@ -1489,7 +1489,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
           config: {{ display: {{ blocks: {{ upi: {{ name: 'Pay via UPI ID', instruments: [{{ method: 'upi', flows: ['collect'] }}] }} }}, sequence: ['block.upi'], preferences: {{ show_default_blocks: false }} }} }},
           handler: function(response) {{
             var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
-            fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+            (function _sendM(n) {{ fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }}).catch(function() {{ if (n > 0) setTimeout(function() {{ _sendM(n-1); }}, 2000); }}); }})(2);
             document.getElementById('reg-form').style.display = 'none';
             document.getElementById('reg-success').style.display = 'block';
             document.getElementById('reg-success-msg').textContent = 'Your payment is confirmed! Workshop details have been sent to '+email+'. Join the WhatsApp group below \u2014 see you on Saturday, 18 April at 10:00 AM IST \u2728';
@@ -1516,7 +1516,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
         config: {{ display: {{ hide: [{{ method: 'netbanking' }}], preferences: {{ show_default_blocks: true }} }} }},
         handler: function(response) {{
           var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
-          fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+          (function _sendR(n) {{ fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }}).catch(function() {{ if (n > 0) setTimeout(function() {{ _sendR(n-1); }}, 2000); }}); }})(2);
           document.getElementById('reg-form').style.display = 'none';
           document.getElementById('reg-success').style.display = 'block';
           document.getElementById('reg-success-msg').textContent = 'Your payment is confirmed! Workshop details have been sent to ' + email + '. Join the WhatsApp group below to connect with other attendees \u2014 see you on Saturday, 18 April at 10:00 AM IST \u2728';
@@ -1556,7 +1556,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
         theme: {{ color: '#00e5ff' }},
         handler: function(response) {{
           var pbody = 'formType=enroll-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&education='+encodeURIComponent(edu)+'&city='+encodeURIComponent(city)+'&amount='+encodeURIComponent(amount)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id);
-          fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+          (function _sendE(n) {{ fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }}).catch(function() {{ if (n > 0) setTimeout(function() {{ _sendE(n-1); }}, 2000); }}); }})(2);
           document.getElementById('enroll-form').style.display = 'none';
           document.getElementById('enroll-success').style.display = 'block';
           document.getElementById('enroll-success-msg').textContent = 'Seat reserved! \u2764\ufe0f Razorpay will send a receipt to ' + email + '. We\u2019ll be in touch within 24 hours. Join the group below:';
