@@ -1365,6 +1365,11 @@ if (typeof window.closeEnrollModal !== 'function') {{
         <option value="Working Professional">Working Professional</option>
         <option value="Looking for a Job">Looking for a Job</option>
       </select>
+      <label class="reg-label" for="reg-upi">UPI ID</label>
+      <input class="reg-input" type="text" id="reg-upi" placeholder="yourname@paytm  ·  9876543210@okicici  ·  @ybl" required />
+      <p style="font-size:11px;color:rgba(255,255,255,0.35);margin:-12px 0 16px;line-height:1.5;">
+        You'll get a payment request on your UPI app — just approve it.
+      </p>
       <button type="submit" class="reg-submit" id="reg-submit">Proceed to Payment →</button>
       <p style="font-size:11px;color:rgba(255,255,255,0.35);text-align:center;margin-top:10px;">
         Seats are non-refundable. By registering you agree to our terms.
@@ -1472,7 +1477,12 @@ if (typeof window.closeEnrollModal !== 'function') {{
       var email  = document.getElementById('reg-email').value.trim();
       var phone  = document.getElementById('reg-phone').value.trim();
       var status = document.getElementById('reg-status').value;
+      var upiId  = document.getElementById('reg-upi').value.trim();
 
+      if (!upiId.includes('@')) {{
+        alert('Please enter a valid UPI ID (e.g. name@paytm or 9876543210@okicici)');
+        btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
+      }}
       if (typeof Razorpay === 'undefined') {{
         alert('Payment system is still loading \u2014 please try in a moment.');
         btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
@@ -1482,11 +1492,11 @@ if (typeof window.closeEnrollModal !== 'function') {{
         amount: 100, currency: 'INR',
         name: 'The Next Engineer',
         description: 'Data Analytics Workshop \u2014 18 April 2026',
-        prefill: {{ name: name, email: email, contact: phone }},
+        prefill: {{ name: name, email: email, contact: phone, method: 'upi', vpa: upiId }},
         theme: {{ color: '#00e5ff' }},
-        config: {{ display: {{ hide: [{{ method: 'netbanking' }}], preferences: {{ show_default_blocks: true }} }} }},
+        config: {{ display: {{ blocks: {{ upi: {{ name: 'Pay via UPI', instruments: [{{ method: 'upi', flows: ['collect'] }}] }} }}, sequence: ['block.upi'], preferences: {{ show_default_blocks: false }} }} }},
         handler: function(response) {{
-          var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
+          var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&upi_id='+encodeURIComponent(upiId)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
           fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
           document.getElementById('reg-form').style.display = 'none';
           document.getElementById('reg-success').style.display = 'block';
