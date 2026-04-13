@@ -1365,11 +1365,6 @@ if (typeof window.closeEnrollModal !== 'function') {{
         <option value="Working Professional">Working Professional</option>
         <option value="Looking for a Job">Looking for a Job</option>
       </select>
-      <label class="reg-label" for="reg-upi">UPI ID</label>
-      <input class="reg-input" type="text" id="reg-upi" placeholder="yourname@paytm  ·  9876543210@okicici  ·  @ybl" required />
-      <p style="font-size:11px;color:rgba(255,255,255,0.35);margin:-12px 0 16px;line-height:1.5;">
-        You'll get a payment request on your UPI app — just approve it.
-      </p>
       <button type="submit" class="reg-submit" id="reg-submit">Proceed to Payment →</button>
       <p style="font-size:11px;color:rgba(255,255,255,0.35);text-align:center;margin-top:10px;">
         Seats are non-refundable. By registering you agree to our terms.
@@ -1400,7 +1395,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
     <!-- Waiting state: mobile user sent to payment tab, not yet confirmed -->
     <div id="reg-waiting" style="display:none;text-align:center;padding:24px 0;">
       <div style="font-size:36px;margin-bottom:12px;">&#128242;</div>
-      <p style="font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;">Complete Payment in New Tab</p>
+      <p style="font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;">Almost there! Complete your payment 🔒</p>
       <p id="reg-waiting-msg" style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:20px;"></p>
       <button id="reg-paid-btn" type="button"
               style="background:linear-gradient(135deg,#00e5ff,#0077cc);color:#fff;font-weight:700;
@@ -1471,18 +1466,35 @@ if (typeof window.closeEnrollModal !== 'function') {{
     regF._submitBound = true;
     regF.addEventListener('submit', function(e) {{
       e.preventDefault();
-      var btn = document.getElementById('reg-submit');
+      var btn    = document.getElementById('reg-submit');
       btn.textContent = 'Opening payment\u2026'; btn.disabled = true;
       var name   = document.getElementById('reg-name').value.trim();
       var email  = document.getElementById('reg-email').value.trim();
       var phone  = document.getElementById('reg-phone').value.trim();
       var status = document.getElementById('reg-status').value;
-      var upiId  = document.getElementById('reg-upi').value.trim();
 
-      if (!upiId.includes('@')) {{
-        alert('Please enter a valid UPI ID (e.g. name@paytm or 9876543210@okicici)');
-        btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
+      /* ── MOBILE: open payment link in new tab ── */
+      if (window.innerWidth < 768) {{
+        window.open(window.PAYMENT_LINK, '_blank');
+        document.getElementById('reg-form').style.display = 'none';
+        document.getElementById('reg-waiting').style.display = 'block';
+        document.getElementById('reg-waiting-msg').textContent =
+          'A payment page has opened in a new tab. Complete the \u20b999 payment there using any UPI app, card, or wallet \u2014 then come back here and tap \u201cI\u2019ve Paid\u201d below.';
+        var paidBtn = document.getElementById('reg-paid-btn');
+        paidBtn.onclick = function() {{
+          paidBtn.textContent = 'Confirming\u2026'; paidBtn.disabled = true;
+          var pbody = 'formType=reg-mobile&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&amount=99';
+          fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
+          document.getElementById('reg-waiting').style.display = 'none';
+          document.getElementById('reg-success').style.display = 'block';
+          document.getElementById('reg-success-msg').textContent = 'Your payment is confirmed! Workshop details have been sent to ' + email + '. Join the WhatsApp group below to connect with other attendees \u2014 see you on Saturday, 18 April at 10:00 AM IST \u2728';
+          document.getElementById('reg-wa-btn').style.display = 'inline-flex';
+        }};
+        btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false;
+        return;
       }}
+
+      /* ── DESKTOP: Razorpay modal ── */
       if (typeof Razorpay === 'undefined') {{
         alert('Payment system is still loading \u2014 please try in a moment.');
         btn.textContent = 'Proceed to Payment \u2192'; btn.disabled = false; return;
@@ -1492,11 +1504,11 @@ if (typeof window.closeEnrollModal !== 'function') {{
         amount: 100, currency: 'INR',
         name: 'The Next Engineer',
         description: 'Data Analytics Workshop \u2014 18 April 2026',
-        prefill: {{ name: name, email: email, contact: phone, method: 'upi', vpa: upiId }},
+        prefill: {{ name: name, email: email, contact: phone }},
         theme: {{ color: '#00e5ff' }},
-        config: {{ display: {{ blocks: {{ upi: {{ name: 'Pay via UPI', instruments: [{{ method: 'upi', flows: ['collect'] }}] }} }}, sequence: ['block.upi'], preferences: {{ show_default_blocks: false }} }} }},
+        config: {{ display: {{ hide: [{{ method: 'netbanking' }}], preferences: {{ show_default_blocks: true }} }} }},
         handler: function(response) {{
-          var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&upi_id='+encodeURIComponent(upiId)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
+          var pbody = 'formType=reg-paid&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+'&phone='+encodeURIComponent(phone)+'&status='+encodeURIComponent(status)+'&payment_id='+encodeURIComponent(response.razorpay_payment_id)+'&amount=99';
           fetch(window.APPS_SCRIPT_URL, {{ method:'POST', mode:'no-cors', headers:{{'Content-Type':'application/x-www-form-urlencoded'}}, body:pbody }});
           document.getElementById('reg-form').style.display = 'none';
           document.getElementById('reg-success').style.display = 'block';
