@@ -1484,7 +1484,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
         }}
         var rzpM = new Razorpay({{
           key: 'rzp_live_SahJJtEgrCiJOp',
-          amount: 100, currency: 'INR',
+          amount: 9900, currency: 'INR',
           name: 'The Next Engineer',
           description: 'Data Analytics Workshop \u2014 25 April 2026',
           prefill: {{ name: name, email: email, contact: phone, method: 'upi' }},
@@ -1512,7 +1512,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
       }}
       var rzp = new Razorpay({{
         key: 'rzp_live_SahJJtEgrCiJOp',
-        amount: 100, currency: 'INR',
+        amount: 9900, currency: 'INR',
         name: 'The Next Engineer',
         description: 'Data Analytics Workshop \u2014 25 April 2026',
         prefill: {{ name: name, email: email, contact: phone }},
