@@ -955,7 +955,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
         <div class="ws-price-note">One-time entry fee<br>Seats fill fast</div>
       </div>
       <button onclick="openRegModal()" class="ws-cta-btn">Reserve My Seat →</button>
-      <p class="ws-seats-note">⚡ Seats are filling up — register early</p>
+      <p class="ws-seats-note">⚡ Only <span>14 seats remaining</span> — don't miss out</p>
       <div class="ws-countdown">
         <div class="cd-block"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">Days</div></div>
         <div class="cd-block"><div class="cd-num" id="cd-hours">--</div><div class="cd-lbl">Hours</div></div>
@@ -1101,7 +1101,7 @@ if (typeof window.closeEnrollModal !== 'function') {{
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="5" width="10" height="7" rx="1.5"/><path d="M3.5 5V3.5a2.5 2.5 0 015 0V5"/></svg>
     Online Only · Tue &amp; Thu 7–9 PM · Sat 10 AM–6 PM · 8 Weeks · 20 seats
   </div>
-  <h1 class="hero-h1" style="white-space:nowrap;">Learn. Build. Grow 📈</h1>
+  <h1 class="hero-h1">From Zero to<br><span style="color:#00d4ff;">Data Analyst</span> in 8 Weeks</h1>
   <div class="hero-ctas">
     <button data-scroll-enroll="1" class="btn-p" style="border:none;cursor:pointer;" onclick="openEnrollModal()">
       Enroll Now
@@ -1175,11 +1175,12 @@ if (typeof window.closeEnrollModal !== 'function') {{
       <div class="mentor-card mentor-placeholder reveal">
         <div class="mentor-img-wrap mentor-img-empty"><span class="mentor-question">?</span></div>
         <div class="mentor-info">
-          <h4 class="mentor-name" style="color:rgba(255,255,255,0.5)!important;">You?</h4>
-          <p class="mentor-role">You could be the next mentor</p>
+          <h4 class="mentor-name" style="color:rgba(255,255,255,0.5)!important;">The Next Mentor</h4>
+          <p class="mentor-role">Could this be you?</p>
+          <p class="mentor-role" style="font-size:12px;color:rgba(255,255,255,0.40);margin-top:4px;line-height:1.5;">Outstanding graduates from each cohort get the opportunity to mentor the next one. Your journey could inspire someone else's.</p>
           <a href="https://wa.me/918019101592?text=Hi%2C%20I%27d%20like%20to%20be%20a%20mentor%20at%20The%20Next%20Engineer!" target="_blank" rel="noopener" class="mentor-linkedin mentor-linkedin-ghost">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            Get in touch
+            Express Interest
           </a>
         </div>
       </div>
